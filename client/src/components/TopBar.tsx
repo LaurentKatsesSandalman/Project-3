@@ -1,7 +1,7 @@
+import styles from "./TopBar.module.css";
 
-function TopBar (){
-return
-
+function TopBar() {
+	return;
 }
 
 export default TopBar;
