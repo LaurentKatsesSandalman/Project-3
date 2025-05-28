@@ -1,5 +1,9 @@
 import express from "express";
 import "dotenv/config";
+import userRouter from './routes/user.routes.ts';
+import formRouter from './routes/form.routes.ts';
+import answerRouter from './routes/answer.routes.ts';
+import { logErrors } from "./middlewares/logErrors.ts";
 
 const app = express();
 
@@ -15,20 +19,11 @@ const app = express();
 // Request Parsing (explications dans mono repo)
 /* ************************************************************************* */
 
-import userRouter from './routes/user.routes.ts';
-import formRouter from './routes/form.routes.ts';
-import answerRouter from './routes/answer.routes.ts';
-
 app.use("/api/forms",formRouter);
 app.use("/api/users",userRouter);
 app.use("/api/answers/",answerRouter);
 
-
-
 /* ************************************************************************* */
-
-import { logErrors } from "./middlewares/logErrors.ts";
-
 // Mount the logErrors middleware globally
 app.use(logErrors);
 

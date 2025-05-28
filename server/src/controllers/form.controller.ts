@@ -23,7 +23,7 @@ const getThisForm: RequestHandler = async (req, res, next) => {
     // If the form is not found, respond with HTTP 404 (Not Found)
     // Otherwise, respond with the form in JSON format
     if (form == null) {
-      res.sendStatus(404);
+      return res.sendStatus(404);
     } else {
       res.json(form);
     }
