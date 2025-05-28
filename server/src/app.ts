@@ -19,6 +19,7 @@ const port = process.env.APP_PORT;
 // }
 /* ************************************************************************* */
 // Request Parsing (explications dans mono repo)
+app.use(express.json());
 /* ************************************************************************* */
 
 app.use("/api/forms",formRouter);

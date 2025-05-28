@@ -5,8 +5,11 @@ import { findAllForms } from "../models/form.model";
 // The B of BREAD - Browse (Read All) operation
 const getAllForms: RequestHandler = async (req, res, next) => {
   try {
+    //Find user ID
+    const user_id =Number.parseInt(req.params.user_id)
+    if (isNaN(user_id)){/*faire la partie si pas un nbre*/}
     // Fetch all items
-    const forms = await findAllForms()
+    const forms = await findAllForms(user_id)
     // Respond with the items in JSON format
     res.json(forms);
   } catch (err) {
