@@ -6,6 +6,8 @@ import answerRouter from './routes/answer.routes.ts';
 import { logErrors } from "./middlewares/logErrors.ts";
 
 const app = express();
+// Get the port from the environment variables
+const port = process.env.APP_PORT;
 
 /* ************************************************************************* */
 // Installer et utiliser CORS (copié depuis mono repo ):
@@ -29,8 +31,7 @@ app.use(logErrors);
 
 /* ************************************************************************* */
 
-// Get the port from the environment variables
-const port = process.env.APP_PORT;
+
 
 // Start the server and listen on the specified port
 app
