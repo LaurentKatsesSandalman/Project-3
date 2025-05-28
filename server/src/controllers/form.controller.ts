@@ -1,13 +1,12 @@
 import type { RequestHandler } from "express";
-
-// Import access to data ??
+import { findAllForms } from "../models/form.model";
 
 
 // The B of BREAD - Browse (Read All) operation
-const browse: RequestHandler = async (req, res, next) => {
+const getAllForms: RequestHandler = async (req, res, next) => {
   try {
     // Fetch all items
-    
+    const forms = await findAllForms()
     // Respond with the items in JSON format
     res.json(forms);
   } catch (err) {
@@ -17,7 +16,7 @@ const browse: RequestHandler = async (req, res, next) => {
 };
 
 // The R of BREAD - Read operation
-const read: RequestHandler = async (req, res, next) => {
+const getThisForm: RequestHandler = async (req, res, next) => {
   try {
     // Fetch a specific form based on the provided ID: form
 
@@ -35,7 +34,7 @@ const read: RequestHandler = async (req, res, next) => {
 };
 
 // The A of BREAD - Add (Create) operation
-const add: RequestHandler = async (req, res, next) => {
+const createForm: RequestHandler = async (req, res, next) => {
   try {
     // Extract the form data from the request body
 
@@ -49,9 +48,9 @@ const add: RequestHandler = async (req, res, next) => {
   }
 };
 
-// The D of BREAD - Delete operation - J'ECRIS deleted ET PAS delete PARCE QUE delete EST UN MOT RESERVE
+// The D of BREAD - Delete operation 
 
-const deleted: RequestHandler = async (req, res, next) => {
+const deleteForm: RequestHandler = async (req, res, next) => {
   try {
     //(écrit par Laurent) Trouve l'id à supprimer dans la requete
 
@@ -64,4 +63,6 @@ const deleted: RequestHandler = async (req, res, next) => {
   }
 };
 
-export default { browse, read, add, deleted };
+// CES FONCTIONS NE SONT QUE DES EXEMPLES ET D'AUTRES MANQUENT
+
+export default { getAllForms, getThisForm, createForm, deleteForm };
