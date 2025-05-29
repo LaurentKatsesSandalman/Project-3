@@ -13,6 +13,7 @@
 }
 
 .modal {
+	position: relative;
 	padding: 40px clamp(24px, 5vw, 40px);
 	width: 100%;
 	max-width: 440px;
@@ -22,6 +23,10 @@
 	border-radius: var(--radius);
 }
 
-.closeIcon {
-	color: red;
+.closeBtn {
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	width: 42px;
+	height: 42px;
 }

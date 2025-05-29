@@ -1,5 +1,6 @@
 import { useAppContext } from "../../context/AppContext";
 import Modal from "../../components/Modal/Modal";
+import SignUp from "../../components/SignUp/SignUp";
 import styles from "./Home.module.css";
 
 function Home() {
@@ -9,7 +10,7 @@ function Home() {
 	return (
 		<>
 			<h1>Homepage</h1>
-			{isSignUpActive && <Modal setActiveModal={setIsSignUpActive}>TEST</Modal>}
+			{isSignUpActive && <Modal setActiveModal={setIsSignUpActive}><SignUp/></Modal>}
 			{/* morceau commun (background avec exemples) */}
 			{/*switch case
 			pas connecté :  rien
