@@ -1,0 +1,27 @@
+.modalContainer {
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 9999;
+	background-color: hsla(168, 71%, 4%, 0.75);
+	padding: 0 2%;
+}
+
+.modal {
+	padding: 40px clamp(24px, 5vw, 40px);
+	width: 100%;
+	max-width: 440px;
+	height: 400px; /* TEMP */
+	background-color: var(--color-body-background);
+	box-shadow: var(--shadow-outer);
+	border-radius: var(--radius);
+}
+
+.closeIcon {
+	color: red;
+}
