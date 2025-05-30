@@ -1,5 +1,5 @@
 import type { AppContextType } from "../../context/AppContext";
-import CloseIcon from "../../assets/icons/Icon-Close.svg";
+import { CloseIcon } from "../Icons/Icons";
 import styles from "./Modal.module.css";
 
 interface ModalProps {
@@ -17,11 +17,7 @@ function Modal({ children, setActiveModal }: ModalProps) {
                     onClick={() => setActiveModal(false)}
                     type="button"
                 >
-                    <img
-                        className={styles.closeIcon}
-                        src={CloseIcon}
-                        alt="Close Icon"
-                    />
+                    <CloseIcon className={styles.closeIcon} />
                 </button>
             </div>
         </div>

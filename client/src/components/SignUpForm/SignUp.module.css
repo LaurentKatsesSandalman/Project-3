@@ -1,0 +1,25 @@
+.form {
+    padding: 8px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    color: var(--color-text-dark);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.input {
+    font-size: 1rem;
+    padding: 8px;
+    border-radius: var(--radius);
+    border: 1px solid var(--color-text-dark);
+}
+
+.inscriptionBtn {
+    max-width: 100%;
+    margin-top: 8px;
+}

@@ -1,38 +1,38 @@
 .navbar {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	background-color: var(--color-card-background);
-	padding: 6px max(8px, 2%);
-	height: 54px;
-	box-shadow: var(--shadow-outer);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-card-background);
+    padding: 6px max(8px, 2%);
+    height: 54px;
+    box-shadow: var(--shadow-outer);
 }
 
 .logoContainer {
-	display: flex;
-	gap: 6px;
-	margin-right: 8px;
+    display: flex;
+    gap: 6px;
+    margin-right: 8px;
 }
 
 .logo {
-	width: 22px;
-	height: 42px;
+    width: 22px;
+    height: 42px;
 }
 
 .logoName {
-	font-size: 32px;
-	color: var(--color-text-accent);
+    font-size: 32px;
+    color: var(--color-text-accent);
 }
 
 .buttonsContainer {
-	width: 100%;
-	display: flex;
-	justify-content: flex-end;
-	gap: 8px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
 }
 
 @media (max-width: 430px) {
-	.logoName {
-		display: none;
-	}
+    .logoName {
+        display: none;
+    }
 }
