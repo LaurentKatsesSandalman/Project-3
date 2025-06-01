@@ -5,6 +5,10 @@ import { logErrors } from "./middlewares/logErrors.ts";
 import userRouter from "./routes/user.routes.ts";
 import formRouter from "./routes/form.routes.ts";
 import answerRouter from "./routes/answer.routes.ts";
+import {
+    createUserValidationRules,
+    validate,
+} from "./middlewares/user-validation.ts";
 
 const app = express();
 
@@ -25,7 +29,7 @@ app.use(express.json());
 
 app.use("/api/forms", formRouter);
 app.use("/api/users", userRouter);
-app.use("/api/answers/", answerRouter);
+app.use("/api/answers/", createUserValidationRules, validate, answerRouter);
 
 // Mount the logErrors middleware globally
 app.use(logErrors);

@@ -12,7 +12,7 @@ function Home() {
             <h1>Homepage</h1>
             {isSignUpActive && (
                 <Modal setActiveModal={setIsSignUpActive}>
-                    <SignUpForm />
+                    <SignUpForm setActiveModal={setIsSignUpActive} />
                 </Modal>
             )}
             {/* morceau commun (background avec exemples) */}
