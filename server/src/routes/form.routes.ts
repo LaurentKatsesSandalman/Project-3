@@ -4,10 +4,10 @@ import { getAllForms, getThisForm, createForm, deleteForm } from "./../controlle
 
 const router = express.Router();
 
-router.get("/",getAllForms);
-router.get("/:id",getThisForm)
-router.post("/", createForm)
-router.delete("/:id",deleteForm)
+router.get("/:user_id/",getAllForms);
+router.get("/:user_id/:id",getThisForm)
+router.post("/:user_id/", createForm)
+router.delete("/:user_id/id",deleteForm)
 //put
 //patch
 //...
