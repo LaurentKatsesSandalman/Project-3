@@ -14,9 +14,9 @@ function TopBar() {
                 <p className={styles.logoName}>Quicky</p>
             </div>
             {isConnected ? (
+                /* Boutons Avatar et Deconnexion quand on est connecté */
                 <p>Connected</p>
             ) : (
-                /* Boutons Avatar et Deconnexion quand on est connecté */
                 <div className={styles.buttonsContainer}>
                     <Button
                         variant="secondary"

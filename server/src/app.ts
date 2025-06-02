@@ -13,7 +13,7 @@ import {
 const app = express();
 
 // Get the port from the environment variables
-const port = process.env.APP_PORT || 3000;
+const port = process.env.APP_PORT;
 
 // Use cors to allow our client url (in env variables) to query our back
 if (process.env.CLIENT_URL != null) {
@@ -29,7 +29,7 @@ app.use(express.json());
 
 app.use("/api/forms", formRouter);
 app.use("/api/users", userRouter);
-app.use("/api/answers/", createUserValidationRules, validate, answerRouter);
+app.use("/api/answers/", answerRouter);
 
 // Mount the logErrors middleware globally
 app.use(logErrors);

@@ -18,11 +18,9 @@ export const createUser: RequestHandler = async (
     res: Response<User | { error: string }>,
     next: NextFunction
 ) => {
-    console.log("body", req.body);
     const { email, password } = req.body;
     try {
         const newUser: User = await insertUser({ email, password });
-        console.log("New User", newUser); // TEMP
         res.status(201).json(newUser);
     } catch (err) {
         if (err.code === "ER_DUP_ENTRY") {
