@@ -22,6 +22,7 @@ if (process.env.CLIENT_URL != null) {
 
 /* ************************************************************************* */
 // Request Parsing (explications dans mono repo)
+app.use(express.json());
 /* ************************************************************************* */
 
 // DO NOT FORGET THIS LINE. Makes req.body available for JSON requests

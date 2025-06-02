@@ -2,6 +2,7 @@ import type { RequestHandler } from "express";
 import { findAllForms } from "../models/form.model";
 
 // The B of BREAD - Browse (Read All) operation
+
 export const getAllForms: RequestHandler = async (req, res, next) => {
     try {
         //Find user ID
@@ -17,6 +18,7 @@ export const getAllForms: RequestHandler = async (req, res, next) => {
         // Pass any errors to the error-handling middleware
         next(err);
     }
+
 };
 
 // The R of BREAD - Read operation
