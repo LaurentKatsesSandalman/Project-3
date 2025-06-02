@@ -111,6 +111,7 @@ function SignUpForm({ setActiveModal }: SignUpFormProps) {
                     required
                     className={styles.input}
                 />
+                <p className={styles.expectedInput}>8 caractères minimum</p>
             </div>
             <div className={styles.field}>
                 <label htmlFor="confirmPassword" className={styles.label}>
