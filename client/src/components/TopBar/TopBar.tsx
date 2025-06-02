@@ -5,7 +5,7 @@ import styles from "./TopBar.module.css";
 import logoUrl from "./../../assets/logos/Logo-Quicky.svg";
 
 function TopBar() {
-    const { setIsSignUpActive } = useAppContext();
+    const { setIsSignUpActive, setIsLoginActive } = useAppContext();
     const [isConnected, setIsConnected] = useState(false);
     return (
         <div className={styles.navbar}>
@@ -23,6 +23,12 @@ function TopBar() {
                         onClick={() => setIsSignUpActive(true)}
                     >
                         Inscription
+                    </Button>
+                    <Button
+                        variant="primary"
+                        onClick={() => setIsLoginActive(true)}
+                    >
+                        Connexion
                     </Button>
                     {/* Ajouter bouton connexion */}
                 </div>

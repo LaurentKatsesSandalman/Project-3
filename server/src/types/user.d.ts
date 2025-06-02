@@ -5,7 +5,13 @@ export interface User {
     email: string;
 }
 
-export interface NewUserInput {
+export interface UserInput {
+    email: string;
+    password: string;
+}
+
+export interface completeUser {
+    id: number;
     email: string;
     password: string;
 }

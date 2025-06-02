@@ -1,8 +1,8 @@
+import axios from "axios";
 import { useState } from "react";
 import type { AppContextType } from "../../context/AppContext";
 import Button from "../Button/Button";
 import styles from "./SignUp.module.css";
-import axios from "axios";
 
 type SignUpData = {
     email: string;
