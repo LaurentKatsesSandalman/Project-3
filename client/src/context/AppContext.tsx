@@ -21,45 +21,55 @@ const AppContext = createContext<AppContextType | null>(null);
 
 export function AppProvider({ children }: AppProviderProps) {
     //States you want to pass in the context
-    const [authToken, setAuthToken] = useState<string | null>(localStorage.getItem("authToken") || null);
+    const [authToken, setAuthToken] = useState<string | null>(
+        localStorage.getItem("authToken") || null
+    );
     const [userId, setUserId] = useState<number | null>(null);
     const [isSignUpActive, setIsSignUpActive] = useState<boolean>(false);
     const [isLoginActive, setIsLoginActive] = useState<boolean>(false);
-    
+
     const location = useLocation();
     const navigate = useNavigate();
 
-    // When a user visite the website 
+    //Get the authToken from the user's local storage if it exists
     useEffect(() => {
-        const localToken = localStorage.getItem('authToken');
-        if (!localToken) return;
-        setAuthToken(localToken); 
-    }, [])
+        const token = localStorage.getItem("authToken");
+        if (!token) return;
+        setAuthToken(token);
+    }, []);
 
+    //When the authToken is updated, if he is outdated remove it from localStorage, useState and bring the user back to home.
+    //Otherwise save the token to localStorage
     useEffect(() => {
         if (authToken) {
-            localStorage.setItem("authToken", authToken);
+            const payload = JSON.parse(atob(authToken.split(".")[1]));
+            const isExpired = Date.now() >= payload.exp * 1000;
+
+            if (isExpired) {
+                setAuthToken(null);
+            } else {
+                setUserId(payload.id);
+                localStorage.setItem("authToken", authToken);
+            }
         } else {
+            console.log();
             localStorage.removeItem("authToken");
             setUserId(null);
             navigate("/");
         }
     }, [authToken]);
 
+    //When the user navigate, check to see if the authToken is still valid and allowed
     useEffect(() => {
-        if(!authToken){
-            const token = localStorage.getItem('authToken');
-                    if (!token) return;
+        if (authToken) {
+            const payload = JSON.parse(atob(authToken.split(".")[1]));
+            const isExpired = Date.now() >= payload.exp * 1000;
 
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        const isExpired = Date.now() >= payload.exp * 1000;
-
-        if (isExpired) {
-        localStorage.removeItem('authToken');
-        setAuthToken(null);
-        }   
+            if (isExpired) {
+                setAuthToken(null);
+            }
         }
-    },[location])
+    }, [location]);
 
     return (
         <AppContext.Provider

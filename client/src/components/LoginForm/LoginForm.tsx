@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useAppContext, type AppContextType } from "../../context/AppContext";
 import Button from "../Button/Button";
@@ -67,7 +67,7 @@ function LoginForm({ setActiveModal }: LoginFormProps) {
             // close the modal
             setActiveModal(false);
             // go to the creator page
-            navigate(`/${resultData.id}`)
+            navigate(`/${resultData.id}`);
         }
     }, [resultData]);
 

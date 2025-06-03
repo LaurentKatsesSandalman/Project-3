@@ -5,10 +5,6 @@ import { logErrors } from "./middlewares/logErrors.ts";
 import userRouter from "./routes/user.routes.ts";
 import formRouter from "./routes/form.routes.ts";
 import answerRouter from "./routes/answer.routes.ts";
-import {
-    createUserValidationRules,
-    validate,
-} from "./middlewares/user-validation.ts";
 
 const app = express();
 
@@ -28,8 +24,8 @@ app.use(express.json());
 // DO NOT FORGET THIS LINE. Makes req.body available for JSON requests
 app.use(express.json());
 
-app.use("/api/forms", formRouter);
 app.use("/api/users", userRouter);
+app.use("/api/forms", formRouter);
 app.use("/api/answers/", answerRouter);
 
 // Mount the logErrors middleware globally

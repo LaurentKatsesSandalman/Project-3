@@ -41,7 +41,7 @@ export const createUser: RequestHandler = async (
 // Handles user login
 export const loginUser: RequestHandler = async (
     req: Request<{}, {}, UserInput>,
-    res: Response<{ accessToken: string, id: number } | { error: string }>,
+    res: Response<{ accessToken: string; id: number } | { error: string }>,
     next: NextFunction
 ) => {
     const { email, password } = req.body;
@@ -71,8 +71,10 @@ export const loginUser: RequestHandler = async (
             return;
         }
 
-        // Create the access token and sends it back to the client
-        const accessToken = jwt.sign({ id: user.id }, privateKey, {expiresIn: '1h'});
+        // Create the access token and sends it back to the client with the user_id
+        const accessToken = jwt.sign({ id: user.id }, privateKey, {
+            expiresIn: "12h",
+        });
         res.status(201).json({
             accessToken: accessToken,
             id: user.id,
