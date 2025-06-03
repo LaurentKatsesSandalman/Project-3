@@ -34,6 +34,7 @@ function SignUpForm({ setActiveModal }: SignUpFormProps) {
         setSignUpData((prev) => {
             return { ...prev, [name]: value };
         });
+        setErrorMessage("");
     };
 
     // Do a first validation of the input values then send the signUpData to the back
@@ -68,20 +69,6 @@ function SignUpForm({ setActiveModal }: SignUpFormProps) {
             console.error("Erreur lors du fetch:", err);
             setErrorMessage("Does not pass validation");
         }
-
-        // fetch("http://localhost:3000/api/users", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({
-        //         email: signUpData.email,
-        //         password: signUpData.password,
-        //     }),
-        // })
-        //     .then((res) => res.json())
-        //     .then((data) => setResultData(data))
-        //     .catch((err) => console.error("Erreur lors du fetch:", err));
     };
 
     return (

@@ -1,7 +1,12 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // Add Typing
 export interface AppContextType {
+    authToken: string | null;
+    setAuthToken: React.Dispatch<React.SetStateAction<string | null>>;
+    userId: number | null;
+    setUserId: React.Dispatch<React.SetStateAction<number | null>>;
     isSignUpActive: boolean;
     setIsSignUpActive: React.Dispatch<React.SetStateAction<boolean>>;
     isLoginActive: boolean;
@@ -16,12 +21,53 @@ const AppContext = createContext<AppContextType | null>(null);
 
 export function AppProvider({ children }: AppProviderProps) {
     //States you want to pass in the context
+    const [authToken, setAuthToken] = useState<string | null>(localStorage.getItem("authToken") || null);
+    const [userId, setUserId] = useState<number | null>(null);
     const [isSignUpActive, setIsSignUpActive] = useState<boolean>(false);
     const [isLoginActive, setIsLoginActive] = useState<boolean>(false);
+    
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    // When a user visite the website 
+    useEffect(() => {
+        const localToken = localStorage.getItem('authToken');
+        if (!localToken) return;
+        setAuthToken(localToken); 
+    }, [])
+
+    useEffect(() => {
+        if (authToken) {
+            localStorage.setItem("authToken", authToken);
+        } else {
+            localStorage.removeItem("authToken");
+            setUserId(null);
+            navigate("/");
+        }
+    }, [authToken]);
+
+    useEffect(() => {
+        if(!authToken){
+            const token = localStorage.getItem('authToken');
+                    if (!token) return;
+
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const isExpired = Date.now() >= payload.exp * 1000;
+
+        if (isExpired) {
+        localStorage.removeItem('authToken');
+        setAuthToken(null);
+        }   
+        }
+    },[location])
 
     return (
         <AppContext.Provider
             value={{
+                authToken,
+                setAuthToken,
+                userId,
+                setUserId,
                 isSignUpActive,
                 setIsSignUpActive,
                 isLoginActive,

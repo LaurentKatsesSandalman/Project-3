@@ -1,8 +1,9 @@
-import axios, { AxiosError } from "axios";
-import { useState } from "react";
-import type { AppContextType } from "../../context/AppContext";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useAppContext, type AppContextType } from "../../context/AppContext";
 import Button from "../Button/Button";
 import styles from "./LoginForm.module.css";
+import { useNavigate } from "react-router-dom";
 
 type LoginData = {
     email: string;
@@ -11,6 +12,7 @@ type LoginData = {
 
 type ResultData = {
     accessToken: string;
+    id: number;
 };
 
 interface LoginFormProps {
@@ -18,23 +20,32 @@ interface LoginFormProps {
 }
 
 function LoginForm({ setActiveModal }: LoginFormProps) {
+    const { setAuthToken, setUserId } = useAppContext();
     const [loginData, setLoginData] = useState<LoginData>({
         email: "",
         password: "",
     });
-
     const [resultData, setResultData] = useState<ResultData | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setLoginData((prev) => {
             return { ...prev, [name]: value };
         });
+        setErrorMessage("");
     };
 
+    // On submit, post the information to the backend to see if there is a corresponding user, if there is, return the token and id of the user
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         const { email, password } = loginData;
         e.preventDefault();
+
+        if (password.length < 8) {
+            setErrorMessage("Mot de passe de 8 caractères minimum");
+            return;
+        }
 
         try {
             const response = await axios.post(
@@ -42,13 +53,23 @@ function LoginForm({ setActiveModal }: LoginFormProps) {
                 { email: email, password: password }
             );
             setResultData(response.data);
-            setActiveModal(false);
-            console.log(response.data);
         } catch (err) {
-            // TO DO, backend error handling and display using status code
-            console.log(err.response.data.error);
+            setErrorMessage(err.response.data.error);
         }
     };
+
+    useEffect(() => {
+        if (resultData) {
+            // used for permissions
+            setAuthToken(resultData.accessToken);
+            // used for navigation
+            setUserId(resultData.id);
+            // close the modal
+            setActiveModal(false);
+            // go to the creator page
+            navigate(`/${resultData.id}`)
+        }
+    }, [resultData]);
 
     return (
         <form onSubmit={(e) => handleSubmit(e)} className={styles.form}>
@@ -79,6 +100,9 @@ function LoginForm({ setActiveModal }: LoginFormProps) {
                 />
                 <p className={styles.expectedInput}>8 caractères minimum</p>
             </div>
+            {errorMessage && (
+                <div className={styles.errorMessage}>{errorMessage}</div>
+            )}
             <Button
                 variant="primary"
                 className={styles.inscriptionBtn}

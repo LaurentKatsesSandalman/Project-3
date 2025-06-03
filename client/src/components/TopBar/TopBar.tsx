@@ -1,21 +1,27 @@
-import { useState } from "react";
 import { useAppContext } from "../../context/AppContext";
+import { Link } from "react-router-dom";
 import Button from "../Button/Button";
-import styles from "./TopBar.module.css";
 import logoUrl from "./../../assets/logos/Logo-Quicky.svg";
+import { AvatarIcon } from "../Icons/Icons";
+import styles from "./TopBar.module.css";
 
 function TopBar() {
-    const { setIsSignUpActive, setIsLoginActive } = useAppContext();
-    const [isConnected, setIsConnected] = useState(false);
+    const { authToken, setAuthToken, userId, setIsSignUpActive, setIsLoginActive } = useAppContext();
+
     return (
         <div className={styles.navbar}>
             <div className={styles.logoContainer}>
                 <img className={styles.logo} src={logoUrl} alt="Quicky logo" />
                 <p className={styles.logoName}>Quicky</p>
             </div>
-            {isConnected ? (
-                /* Boutons Avatar et Deconnexion quand on est connecté */
-                <p>Connected</p>
+            {authToken !== null ? (
+                <div className={styles.buttonsContainer}>
+                    {/* Go to the account settings of the user */}
+                    <Link to={`/settings/${userId}`} className={styles.link}>
+                        <AvatarIcon className={styles.avatarIcon}/>
+                    </Link>
+                    <Button variant="primary" onClick={() => setAuthToken(null)}>Deconnexion</Button>
+                </div>
             ) : (
                 <div className={styles.buttonsContainer}>
                     <Button
