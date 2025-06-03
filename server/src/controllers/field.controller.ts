@@ -5,7 +5,7 @@ import { findAllFields } from "../models/field.model";
 
 export const getAllFields: RequestHandler = async (req, res, next) => {
     try {
-        //Find user ID
+        //Find user ID pipapo
         const user_id = Number.parseInt(req.params.user_id);
         if (isNaN(user_id)) {
             /*faire la partie si pas un nbre*/
