@@ -1,9 +1,9 @@
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import database from "./db_model.ts";
-import { Field, FieldOptions } from "../types/field";
+import { Field } from "../types/field";
 
 // copied on user, which was TEMP
-export async function findAllFields(form_id): Promise<Field[]> {
+export async function findAllFields(form_id:number): Promise<Field[]> {
     const [rows] = await database.query<Field[] & RowDataPacket[]>(`SELECT * FROM field WHERE form_id=?`, [form_id]);
     return rows;
 }
@@ -22,16 +22,13 @@ export async function insertField({ ordering, name, description = null, defaultV
         INSERT INTO field (${fields.join(",")})
         VALUES (${connectingElement})
     `;
-
     // Insert a new field into field table
     const [result] = await database.query<ResultSetHeader>(sqlQuery, values);
-
     const [rows] = await database.query<Field[] & RowDataPacket[]>(`SELECT * FROM field WHERE id = ? `, [result.insertId]);
 
     if (rows.length === 0) {
         throw new Error("Champ réponse inséré mais ne semble pas être trouvé");
     }
-
     // Returns the new field
     return rows[0];
 }
@@ -41,7 +38,6 @@ export async function updateField({ id, ordering, name, description = null, defa
     const values = [ordering, name, description, defaultValue, isRequired, isUnique, formId, fieldTypeId, id]
 
     const contentSet = fields.map((field) => `${field}=?`).join(",")
-
     const sqlQuery = `
         UPDATE field 
         SET ${contentSet}
@@ -49,15 +45,24 @@ export async function updateField({ id, ordering, name, description = null, defa
     `;
 
     // Replace the field values
-    const [result] = await database.query<ResultSetHeader>(sqlQuery, values);
-
-    const [rows] = await database.query<Field[] & RowDataPacket[]>(`SELECT * FROM field WHERE id = ? `, [result.insertId]);
+    await database.query<ResultSetHeader>(sqlQuery, values);
+    const [rows] = await database.query<Field[] & RowDataPacket[]>(`SELECT * FROM field WHERE id = ? `, [id]);
 
     if (rows.length === 0) {
         throw new Error("Champ réponse modifié mais ne semble pas être trouvé");
     }
-
     // Returns the new field
     return rows[0];
+}
+
+export async function deleteFieldById(id: number){
+   const[result]= await database.query<ResultSetHeader>(`DELETE FROM field WHERE id=?`, id);
+ if(result.affectedRows===0){
+    throw new Error("Le champ à supprimer ne semble pas être trouvé");
+ }
+ if(result.affectedRows>1){
+    throw new Error ("Problème majeur: plus d'une entrée vient d'être supprimée")
+ }
+return result;
 }
 
