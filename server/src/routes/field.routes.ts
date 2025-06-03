@@ -11,11 +11,11 @@ import {
 const router = express.Router();
 
 
-router.get("/:user_id/:form_id/", getAllFields);
-router.get("/:user_id/:form_id/:id", getThisField);
-router.post("/:user_id/:form_id/", createField);
-router.put("/:user_id/:form_id/:id", updateThisField);
-router.delete("/:user_id/:form_id/:id", deleteField);
+router.get("/:form_id/", getAllFields);
+router.get("/:form_id/:id", getThisField);
+router.post("/:form_id/", createField);
+router.put("/:form_id/:id", updateThisField);
+router.delete("/:form_id/:id", deleteField);
 
 
 export default router;

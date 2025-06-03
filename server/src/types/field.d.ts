@@ -1,6 +1,8 @@
 //Typing for field
 
-export interface Field {
+import { RowDataPacket } from "mysql2";
+
+export interface Field extends RowDataPacket{
     id: number;
     ordering: number;
     name: string;
@@ -16,7 +18,7 @@ export interface Field {
 
 // }
 
-export interface FieldOptions {
+export interface FieldOption extends RowDataPacket{
     id: number;
     ordering: number;
     name: string;
