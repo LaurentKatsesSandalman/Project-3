@@ -57,8 +57,8 @@ export const createField: RequestHandler = async (req, res, next) => {
 //The U of BREAUD (lol) - Update operation
 export const updateThisField: RequestHandler = async (req, res, next) => {
     try {
-        const { id, ordering, name, description, defaultValue, isRequired, isUnique, formId, fieldTypeId } = req.body
-        const updatedField = await updateField({ id, ordering, name, description, defaultValue, isRequired, isUnique, formId, fieldTypeId })
+        const { fieldId, ordering, name, description, defaultValue, isRequired, isUnique, formId, fieldTypeId } = req.body
+        const updatedField = await updateField({ fieldId, ordering, name, description, defaultValue, isRequired, isUnique, formId, fieldTypeId })
         res.status(200).json(updatedField)
     } catch (err) {
         next(err);

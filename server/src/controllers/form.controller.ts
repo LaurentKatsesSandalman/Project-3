@@ -1,17 +1,18 @@
 import type { RequestHandler } from "express";
-import { findAllForms } from "../models/form.model";
+import { findAllForms, findFormById } from "../models/form.model";
 
 // The B of BREAD - Browse (Read All) operation
 
 export const getAllForms: RequestHandler = async (req, res, next) => {
     try {
         //Find user ID
-        const user_id = Number.parseInt(req.params.user_id);
-        if (isNaN(user_id)) {
-            /*faire la partie si pas un nbre*/
+        const userId = Number.parseInt(req.params.user_id);
+        if (isNaN(userId)) {
+            res.status(400).json({ error: 'L\'id du user est censée être numérique' });
+            return;
         }
         // Fetch all items
-        const forms = await findAllForms(user_id);
+        const forms = await findAllForms(userId);
         // Respond with the items in JSON format
         res.json(forms);
     } catch (err) {
@@ -24,16 +25,15 @@ export const getAllForms: RequestHandler = async (req, res, next) => {
 // The R of BREAD - Read operation
 export const getThisForm: RequestHandler = async (req, res, next) => {
     try {
-        // Fetch a specific form based on the provided ID: form
-        const form = await "TO DO";
-        // If the form is not found, respond with HTTP 404 (Not Found)
-        // Otherwise, respond with the form in JSON format
-        if (form == null) {
-            res.sendStatus(404);
+        const formId = Number.parseInt(req.params.id)
+        if (isNaN(formId)) {
+            res.status(400).json({ error: 'L\'id du formulaire est censée être numérique' });
             return;
-        } else {
-            res.json(form);
         }
+        // Fetch a specific form based on the provided ID: form
+        const form = await findFormById(formId);
+        //respond with the form in JSON format
+        res.json(form);
     } catch (err) {
         // Pass any errors to the error-handling middleware
         next(err);

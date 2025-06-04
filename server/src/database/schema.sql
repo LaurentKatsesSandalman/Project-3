@@ -33,7 +33,9 @@ CREATE TABLE form (
     theme_id INT UNSIGNED NOT NULL,
     FOREIGN KEY (theme_id) REFERENCES theme (theme_id),
     user_id INT UNSIGNED NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user (user_id)
+    FOREIGN KEY (user_id) REFERENCES user (user_id),
+    form_name VARCHAR(100) NOT NULL,
+    form_description VARCHAR(255)
 );
 
 CREATE TABLE field_type (
@@ -43,9 +45,9 @@ CREATE TABLE field_type (
 
 CREATE TABLE field(
     field_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    ordering INT UNSIGNED NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    description VARCHAR(255),
+    field_ordering INT UNSIGNED NOT NULL,
+    field_name VARCHAR(255) NOT NULL,
+    field_description VARCHAR(255),
     default_value VARCHAR(255),
     is_required BOOL NOT NULL,
     is_unique BOOL NOT NULL,
@@ -57,9 +59,9 @@ CREATE TABLE field(
 
 CREATE TABLE field_option (
     field_option_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    ordering INT UNSIGNED NOT NULL,
-    name VARCHAR(100) NOT NULL,
-    value VARCHAR(100) NOT NULL,
+    option_ordering INT UNSIGNED NOT NULL,
+    option_name VARCHAR(100) NOT NULL,
+    option_value VARCHAR(100) NOT NULL,
     field_id INT UNSIGNED NOT NULL,
     FOREIGN KEY (field_id) REFERENCES field(field_id)
 );

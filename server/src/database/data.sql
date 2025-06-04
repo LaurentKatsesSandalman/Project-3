@@ -10,4 +10,5 @@ INSERT INTO field_type (field_type_id, type) VALUES
 (9, 'url'),
 (10, 'time'),
 (11, 'textarea'),
-(12, 'droplist');
+(12, 'droplist'),
+(13, 'notes');

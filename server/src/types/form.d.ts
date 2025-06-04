@@ -1,7 +1,7 @@
 import { RowDataPacket } from "mysql2";
 
 export interface Form extends RowDataPacket {
-  id: number;
+  form_id: number;
   is_deployed: boolean;
   is_closed: boolean;
   date_to_close?: string;
