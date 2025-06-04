@@ -1,23 +1,17 @@
-import { Outlet } from 'react-router-dom';
-import { useState } from "react";
+import { Outlet } from "react-router-dom";
 import { AppProvider } from "./context/AppContext";
-import "./App.css";
 import TopBar from "./components/TopBar/TopBar";
-import Footer from "./components/Footer/Footer";
-import FormCreator from "./components/FormCreator/FormCreator";
+import "./App.css";
 
 function App() {
-  return (
-    <>
-      {/* Si on a un contexte, il faudra mettre le provider ici */}
-      <TopBar />
-      <main>
-        <Outlet />
-      </main>
-      <FormCreator />
-      <Footer />
-    </>
-  );
+    return (
+        <AppProvider>
+            <TopBar />
+            <main>
+                <Outlet />
+            </main>
+        </AppProvider>
+    );
 }
 
 export default App;
