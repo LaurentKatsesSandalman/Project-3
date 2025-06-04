@@ -3,6 +3,7 @@ import styles from "./CreatorPage.module.css";
 import Button from "../../components/Button/Button";
 import axios from "axios";
 import { useAppContext } from "../../context/AppContext";
+import { getUsers } from "../../api/requests/users";
 
 // choppe :user_id de l'url
 // fetch les formulaire pour user_id = xx
@@ -15,8 +16,11 @@ function CreatorPage() {
 	const handleClick = async () => {
 		// TEMP, used for practice
 		try {
+			// console.log(getUsers)
+			// const response = await getUsers({authToken: authToken});
 			const response = await axios.get(
 				"http://localhost:3000/api/users/",
+				// WHERE I WOULD WANT TO ADD MY REQUEST BODY
 				{
 					headers: {
         				'Authorization': `Bearer ${authToken}`
