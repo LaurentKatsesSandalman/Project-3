@@ -1,4 +1,4 @@
-INSERT INTO field_type (id, type) VALUES
+INSERT INTO field_type (field_type_id, type) VALUES
 (1, 'text'),
 (2, 'checkbox'),
 (3, 'date'),
