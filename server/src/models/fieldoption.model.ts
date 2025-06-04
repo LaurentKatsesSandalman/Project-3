@@ -9,7 +9,7 @@ export async function findAllOptions(field_id:number): Promise<FieldOption[]> {
 }
 
 export async function findOptionById(id: number): Promise<FieldOption | undefined> {
-    const [rows] = await database.query<FieldOption[] & RowDataPacket[]>(`SELECT * FROM field_option WHERE id=?`, [id]);
+    const [rows] = await database.query<FieldOption[] & RowDataPacket[]>(`SELECT * FROM field_option WHERE field_option_id=?`, [id]);
     return rows[0];
 }
 
@@ -24,7 +24,7 @@ export async function insertOption({ordering, name, value, field_id}): Promise<F
     `;
     // Insert a new field option into field_option table
     const [result] = await database.query<ResultSetHeader>(sqlQuery, values);
-    const [rows] = await database.query<FieldOption[] & RowDataPacket[]>(`SELECT * FROM field_option WHERE id = ? `, [result.insertId]);
+    const [rows] = await database.query<FieldOption[] & RowDataPacket[]>(`SELECT * FROM field_option WHERE field_option_id = ? `, [result.insertId]);
 
     if (rows.length === 0) {
         throw new Error("Option insérée mais ne semble pas être trouvée");
@@ -37,7 +37,7 @@ export async function insertOption({ordering, name, value, field_id}): Promise<F
 // export async function updateOption
 
 export async function deleteOptionById(id: number){
-   const[result]= await database.query<ResultSetHeader>(`DELETE FROM field_option WHERE id=?`, id);
+   const[result]= await database.query<ResultSetHeader>(`DELETE FROM field_option WHERE field_option_id=?`, id);
  if(result.affectedRows===0){
     throw new Error("L'option à supprimer ne semble pas être trouvée");
  }

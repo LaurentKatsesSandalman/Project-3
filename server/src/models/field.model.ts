@@ -9,7 +9,7 @@ export async function findAllFields(form_id:number): Promise<Field[]> {
 }
 
 export async function findFieldById(id: number): Promise<Field | undefined> {
-    const [rows] = await database.query<Field[] & RowDataPacket[]>(`SELECT * FROM field WHERE id=?`, [id]);
+    const [rows] = await database.query<Field[] & RowDataPacket[]>(`SELECT * FROM field WHERE field_id=?`, [id]);
     return rows[0];
 }
 
@@ -24,7 +24,7 @@ export async function insertField({ ordering, name, description = null, defaultV
     `;
     // Insert a new field into field table
     const [result] = await database.query<ResultSetHeader>(sqlQuery, values);
-    const [rows] = await database.query<Field[] & RowDataPacket[]>(`SELECT * FROM field WHERE id = ? `, [result.insertId]);
+    const [rows] = await database.query<Field[] & RowDataPacket[]>(`SELECT * FROM field WHERE field_id = ? `, [result.insertId]);
 
     if (rows.length === 0) {
         throw new Error("Champ réponse inséré mais ne semble pas être trouvé");
@@ -33,20 +33,20 @@ export async function insertField({ ordering, name, description = null, defaultV
     return rows[0];
 }
 
-export async function updateField({ id, ordering, name, description = null, defaultValue = null, isRequired = 0, isUnique = 0, formId, fieldTypeId }): Promise<Field> {
+export async function updateField({ fieldId, ordering, name, description = null, defaultValue = null, isRequired = 0, isUnique = 0, formId, fieldTypeId }): Promise<Field> {
     const fields = ["ordering", "name", "description", "default_value", "is_required", "is_unique", "form_id", "field_type_id"]
-    const values = [ordering, name, description, defaultValue, isRequired, isUnique, formId, fieldTypeId, id]
+    const values = [ordering, name, description, defaultValue, isRequired, isUnique, formId, fieldTypeId, fieldId]
 
     const contentSet = fields.map((field) => `${field}=?`).join(",")
     const sqlQuery = `
         UPDATE field 
         SET ${contentSet}
-       WHERE id=?
+       WHERE field_id=?
     `;
 
     // Replace the field values
     await database.query<ResultSetHeader>(sqlQuery, values);
-    const [rows] = await database.query<Field[] & RowDataPacket[]>(`SELECT * FROM field WHERE id = ? `, [id]);
+    const [rows] = await database.query<Field[] & RowDataPacket[]>(`SELECT * FROM field WHERE field_id = ? `, [fieldId]);
 
     if (rows.length === 0) {
         throw new Error("Champ réponse modifié mais ne semble pas être trouvé");
@@ -56,7 +56,7 @@ export async function updateField({ id, ordering, name, description = null, defa
 }
 
 export async function deleteFieldById(id: number){
-   const[result]= await database.query<ResultSetHeader>(`DELETE FROM field WHERE id=?`, id);
+   const[result]= await database.query<ResultSetHeader>(`DELETE FROM field WHERE field_id=?`, id);
  if(result.affectedRows===0){
     throw new Error("Le champ à supprimer ne semble pas être trouvé");
  }

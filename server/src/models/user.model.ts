@@ -30,7 +30,7 @@ export async function insertUser({ email, password }): Promise<User> {
 
     // Select only the id and email of the new user
     const [rows] = await database.query<User[] & RowDataPacket[]>(
-        `SELECT id, email FROM user WHERE id = ?`,
+        `SELECT id, email FROM user WHERE user_id = ?`,
         [result.insertId]
     );
 
