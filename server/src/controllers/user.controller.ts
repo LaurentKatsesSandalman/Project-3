@@ -12,7 +12,7 @@ export const getAllUsers: RequestHandler = async (req, res, next) => {
     try {
         console.log(req.user);
         const users: User[] = await findAllUsers();
-        res.json(users);
+        res..status(200).json(users);
     } catch (err) {
         next(err);
     }
