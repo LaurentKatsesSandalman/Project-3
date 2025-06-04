@@ -9,10 +9,11 @@ import {
     loginUserValidationRules,
     validate,
 } from "../middlewares/user-validation";
+import { authenticateToken } from "../middlewares/authenticateToken";
 
 const router = express.Router();
 
-router.get("/", getAllUsers);
+router.get("/", authenticateToken, getAllUsers);  // TEMP, used for practice
 router.post("/login", loginUserValidationRules, validate, loginUser);
 router.post("/", createUserValidationRules, validate, createUser);
 // router.get('/:id', getUserById);

@@ -5,6 +5,7 @@ import { logErrors } from "./middlewares/logErrors.ts";
 import userRouter from "./routes/user.routes.ts";
 import formRouter from "./routes/form.routes.ts";
 import answerRouter from "./routes/answer.routes.ts";
+import { authenticateToken } from "./middlewares/authenticateToken.ts";
 
 const app = express();
 
@@ -25,6 +26,9 @@ app.use(express.json());
 app.use(express.json());
 
 app.use("/api/users", userRouter);
+
+app.use(authenticateToken);
+
 app.use("/api/forms", formRouter);
 app.use("/api/answers/", answerRouter);
 

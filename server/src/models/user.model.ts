@@ -28,9 +28,9 @@ export async function insertUser({ email, password }): Promise<User> {
     // Insert a new user into user table
     const [result] = await database.query<ResultSetHeader>(sqlQuery, values);
 
-    // Select only the id and email of the new user
+    // Select only the use_id and email of the new user
     const [rows] = await database.query<User[] & RowDataPacket[]>(
-        `SELECT id, email FROM user WHERE id = ?`,
+        `SELECT user_id, email FROM user WHERE user_id = ?`,
         [result.insertId]
     );
 

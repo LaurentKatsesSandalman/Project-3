@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAppContext, type AppContextType } from "../../context/AppContext";
 import Button from "../Button/Button";

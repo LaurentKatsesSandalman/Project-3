@@ -11,7 +11,7 @@ export interface UserInput {
 }
 
 export interface completeUser {
-    id: number;
+    user_id: number;
     email: string;
     password: string;
 }
