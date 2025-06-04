@@ -5,16 +5,16 @@ import styles from "./DetailedForm.module.css";
 
 function DetailedForm() {
 	// 3 value entre create / show /data
-	return;
-	{
-		/* <detail de la nav bar + chgmt valeur/> */
-	}
-	{
-		/*puis switch case en foncion de la value nav bar
-cas1 : <CreateForm>
-cas2 : <AnswerForm> <= normalement, on n'a pas besoin de créer 
-cas3 : <Data:>*/
-	}
+	return (
+		<>
+			<h1>DetailedForm</h1>
+			{/* <detail de la nav bar + chgmt valeur/> */}
+			{/*puis switch case en foncion de la value nav bar
+		cas1 : <CreateForm>
+		cas2 : <AnswerForm> <= normalement, on n'a pas besoin de créer 
+		cas3 : <Data:>*/}
+		</>
+	);
 }
 
 export default DetailedForm;

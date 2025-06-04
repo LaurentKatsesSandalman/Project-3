@@ -1,71 +1,68 @@
 import type { RequestHandler } from "express";
 import { findAllForms } from "../models/form.model";
 
-
 // The B of BREAD - Browse (Read All) operation
-const getAllForms: RequestHandler = async (req, res, next) => {
-  try {
-    //Find user ID
-    const user_id =Number.parseInt(req.params.user_id)
-    if (isNaN(user_id)){/*faire la partie si pas un nbre*/}
-    // Fetch all items
-    const forms = await findAllForms(user_id)
-    // Respond with the items in JSON format
-    res.json(forms);
-  } catch (err) {
-    // Pass any errors to the error-handling middleware
-    next(err);
-  }
+
+export const getAllForms: RequestHandler = async (req, res, next) => {
+    try {
+        //Find user ID
+        const user_id = Number.parseInt(req.params.user_id);
+        if (isNaN(user_id)) {
+            /*faire la partie si pas un nbre*/
+        }
+        // Fetch all items
+        const forms = await findAllForms(user_id);
+        // Respond with the items in JSON format
+        res.json(forms);
+    } catch (err) {
+        // Pass any errors to the error-handling middleware
+        next(err);
+    }
+
 };
 
 // The R of BREAD - Read operation
-const getThisForm: RequestHandler = async (req, res, next) => {
-  try {
-    // Fetch a specific form based on the provided ID: form
-
-    // If the form is not found, respond with HTTP 404 (Not Found)
-    // Otherwise, respond with the form in JSON format
-    if (form == null) {
-      return res.sendStatus(404);
-    } else {
-      res.json(form);
+export const getThisForm: RequestHandler = async (req, res, next) => {
+    try {
+        // Fetch a specific form based on the provided ID: form
+        const form = await "TO DO";
+        // If the form is not found, respond with HTTP 404 (Not Found)
+        // Otherwise, respond with the form in JSON format
+        if (form == null) {
+            res.sendStatus(404);
+            return;
+        } else {
+            res.json(form);
+        }
+    } catch (err) {
+        // Pass any errors to the error-handling middleware
+        next(err);
     }
-  } catch (err) {
-    // Pass any errors to the error-handling middleware
-    next(err);
-  }
 };
 
 // The A of BREAD - Add (Create) operation
-const createForm: RequestHandler = async (req, res, next) => {
-  try {
-    // Extract the form data from the request body
-
-    // Create the form
-    
-    // Respond with HTTP 201 (Created) and the ID of the newly inserted form
-   
-  } catch (err) {
-    // Pass any errors to the error-handling middleware
-    next(err);
-  }
+export const createForm: RequestHandler = async (req, res, next) => {
+    try {
+        // Extract the form data from the request body
+        // Create the form
+        // Respond with HTTP 201 (Created) and the ID of the newly inserted form
+    } catch (err) {
+        // Pass any errors to the error-handling middleware
+        next(err);
+    }
 };
 
-// The D of BREAD - Delete operation 
+// The D of BREAD - Delete operation
 
-const deleteForm: RequestHandler = async (req, res, next) => {
-  try {
-    //(écrit par Laurent) Trouve l'id à supprimer dans la requete
-
-    // supprime le form concerné
-
-    // répond avec un code 204 ("no content") ou 200 ("ok") ou 202 ("accepted" <= not done yet)
-      } catch (err) {
-    // Pass any errors to the error-handling middleware
-    next(err);
-  }
+export const deleteForm: RequestHandler = async (req, res, next) => {
+    try {
+        //(écrit par Laurent) Trouve l'id à supprimer dans la requete
+        // supprime le form concerné
+        // répond avec un code 204 ("no content") ou 200 ("ok") ou 202 ("accepted" <= not done yet)
+    } catch (err) {
+        // Pass any errors to the error-handling middleware
+        next(err);
+    }
 };
 
 // CES FONCTIONS NE SONT QUE DES EXEMPLES ET D'AUTRES MANQUENT
-
-export default { getAllForms, getThisForm, createForm, deleteForm };
