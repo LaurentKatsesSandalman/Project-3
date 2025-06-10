@@ -33,7 +33,7 @@ CREATE TABLE form (
     theme_id INT UNSIGNED NOT NULL,
     FOREIGN KEY (theme_id) REFERENCES theme (id),
     user_id INT UNSIGNED NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user (id)
+    FOREIGN KEY (user_id) REFERENCES user (user_id)
 );
 
 CREATE TABLE field_type (

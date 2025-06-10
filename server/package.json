@@ -6,8 +6,7 @@
     "scripts": {
         "start:dev": "tsx --watch ./src/app.ts",
         "create:db": "mysql -u root -p < src/database/schema.sql",
-        "mock:db": "mysql -u root -p < src/database/mockdata.sql",
-        "setup:all": "npm run create:db && npm run mock:db && npm run start:dev",
+        "setup:all": "npm run create:db && npm run start:dev",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
