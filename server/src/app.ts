@@ -27,14 +27,11 @@ if (process.env.CLIENT_URL != null) {
 app.use(express.json());
 /* ************************************************************************* */
 
-// DO NOT FORGET THIS LINE. Makes req.body available for JSON requests
-app.use(express.json());
-
 app.use("/api/forms", formRouter);
 app.use("/api/users", userRouter);
 app.use("/api/answers/", answerRouter);
-app.use("/api/fields/",fieldRoute)
-app.use("/api/options/",optionRoute)
+app.use("/api/fields/", fieldRoute)
+app.use("/api/options/", optionRoute)
 
 // Mount the logErrors middleware globally
 app.use(logErrors);
