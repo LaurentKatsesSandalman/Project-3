@@ -1,27 +1,34 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import styles from './FormCreator.module.css';
 
 // Interface pour définir la structure d'un champ de formulaire
 interface FormField {
-  id: string; // Identifiant unique pour chaque champ
-  type: string; // Type de champ (ex: texte, email, etc.)
-  label: string; // Libellé du champ
-  description: string; // Description du champ
-  options?: string[]; // Options pour les cases à cocher ou les boutons radio
-  required: boolean; // Indique si le champ est obligatoire
-  scale?: number; // Échelle pour le champ de notation
-  starSize?: number; // Taille des étoiles pour le champ de notation
+  id: string;
+  type: string;
+  label: string;
+  description: string;
+  options?: string[];
+  required: boolean;
+  scale?: number;
+  starSize?: number;
 }
 
-// Schéma de validation avec Yup pour valider les champs du formulaire
-const formSchema = yup.object().shape({
-  email: yup.string().email('Email invalide').required('Email est requis'),
-  url: yup.string().url('URL invalide').required('URL est requis'),
-  tel: yup.string().matches(/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/, 'Numéro de téléphone invalide'),
-});
+// Fonction de validation personnalisée pour remplacer Yup
+const validateEmail = (email) => {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+};
+
+const validateUrl = (url) => {
+  const re = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+  return re.test(url);
+};
+
+const validateTel = (tel) => {
+  const re = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/;
+  return re.test(tel);
+};
 
 // Liste des polices disponibles pour le texte
 const fonts = [
@@ -91,10 +98,8 @@ const FormCreator = () => {
   const [color, setColor] = useState('#4285F4');
   const [preview, setPreview] = useState(false);
 
-  // Initialisation du formulaire avec react-hook-form et yup pour la validation
-  const { register, handleSubmit } = useForm({
-    resolver: yupResolver(formSchema)
-  });
+  // Initialisation du formulaire avec react-hook-form
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   // Fonction appelée lors de la soumission du formulaire
   const onSubmit = (data) => {
@@ -291,8 +296,19 @@ const FormCreator = () => {
                     ) : field.type === 'rating' ? (
                       <Rating scale={field.scale} character="★" starSize={field.starSize} />
                     ) : (
-                      <input type={field.type} {...register(field.id)} style={{ fontFamily: font, fontSize, color: lighterColor(color, 50), marginBottom: '5px' }} />
+                      <input
+                        type={field.type}
+                        {...register(field.id, {
+                          validate: {
+                            emailValidation: (value) => field.type === 'email' ? validateEmail(value) || 'Email invalide' : true,
+                            urlValidation: (value) => field.type === 'url' ? validateUrl(value) || 'URL invalide' : true,
+                            telValidation: (value) => field.type === 'tel' ? validateTel(value) || 'Numéro de téléphone invalide' : true,
+                          }
+                        })}
+                        style={{ fontFamily: font, fontSize, color: lighterColor(color, 50), marginBottom: '5px' }}
+                      />
                     )}
+                    {errors[field.id] && <p>{errors[field.id].message}</p>}
                     <button type="button" onClick={() => removeField(field.id)}>Supprimer</button>
                   </div>
                 ))}
