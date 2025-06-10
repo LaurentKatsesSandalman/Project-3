@@ -38,12 +38,12 @@ const fonts = [
 
 // Liste des tailles de police disponibles pour le texte
 const fontSizes = [
-  '12px', '14px', '16px', '18px', '20px', '24px', '32px', '36px'
+  12, 14, 16, 18, 20, 24, 32, 36
 ];
 
 // Liste des tailles de police disponibles pour le titre
 const titleFontSizes = [
-  '16px', '18px', '20px', '24px', '28px', '32px', '36px', '40px'
+  16, 18, 20, 24, 28, 32, 36, 40
 ];
 
 // Liste des types de champs disponibles avec leurs libellés
@@ -204,7 +204,7 @@ const FormCreator = () => {
                     Taille du titre:
                     <select value={formTitleSize} onChange={(e) => setFormTitleSize(e.target.value)}>
                       {titleFontSizes.map((size) => (
-                        <option key={size} value={size}>{size}</option>
+                        <option key={size} value={`${size}px`}>{`${size}px`}</option>
                       ))}
                     </select>
                   </label>
@@ -222,7 +222,7 @@ const FormCreator = () => {
                     Taille des questions:
                     <select value={fontSize} onChange={(e) => setFontSize(e.target.value)}>
                       {fontSizes.map((size) => (
-                        <option key={size} value={size}>{size}</option>
+                        <option key={size} value={`${size}px`}>{`${size}px`}</option>
                       ))}
                     </select>
                   </label>
