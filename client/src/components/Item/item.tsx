@@ -46,6 +46,7 @@ function Item({ form, onPublish, onClose, onDelete }: ItemProps) {
                             </ul>
                         </div>
                     )}
+                    {/* <Link to={form.link} ><p>Lien vers du formulaire</p></Link> */}
                 </div>
                 <div className="Item_body">
                     <ul>
