@@ -10,7 +10,6 @@ dotenv.config();
 // TEMP, used for practice
 export const getAllUsers: RequestHandler = async (req, res, next) => {
     try {
-        console.log(req.user);
         const users: User[] = await findAllUsers();
         res.status(200).json(users);
     } catch (err) {
@@ -49,7 +48,6 @@ export const loginUser: RequestHandler = async (
     try {
         // Look for a user with the corresponding unique email
         const user: completeUser | null = await findUser({ email });
-        console.log(user);
         if (!user) {
             res.status(404).json({
                 error: "Il n'existe pas d'utilisateur ayant cet email",
@@ -75,7 +73,7 @@ export const loginUser: RequestHandler = async (
 
         // Create the access token and sends it back to the client with the user_id
         const accessToken = jwt.sign({ id: user.user_id }, privateKey, {
-            expiresIn: "15s",
+            expiresIn: "6h",
         });
         res.status(201).json({
             accessToken: accessToken,

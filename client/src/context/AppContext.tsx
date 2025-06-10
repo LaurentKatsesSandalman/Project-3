@@ -42,6 +42,7 @@ export function AppProvider({ children }: AppProviderProps) {
     //Otherwise save the token to localStorage
     useEffect(() => {
         if (authToken) {
+            // atob is a built-in JavaScript function that decodes a Base64-encoded string.
             const payload = JSON.parse(atob(authToken.split(".")[1]));
             const isExpired = Date.now() >= payload.exp * 1000;
 
@@ -52,14 +53,13 @@ export function AppProvider({ children }: AppProviderProps) {
                 localStorage.setItem("authToken", authToken);
             }
         } else {
-            console.log();
             localStorage.removeItem("authToken");
             setUserId(null);
             navigate("/");
         }
     }, [authToken]);
 
-    //When the user navigate, check to see if the authToken is still valid and allowed
+    // When the user navigate, check to see if the authToken is still valid
     useEffect(() => {
         if (authToken) {
             const payload = JSON.parse(atob(authToken.split(".")[1]));

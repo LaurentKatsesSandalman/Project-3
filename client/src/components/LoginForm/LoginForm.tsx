@@ -53,7 +53,7 @@ function LoginForm({ setActiveModal }: LoginFormProps) {
                 { email: email, password: password }
             );
             setResultData(response.data);
-        } catch (err) {
+        } catch (err: any) {
             setErrorMessage(err.response.data.error);
         }
     };
