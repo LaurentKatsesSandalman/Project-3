@@ -12,7 +12,7 @@ function DetailedForm() {
 			{/*puis switch case en foncion de la value nav bar
 		cas1 : <CreateForm>
 		cas2 : <AnswerForm> <= normalement, on n'a pas besoin de créer 
-		cas3 : <Data:>*/}
+		cas3 : <DataTab:>*/}
 		</>
 	);
 }
