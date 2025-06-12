@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 const Rating = ({ scale = 5, character = '★', starSize = 24 }) => {
   const [rating, setRating] = useState(0);
 

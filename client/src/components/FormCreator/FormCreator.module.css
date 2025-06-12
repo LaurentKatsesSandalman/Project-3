@@ -3,7 +3,6 @@
   flex-direction: column;
   max-width: 1200px;
   margin: 0 auto;
-  background-color: var(--color-body-background);
   padding: 20px;
 }
 
@@ -13,82 +12,35 @@
   margin-bottom: 20px;
 }
 
-.form-title {
-  font-size: 24px;
-  font-weight: bold;
+.form-title, .form-description {
+  width: 100%;
   padding: 10px;
   border: 1px solid var(--color-text-dark);
   border-radius: 4px;
-  width: 100%;
   margin-bottom: 10px;
 }
 
-.form-description {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid var(--color-text-dark);
-  border-radius: 4px;
-  margin-bottom: 20px;
+.form-title {
+  font-size: 24px;
+  font-weight: bold;
 }
 
-.form-actions {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.form-actions button {
-  padding: 8px 16px;
-  background-color: var(--color-primary);
-  color: var(--color-text-light);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.form-body {
+.form-layout {
   display: flex;
   gap: 20px;
-  position: relative;
-}
-
-.form-reorganize-container {
-  position: sticky;
-  top: 20px;
-  width: 250px;
-  background-color: var(--color-card-background);
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px var(--shadow-outer);
-  align-self: flex-start;
-}
-
-.form-reorganize-container h3 {
-  margin-top: 0;
-}
-
-.drag-item {
-  padding: 10px;
-  margin: 5px 0;
-  background-color: var(--color-text-placeholder);
-  border-radius: 4px;
-  cursor: move;
 }
 
 .form-editor {
   flex: 1;
-  background-color: var(--color-card-background);
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px var(--shadow-outer);
 }
 
 .form-field {
   margin-bottom: 20px;
 }
 
-.form-field input[type="text"],
-.form-field textarea {
+.form-field input[type="text"] {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -96,49 +48,24 @@
   border-radius: 4px;
 }
 
-.form-field label {
-  display: flex;
-  align-items: center;
-}
-
-.form-field input[type="checkbox"] {
-  margin-right: 10px;
-}
-
-.font-and-size {
-  display: flex;
-  gap: 10px;
-}
-
-.form-styling-options {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
 .form-right-panel {
-  position: sticky;
-  top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
   width: 250px;
-  align-self: flex-start;
 }
 
 .form-fields-container {
   background-color: var(--color-card-background);
   padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px var(--shadow-outer);
+  box-shadow: var(--shadow-outer);
 }
 
 .form-fields-container h3 {
   margin-top: 0;
 }
 
-.form-fields-container button {
+.form-fields-container button, .form-save-button {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -149,18 +76,11 @@
   text-align: left;
 }
 
-.form-fields-container button:hover {
-  background-color: var(--color-body-background);
+.form-fields-container button:hover, .form-save-button:hover {
+  background-color: var(--shadow-inner);
 }
 
 .form-save-button {
   background-color: var(--color-primary);
   color: var(--color-text-light);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  padding: 10px;
-  width: 100%;
 }
-
-
