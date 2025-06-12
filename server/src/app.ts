@@ -5,7 +5,6 @@ import { logErrors } from "./middlewares/logErrors.ts";
 import userRouter from "./routes/user.routes.ts";
 import formRouter from "./routes/form.routes.ts";
 import answerRouter from "./routes/answer.routes.ts";
-import { authenticateToken } from "./middlewares/authenticateToken.ts";
 import fieldRoute from "./routes/field.routes.ts";
 import optionRoute from "./routes/fieldoption.routes.ts";
 
@@ -22,12 +21,11 @@ if (process.env.CLIENT_URL != null) {
 // Request Parsing (explications dans mono repo)
 app.use(express.json());
 
-app.use("/api/forms", formRouter);
 app.use("/api/users", userRouter);
-
-app.use(authenticateToken);
-
+app.use("/api/forms", formRouter);
 app.use("/api/answers/", answerRouter);
+
+// Might not be needed
 app.use("/api/fields/", fieldRoute);
 app.use("/api/options/", optionRoute);
 
