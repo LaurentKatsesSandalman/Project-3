@@ -18,9 +18,7 @@ router.get("/", authenticateToken, getAllUsers);
 
 router.post("/login", loginUserValidationRules, validate, loginUser);
 router.post("/", createUserValidationRules, validate, createUser);
-// router.get('/:id', getUserById);
-// router.post('/', createUSer);
-// delete
+//delete
 //put
 //patch
 

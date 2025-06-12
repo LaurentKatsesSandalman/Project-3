@@ -12,7 +12,7 @@ CREATE TABLE user (
 );
 
 CREATE TABLE theme (
-    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    theme_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     color_value CHAR(8) NOT NULL,
     font1_value VARCHAR(30) NOT NULL,
     font2_value VARCHAR(30) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE theme (
 );
 
 CREATE TABLE form (
-    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    form_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     is_deployed BOOL NOT NULL,
     is_closed BOOL NOT NULL,
     date_to_close DATE,
@@ -29,53 +29,55 @@ CREATE TABLE form (
     is_public BOOL NOT NULL,
     multi_answer BOOL NOT NULL,
     original_version_id INT UNSIGNED,
-    FOREIGN KEY (original_version_id) REFERENCES form (id),
+    FOREIGN KEY (original_version_id) REFERENCES form (form_id),
     theme_id INT UNSIGNED NOT NULL,
-    FOREIGN KEY (theme_id) REFERENCES theme (id),
+    FOREIGN KEY (theme_id) REFERENCES theme (theme_id),
     user_id INT UNSIGNED NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user (user_id)
+    FOREIGN KEY (user_id) REFERENCES user (user_id),
+    form_name VARCHAR(100) NOT NULL,
+    form_description VARCHAR(255)
 );
 
 CREATE TABLE field_type (
-    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    field_type_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     type VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE field(
-    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    ordering INT UNSIGNED NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    description VARCHAR(255),
+    field_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    field_ordering INT UNSIGNED NOT NULL,
+    field_name VARCHAR(255) NOT NULL,
+    field_description VARCHAR(255),
     default_value VARCHAR(255),
     is_required BOOL NOT NULL,
     is_unique BOOL NOT NULL,
     form_id INT UNSIGNED NOT NULL,
-    FOREIGN KEY (form_id) REFERENCES form (id),
+    FOREIGN KEY (form_id) REFERENCES form (form_id),
     field_type_id INT UNSIGNED NOT NULL,
-    FOREIGN KEY (field_type_id) REFERENCES field_type (id)
+    FOREIGN KEY (field_type_id) REFERENCES field_type (field_type_id)
 );
 
 CREATE TABLE field_option (
-    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    ordering INT UNSIGNED NOT NULL,
-    name VARCHAR(100) NOT NULL,
-    value VARCHAR(100) NOT NULL,
+    field_option_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    option_ordering INT UNSIGNED NOT NULL,
+    option_name VARCHAR(100) NOT NULL,
+    option_value VARCHAR(100) NOT NULL,
     field_id INT UNSIGNED NOT NULL,
-    FOREIGN KEY (field_id) REFERENCES field(id)
+    FOREIGN KEY (field_id) REFERENCES field(field_id)
 );
 
 CREATE TABLE form_answer (
-    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    form_answer_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     answer_date DATETIME NOT NULL,
     form_id INT UNSIGNED NOT NULL,
-    FOREIGN KEY (form_id) REFERENCES form (id)
+    FOREIGN KEY (form_id) REFERENCES form (form_id)
 );
 
 CREATE TABLE field_answer (
-    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    field_answer_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     value VARCHAR(255) NOT NULL,
     form_answer_id INT UNSIGNED NOT NULL,
-    FOREIGN KEY (form_answer_id) REFERENCES form_answer (id),
+    FOREIGN KEY (form_answer_id) REFERENCES form_answer (form_answer_id),
     field_id INT UNSIGNED NOT NULL,
-    FOREIGN KEY (field_id) REFERENCES field(id)
+    FOREIGN KEY (field_id) REFERENCES field(field_id)
 );

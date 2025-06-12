@@ -1,7 +1,7 @@
 //Typing for user
 
 export interface User {
-    id: number;
+    user_id: number;
     email: string;
 }
 
