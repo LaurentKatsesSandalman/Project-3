@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import RatingComponent from '../Rating/Rating';
 import FormField from '../FormField/FormField';
 import styles from './FormCreator.module.css';
 
@@ -14,7 +13,6 @@ const fieldTypes = [
   { type: 'date', name: 'Date' },
   { type: 'time', name: 'Heure' },
   { type: 'url', name: 'URL' },
-  { type: 'rating', name: 'Notation' },
 ];
 
 const FormCreator = () => {
@@ -36,8 +34,6 @@ const FormCreator = () => {
       description: '',
       required: false,
       options: type === 'checkbox' || type === 'radio' ? ['Option 1'] : undefined,
-      scale: type === 'rating' ? 5 : undefined,
-      starSize: type === 'rating' ? 24 : undefined,
     };
     setFormFields([...formFields, newField]);
   };
@@ -77,20 +73,15 @@ const FormCreator = () => {
         <div className={styles['form-layout']}>
           <div className={styles['form-editor']}>
             {formFields.map((field) => (
-              <div key={field.id}>
-                {field.type === 'rating' ? (
-                  <RatingComponent scale={field.scale} character="★" starSize={field.starSize} />
-                ) : (
-                  <FormField
-                    field={field}
-                    register={register}
-                    removeField={removeField}
-                    updateFieldLabel={updateFieldLabel}
-                    updateFieldDescription={updateFieldDescription}
-                    setFormFields={setFormFields}
-                  />
-                )}
-              </div>
+              <FormField
+                key={field.id}
+                field={field}
+                register={register}
+                removeField={removeField}
+                updateFieldLabel={updateFieldLabel}
+                updateFieldDescription={updateFieldDescription}
+                setFormFields={setFormFields}
+              />
             ))}
           </div>
 
