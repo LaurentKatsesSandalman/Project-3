@@ -1,4 +1,4 @@
-INSERT INTO field_option (ordering,name,value,field_id) VALUES
+INSERT INTO field_option (option_ordering,option_name,option_value,field_id) VALUES
 (1,"Chat","chat",2),
 (2,"Chien","chien",2),
 (3,"Hamster","hamster",2),

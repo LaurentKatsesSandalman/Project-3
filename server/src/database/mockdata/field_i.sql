@@ -1,4 +1,4 @@
-INSERT INTO field (id,ordering,name,is_required,is_unique,form_id,field_type_id) VALUES
+INSERT INTO field (field_id,field_ordering,field_name,is_required,is_unique,form_id,field_type_id) VALUES
 (1,1,"quel est ton nom ?",0,0,1,1),
 (2,2,"quel animal aimes-tu ?",0,0,1,2),
 (3,3,"quel est ton anniversaire?",0,0,1,3),
