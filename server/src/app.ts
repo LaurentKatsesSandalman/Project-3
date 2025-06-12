@@ -7,10 +7,6 @@ import formRouter from "./routes/form.routes.ts";
 import answerRouter from "./routes/answer.routes.ts";
 import fieldRoute from "./routes/field.routes.ts";
 import optionRoute from "./routes/fieldoption.routes.ts";
-import {
-    createUserValidationRules,
-    validate,
-} from "./middlewares/user-validation.ts";
 
 const app = express();
 
@@ -22,16 +18,14 @@ if (process.env.CLIENT_URL != null) {
     app.use(cors({ origin: process.env.CLIENT_URL }));
 }
 
-/* ************************************************************************* */
 // Request Parsing (explications dans mono repo)
 app.use(express.json());
-/* ************************************************************************* */
 
 app.use("/api/forms", formRouter);
 app.use("/api/users", userRouter);
 app.use("/api/answers/", answerRouter);
-app.use("/api/fields/", fieldRoute)
-app.use("/api/options/", optionRoute)
+app.use("/api/fields/", fieldRoute);
+app.use("/api/options/", optionRoute);
 
 // Mount the logErrors middleware globally
 app.use(logErrors);
