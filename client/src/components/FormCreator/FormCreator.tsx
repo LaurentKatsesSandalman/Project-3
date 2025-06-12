@@ -1,20 +1,12 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import FormField from '../FormField/FormField';
+import ColorSelector from '../ColorSelector/ColorSelector';
+import Rating from '../Rating/Rating';
+import FormPreview from '../FormPreview/FormPreview';
 import styles from './FormCreator.module.css';
 
-// Interface pour définir la structure d'un champ de formulaire
-interface FormField {
-  id: string;
-  type: string;
-  label: string;
-  description: string;
-  options?: string[];
-  required: boolean;
-  scale?: number;
-  starSize?: number;
-}
-
-// Fonction de validation personnalisée pour remplacer Yup
+// Fonctions de validation
 const validateEmail = (email) => {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return re.test(email);
@@ -30,88 +22,52 @@ const validateTel = (tel) => {
   return re.test(tel);
 };
 
-// Liste des polices disponibles pour le texte
+// Liste des polices et tailles disponibles
 const fonts = [
-  'Arial', 'Verdana', 'Times New Roman', 'Courier New', 'Georgia',
-  'Palatino', 'Garamond', 'Bookman', 'Comic Sans MS', 'Trebuchet MS'
+  'Arial', 'Verdana', 'Times New Roman', 'Glycerin', 'Georgia',
+  'Baskerville', 'Roboto', 'Open Sans', 'Lato', 'Ferryman', 'Raspberie 90s',
+  'TT Travels NextFont', 'Brutalista', 'Marcovaldo', 'Fifty Fifty'
 ];
 
-// Liste des tailles de police disponibles pour le texte
-const fontSizes = [
-  12, 14, 16, 18, 20, 24, 32, 36
-];
+const fontSizes = [12, 14, 16, 18, 20, 24, 32, 36];
+const titleFontSizes = [16, 18, 20, 24, 28, 32, 36, 40];
 
-// Liste des tailles de police disponibles pour le titre
-const titleFontSizes = [
-  16, 18, 20, 24, 28, 32, 36, 40
-];
-
-// Liste des types de champs disponibles avec leurs libellés
+// Liste des types de champs disponibles
 const fieldTypes = [
-  { type: 'text', label: 'Texte court' },
-  { type: 'textarea', label: 'Texte long' },
-  { type: 'email', label: 'Email' },
-  { type: 'tel', label: 'Téléphone' },
-  { type: 'checkbox', label: 'Case à cocher' },
-  { type: 'radio', label: 'Choix unique' },
-  { type: 'date', label: 'Date' },
-  { type: 'time', label: 'Heure' },
-  { type: 'url', label: 'URL' },
-  { type: 'rating', label: 'Notation' },
+  { type: 'text', name: 'Texte court' },
+  { type: 'textarea', name: 'Texte long' },
+  { type: 'email', name: 'Email' },
+  { type: 'tel', name: 'Téléphone' },
+  { type: 'checkbox', name: 'Case à cocher' },
+  { type: 'radio', name: 'Choix unique' },
+  { type: 'date', name: 'Date' },
+  { type: 'time', name: 'Heure' },
+  { type: 'url', name: 'URL' },
+  { type: 'rating', name: 'Notation' },
 ];
 
-// Composant pour afficher et gérer les notations en étoiles
-const Rating = ({ scale = 5, character = '★', starSize = 24 }) => {
-  const [rating, setRating] = useState(0);
-
-  return (
-    <div>
-      {[...Array(scale)].map((_, index) => {
-        const starValue = index + 1;
-        return (
-          <span
-            key={index}
-            style={{
-              cursor: 'pointer',
-              color: starValue <= rating ? 'gold' : 'gray',
-              fontSize: `${starSize}px`,
-            }}
-            onClick={() => setRating(starValue)}
-          >
-            {character}
-          </span>
-        );
-      })}
-    </div>
-  );
-};
-
-// Composant principal pour créer et personnaliser des formulaires
 const FormCreator = () => {
   const [formTitle, setFormTitle] = useState('Nouveau Formulaire');
   const [formTitleFont, setFormTitleFont] = useState('Arial');
   const [formTitleSize, setFormTitleSize] = useState('24px');
   const [formDescription, setFormDescription] = useState('');
-  const [formFields, setFormFields] = useState<FormField[]>([]);
+  const [formFields, setFormFields] = useState([]);
   const [font, setFont] = useState('Arial');
   const [fontSize, setFontSize] = useState('16px');
   const [color, setColor] = useState('#4285F4');
   const [preview, setPreview] = useState(false);
 
-  // Initialisation du formulaire avec react-hook-form
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  // Fonction appelée lors de la soumission du formulaire
   const onSubmit = (data) => {
     console.log(data);
   };
 
-  // Ajoute un nouveau champ au formulaire
   const addField = (type) => {
     const newField = {
       id: Date.now().toString(),
       type,
-      label: `Nouvelle question`,
+      name: `Nouvelle question`,
       description: '',
       required: false,
       options: type === 'checkbox' || type === 'radio' ? ['Option 1'] : undefined,
@@ -121,22 +77,18 @@ const FormCreator = () => {
     setFormFields([...formFields, newField]);
   };
 
-  // Supprime un champ du formulaire
   const removeField = (id) => {
     setFormFields(formFields.filter((field) => field.id !== id));
   };
 
-  // Met à jour le libellé d'un champ
-  const updateFieldLabel = (id, label) => {
-    setFormFields(formFields.map(field => field.id === id ? { ...field, label } : field));
+  const updateFieldLabel = (id, name) => {
+    setFormFields(formFields.map(field => field.id === id ? { ...field, name } : field));
   };
 
-  // Met à jour la description d'un champ
   const updateFieldDescription = (id, description) => {
     setFormFields(formFields.map(field => field.id === id ? { ...field, description } : field));
   };
 
-  // Fonction pour créer une couleur plus claire
   const lighterColor = (hexColor, factor) => {
     const num = parseInt(hexColor.replace("#", ""), 16);
     const amt = Math.round(2.55 * factor);
@@ -147,7 +99,6 @@ const FormCreator = () => {
     return `#${(0x1000000 + (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 + (G < 255 ? (G < 1 ? 0 : G) : 255) * 0x100 + (B < 255 ? (B < 1 ? 0 : B) : 255)).toString(16).slice(1)}`;
   };
 
-  // Style pour le fond du formulaire
   const backgroundStyle = {
     backgroundColor: lighterColor(color, 80),
   };
@@ -164,7 +115,7 @@ const FormCreator = () => {
             <h3>Réorganiser</h3>
             {formFields.map((field) => (
               <div key={field.id} className={styles['drag-item']}>
-                {field.label}
+                {field.name}
               </div>
             ))}
           </div>
@@ -227,10 +178,7 @@ const FormCreator = () => {
                     </select>
                   </label>
                 </div>
-                <label>
-                  Couleur:
-                  <input type="color" value={color} onChange={(e) => setColor(e.target.value)} />
-                </label>
+                <ColorSelector color={color} setColor={setColor} />
               </div>
 
               <div className={styles['form-editor']}>
@@ -238,7 +186,7 @@ const FormCreator = () => {
                   <div key={field.id} className={styles['form-field']}>
                     <input
                       type="text"
-                      value={field.label}
+                      value={field.name}
                       onChange={(e) => updateFieldLabel(field.id, e.target.value)}
                       style={{ fontFamily: font, fontSize, color, marginBottom: '5px' }}
                     />
@@ -322,45 +270,25 @@ const FormCreator = () => {
               <h3>Choisir un champ</h3>
               {fieldTypes.map((fieldType) => (
                 <button key={fieldType.type} type="button" onClick={() => addField(fieldType.type)}>
-                  {fieldType.label}
+                  {fieldType.name}
                 </button>
               ))}
             </div>
           </div>
         </div>
       ) : (
-        <div className={styles['form-preview']} style={backgroundStyle}>
-          <h1 style={{ fontFamily: formTitleFont, fontSize: formTitleSize, color }}>{formTitle}</h1>
-          <p style={{ color }}>{formDescription}</p>
-          {formFields.map((field) => (
-            <div key={field.id} style={{ fontFamily: font, fontSize, marginBottom: '10px' }}>
-              <p style={{ color }}>{field.label}</p>
-              <p style={{ color: lighterColor(color, 50), fontSize: '14px' }}>{field.description}</p>
-              {field.type === 'textarea' ? (
-                <textarea style={{ fontFamily: font, fontSize, color: lighterColor(color, 50) }} />
-              ) : field.type === 'checkbox' ? (
-                field.options?.map((option, index) => (
-                  <div key={index} style={{ color: lighterColor(color, 50) }}>
-                    <input type="checkbox" id={`preview-option-${field.id}-${index}`} />
-                    <label htmlFor={`preview-option-${field.id}-${index}`}>{option}</label>
-                  </div>
-                ))
-              ) : field.type === 'radio' ? (
-                field.options?.map((option, index) => (
-                  <div key={index} style={{ color: lighterColor(color, 50) }}>
-                    <input type="radio" name={`preview-radio-group-${field.id}`} id={`preview-radio-${field.id}-${index}`} />
-                    <label htmlFor={`preview-radio-${field.id}-${index}`}>{option}</label>
-                  </div>
-                ))
-              ) : field.type === 'rating' ? (
-                <Rating scale={field.scale} character="★" starSize={field.starSize} />
-              ) : (
-                <input type={field.type} style={{ fontFamily: font, fontSize, color: lighterColor(color, 50) }} />
-              )}
-            </div>
-          ))}
-          <button onClick={() => setPreview(!preview)}>Retour à l'édition</button>
-        </div>
+        <FormPreview
+          formTitle={formTitle}
+          formDescription={formDescription}
+          formFields={formFields}
+          formTitleFont={formTitleFont}
+          formTitleSize={formTitleSize}
+          font={font}
+          fontSize={fontSize}
+          color={color}
+          lighterColor={lighterColor}
+          setPreview={setPreview}
+        />
       )}
     </div>
   );
