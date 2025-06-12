@@ -1,5 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {
+    useLocation,
+    useNavigate,
+    type NavigateFunction,
+} from "react-router-dom";
 
 // Add Typing
 export interface AppContextType {
@@ -11,6 +15,7 @@ export interface AppContextType {
     setIsSignUpActive: React.Dispatch<React.SetStateAction<boolean>>;
     isLoginActive: boolean;
     setIsLoginActive: React.Dispatch<React.SetStateAction<boolean>>;
+    navigate: NavigateFunction;
 }
 
 interface AppProviderProps {
@@ -27,9 +32,9 @@ export function AppProvider({ children }: AppProviderProps) {
     const [userId, setUserId] = useState<number | null>(null);
     const [isSignUpActive, setIsSignUpActive] = useState<boolean>(false);
     const [isLoginActive, setIsLoginActive] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const location = useLocation();
-    const navigate = useNavigate();
 
     //Get the authToken from the user's local storage if it exists
     useEffect(() => {
@@ -49,7 +54,7 @@ export function AppProvider({ children }: AppProviderProps) {
             if (isExpired) {
                 setAuthToken(null);
             } else {
-                setUserId(payload.id);
+                setUserId(payload.user_id);
                 localStorage.setItem("authToken", authToken);
             }
         } else {
@@ -82,6 +87,7 @@ export function AppProvider({ children }: AppProviderProps) {
                 setIsSignUpActive,
                 isLoginActive,
                 setIsLoginActive,
+                navigate,
             }}
         >
             {children}

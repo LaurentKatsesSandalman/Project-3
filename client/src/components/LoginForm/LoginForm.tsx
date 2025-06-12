@@ -3,31 +3,20 @@ import { useEffect, useState } from "react";
 import { useAppContext, type AppContextType } from "../../context/AppContext";
 import Button from "../Button/Button";
 import styles from "./LoginForm.module.css";
-import { useNavigate } from "react-router-dom";
-
-type LoginData = {
-    email: string;
-    password: string;
-};
-
-type ResultData = {
-    accessToken: string;
-    id: number;
-};
+import type { User, UserLogin } from "../../types/users";
 
 interface LoginFormProps {
     setActiveModal: AppContextType["setIsLoginActive"];
 }
 
 function LoginForm({ setActiveModal }: LoginFormProps) {
-    const { setAuthToken, setUserId } = useAppContext();
-    const [loginData, setLoginData] = useState<LoginData>({
+    const { setAuthToken, setUserId, navigate } = useAppContext();
+    const [loginData, setLoginData] = useState<UserLogin>({
         email: "",
         password: "",
     });
-    const [resultData, setResultData] = useState<ResultData | null>(null);
+    const [user, setUser] = useState<User | null>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -52,24 +41,24 @@ function LoginForm({ setActiveModal }: LoginFormProps) {
                 "http://localhost:3000/api/users/login",
                 { email: email, password: password }
             );
-            setResultData(response.data);
+            setUser(response.data);
         } catch (err: any) {
             setErrorMessage(err.response.data.error);
         }
     };
 
     useEffect(() => {
-        if (resultData) {
+        if (user) {
             // used for permissions
-            setAuthToken(resultData.accessToken);
+            setAuthToken(user.accessToken);
             // used for navigation
-            setUserId(resultData.id);
+            setUserId(user.user_id);
             // close the modal
             setActiveModal(false);
             // go to the creator page
-            navigate(`/${resultData.id}`);
+            navigate(`/${user.user_id}`);
         }
-    }, [resultData]);
+    }, [user]);
 
     return (
         <form onSubmit={(e) => handleSubmit(e)} className={styles.form}>

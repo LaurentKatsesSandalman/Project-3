@@ -1,9 +1,9 @@
-import { useParams } from "react-router-dom";
-import styles from "./CreatorPage.module.css";
-import Button from "../../components/Button/Button";
 import axios from "axios";
-import { useAppContext } from "../../context/AppContext";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useAppContext } from "../../context/AppContext";
+import Button from "../../components/Button/Button";
+import styles from "./CreatorPage.module.css";
 
 // choppe :user_id de l'url
 // fetch les formulaire pour user_id = xx
@@ -13,14 +13,17 @@ function CreatorPage() {
 
     const [users, setUsers] = useState();
 
-    // TEMP, used as an exemple
+    // TEMP, Remove when real route using authenticateToken is available
     const { authToken, setAuthToken } = useAppContext();
     const handleClick = async () => {
         // COPY THIS WHEN YOU WANT TO REQUEST THE API
         try {
             const response = await axios.get(
-                `http://localhost:3000/api/users`,
-                // WHERE YOU WOULD WANT TO ADD THE REQUEST BODY
+                `http://localhost:3000/api/users`, // You could add /${form_id} to the route for example if you want to pass params to your request
+                // WHERE YOU WOULD WANT TO ADD THE REQUEST BODY if .post or .patch
+                // {
+                //     form: formData,
+                // },
                 {
                     headers: {
                         Authorization: `Bearer ${authToken}`,
@@ -30,11 +33,8 @@ function CreatorPage() {
 
             setUsers(response.data);
         } catch (err: any) {
-            // TEMP
-            console.log(err);
             // When there is an issue with the token
             if (err.status === 403 || err.status === 401) {
-                // Maybe do something to show the user he is being disconnected
                 setAuthToken(null);
             }
         }
@@ -43,7 +43,7 @@ function CreatorPage() {
     useEffect(() => {
         console.log(users);
     }, [users]);
-    // END OF TEMP
+    // TEMP END
 
     return (
         <>

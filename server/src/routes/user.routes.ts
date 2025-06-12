@@ -13,8 +13,9 @@ import { authenticateToken } from "../middlewares/authenticateToken";
 
 const router = express.Router();
 
-// TEMP, used as an exemple
+// TEMP, Remove when real route using authenticateToken is available
 router.get("/", authenticateToken, getAllUsers);
+// TEMP END
 
 router.post("/login", loginUserValidationRules, validate, loginUser);
 router.post("/", createUserValidationRules, validate, createUser);

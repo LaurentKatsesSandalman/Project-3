@@ -3,13 +3,14 @@ import { ResultSetHeader, RowDataPacket } from "mysql2";
 import database from "./db_model.ts";
 import { completeUser, User } from "../types/user";
 
-// TEMP, used for practice
+// TEMP, Remove when real route using authenticateToken is available
 export async function findAllUsers(): Promise<User[]> {
     const [rows] = await database.query<User[] & RowDataPacket[]>(`
         SELECT *
         FROM user`);
     return rows;
 }
+// TEMP END
 
 // Build SQL query to insert new user
 export async function insertUser({ email, password }): Promise<User> {
@@ -42,9 +43,9 @@ export async function insertUser({ email, password }): Promise<User> {
     return rows[0];
 }
 
-export async function findUser({ email }): Promise<completeUser | null> {
+export async function findUserByEmail({ email }): Promise<completeUser | null> {
     const [rows] = await database.query<completeUser[] & RowDataPacket[]>(
-        `SELECT * FROM user WHERE email = ?`,
+        `SELECT user.user_id, user.password FROM user WHERE email = ?`,
         [email]
     );
 
