@@ -1,5 +1,5 @@
 import styles from "./DetailedForm.module.css";
-
+import FormCreator from "../../components/FormCreator/FormCreator";
 // choppe :form_id de l'url
 // fetch les infos de formulaire pour form_id = xx
 
@@ -8,6 +8,7 @@ function DetailedForm() {
 	return (
 		<>
 			<h1>DetailedForm</h1>
+			<FormCreator/>
 			{/* <detail de la nav bar + chgmt valeur/> */}
 			{/*puis switch case en foncion de la value nav bar
 		cas1 : <CreateForm>

@@ -21,9 +21,11 @@ if (process.env.CLIENT_URL != null) {
 // Request Parsing (explications dans mono repo)
 app.use(express.json());
 
-app.use("/api/forms", formRouter);
 app.use("/api/users", userRouter);
+app.use("/api/forms", formRouter);
 app.use("/api/answers/", answerRouter);
+
+// Might not be needed
 app.use("/api/fields/", fieldRoute);
 app.use("/api/options/", optionRoute);
 

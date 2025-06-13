@@ -1,16 +1,9 @@
+import axios from "axios";
 import { useState } from "react";
 import type { AppContextType } from "../../context/AppContext";
 import Button from "../Button/Button";
 import styles from "./SignUp.module.css";
-import axios from "axios";
-
-type SignUpData = {
-    email: string;
-    password: string;
-    confirmPassword: string;
-};
-
-type ResultData = { id: number; email: string } | { error: string };
+import type { UserSignedUp, UserSignUp } from "../../types/users";
 
 interface SignUpFormProps {
     setActiveModal: AppContextType["setIsSignUpActive"];
@@ -18,7 +11,7 @@ interface SignUpFormProps {
 
 function SignUpForm({ setActiveModal }: SignUpFormProps) {
     // Rerender the fields when they are updated, will be used to send the info to the backend
-    const [signUpData, setSignUpData] = useState<SignUpData>({
+    const [signUpData, setSignUpData] = useState<UserSignUp>({
         email: "",
         password: "",
         confirmPassword: "",
@@ -26,7 +19,7 @@ function SignUpForm({ setActiveModal }: SignUpFormProps) {
 
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const [resultData, setResultData] = useState<ResultData | null>(null);
+    const [newUser, setnewUser] = useState<UserSignedUp | null>(null);
 
     // Update the value of signUpData when the user modifies one field input
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +27,7 @@ function SignUpForm({ setActiveModal }: SignUpFormProps) {
         setSignUpData((prev) => {
             return { ...prev, [name]: value };
         });
+        setErrorMessage("");
     };
 
     // Do a first validation of the input values then send the signUpData to the back
@@ -61,27 +55,13 @@ function SignUpForm({ setActiveModal }: SignUpFormProps) {
                 }
             );
 
-            setResultData(response.data);
+            setnewUser(response.data);
             setActiveModal(false);
         } catch (err) {
             // TO DO, backend error handling and display using status code
             console.error("Erreur lors du fetch:", err);
             setErrorMessage("Does not pass validation");
         }
-
-        // fetch("http://localhost:3000/api/users", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify({
-        //         email: signUpData.email,
-        //         password: signUpData.password,
-        //     }),
-        // })
-        //     .then((res) => res.json())
-        //     .then((data) => setResultData(data))
-        //     .catch((err) => console.error("Erreur lors du fetch:", err));
     };
 
     return (
