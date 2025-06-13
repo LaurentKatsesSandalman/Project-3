@@ -1,11 +1,27 @@
 import { useAppContext } from "../../context/AppContext";
+import { useEffect } from "react";
 import Modal from "../../components/Modal/Modal";
 import SignUpForm from "../../components/SignUpForm/SignUpForm";
+import LoginForm from "../../components/LoginForm/LoginForm";
 import styles from "./Home.module.css";
 
 function Home() {
     // choppage de value entre pas connecté /je veux me connecter / je veux m'inscrire
-    const { isSignUpActive, setIsSignUpActive } = useAppContext();
+    const {
+        isSignUpActive,
+        setIsSignUpActive,
+        isLoginActive,
+        setIsLoginActive,
+        navigate,
+        authToken,
+    } = useAppContext();
+
+    // If I try to go to the home page when I am already connected, get sent back to the forms page
+    useEffect(() => {
+        if (authToken) {
+            navigate(`/forms`);
+        }
+    }, [authToken]);
 
     return (
         <>
@@ -15,12 +31,11 @@ function Home() {
                     <SignUpForm setActiveModal={setIsSignUpActive} />
                 </Modal>
             )}
-            {/* morceau commun (background avec exemples) */}
-            {/*switch case
-			pas connecté :  rien
-			en connexion : popup connexion
-			en inscription: pop-up inscription
-			*/}
+            {isLoginActive && (
+                <Modal setActiveModal={setIsLoginActive}>
+                    <LoginForm setActiveModal={setIsLoginActive} />
+                </Modal>
+            )}
         </>
     );
 }

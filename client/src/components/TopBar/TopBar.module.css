@@ -4,7 +4,7 @@
     align-items: center;
     background-color: var(--color-card-background);
     padding: 6px max(8px, 2%);
-    height: 54px;
+    height: 48px;
     box-shadow: var(--shadow-outer);
 }
 
@@ -29,6 +29,24 @@
     display: flex;
     justify-content: flex-end;
     gap: 8px;
+}
+
+.link {
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatarIcon {
+    height: 100%;
+    color: var(--color-primary);
+    transition: color .1s ease-in-out;
+    cursor: pointer;
+}
+
+.avatarIcon:hover {
+    color: var(--color-primary-darker);
 }
 
 @media (max-width: 430px) {
