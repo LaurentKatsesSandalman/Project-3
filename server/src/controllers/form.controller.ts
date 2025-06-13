@@ -1,5 +1,6 @@
 import type { RequestHandler } from "express";
-import { findAllForms, findFormById } from "../models/form.model";
+import { findAllForms } from "../models/form.model";
+import { FormType } from "../types/form";
 
 // The B of BREAD - Browse (Read All) operation
 
@@ -8,7 +9,9 @@ export const getAllForms: RequestHandler = async (req, res, next) => {
         //Find user ID
         const userId = Number.parseInt(req.params.user_id);
         if (isNaN(userId)) {
-            res.status(400).json({ error: 'L\'id du user est censée être numérique' });
+            res.status(400).json({
+                error: "L'id du user est censée être numérique",
+            });
             return;
         }
         // Fetch all items
@@ -19,23 +22,24 @@ export const getAllForms: RequestHandler = async (req, res, next) => {
         // Pass any errors to the error-handling middleware
         next(err);
     }
-
 };
 
 // The R of BREAD - Read operation
-export const getThisForm: RequestHandler = async (req, res, next) => {
+export const getFormById: RequestHandler<
+    { form_id: string },
+    FormType | { error: string }
+> = async (req, res, next) => {
     try {
-        const formId = Number.parseInt(req.params.id)
-        if (isNaN(formId)) {
-            res.status(400).json({ error: 'L\'id du formulaire est censée être numérique' });
+        console.log(req.params);
+        const parsedId = Number.parseInt(req.params.form_id);
+        if (isNaN(parsedId)) {
+            res.status(400).json({ error: "L'id n'est pas un nombre" });
             return;
         }
-        // Fetch a specific form based on the provided ID: form
-        const form = await findFormById(formId);
-        //respond with the form in JSON format
-        res.json(form);
+        // We use a service to format the data we want
+        const fullForm = await getFullForm(parsedId);
+        res.status(200).json(fullForm);
     } catch (err) {
-        // Pass any errors to the error-handling middleware
         next(err);
     }
 };
