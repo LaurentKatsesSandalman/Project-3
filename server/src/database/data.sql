@@ -11,4 +11,5 @@ INSERT INTO field_type (field_type_id, type) VALUES
 (10, 'time'),
 (11, 'textarea'),
 (12, 'droplist'),
-(13, 'notes');
+(13, 'notes'),
+(14, 'password');
