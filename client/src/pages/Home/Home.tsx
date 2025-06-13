@@ -12,16 +12,16 @@ function Home() {
         setIsSignUpActive,
         isLoginActive,
         setIsLoginActive,
-        userId,
         navigate,
+        authToken,
     } = useAppContext();
 
     // If I try to go to the home page when I am already connected, get sent back to the forms page
     useEffect(() => {
-        if (userId) {
-            navigate(`/${userId}`);
+        if (authToken) {
+            navigate(`/forms`);
         }
-    }, [userId]);
+    }, [authToken]);
 
     return (
         <>

@@ -10,7 +10,7 @@ interface LoginFormProps {
 }
 
 function LoginForm({ setActiveModal }: LoginFormProps) {
-    const { setAuthToken, setUserId, navigate } = useAppContext();
+    const { setAuthToken, navigate } = useAppContext();
     const [loginData, setLoginData] = useState<UserLogin>({
         email: "",
         password: "",
@@ -51,12 +51,10 @@ function LoginForm({ setActiveModal }: LoginFormProps) {
         if (user) {
             // used for permissions
             setAuthToken(user.accessToken);
-            // used for navigation
-            setUserId(user.user_id);
             // close the modal
             setActiveModal(false);
             // go to the creator page
-            navigate(`/${user.user_id}`);
+            navigate(`/forms`);
         }
     }, [user]);
 

@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
 import Button from "../../components/Button/Button";
 import styles from "./CreatorPage.module.css";
@@ -9,8 +8,6 @@ import styles from "./CreatorPage.module.css";
 // fetch les formulaire pour user_id = xx
 
 function CreatorPage() {
-    const params = useParams();
-
     const [users, setUsers] = useState();
 
     // TEMP, Remove when real route using authenticateToken is available
@@ -48,7 +45,6 @@ function CreatorPage() {
     return (
         <>
             <h1>Creator page</h1>
-            <div>User id: {params.user_id}</div>
             <Button variant="danger" onClick={handleClick}>
                 TEST
             </Button>

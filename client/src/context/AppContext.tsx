@@ -9,8 +9,6 @@ import {
 export interface AppContextType {
     authToken: string | null;
     setAuthToken: React.Dispatch<React.SetStateAction<string | null>>;
-    userId: number | null;
-    setUserId: React.Dispatch<React.SetStateAction<number | null>>;
     isSignUpActive: boolean;
     setIsSignUpActive: React.Dispatch<React.SetStateAction<boolean>>;
     isLoginActive: boolean;
@@ -29,7 +27,6 @@ export function AppProvider({ children }: AppProviderProps) {
     const [authToken, setAuthToken] = useState<string | null>(
         localStorage.getItem("authToken") || null
     );
-    const [userId, setUserId] = useState<number | null>(null);
     const [isSignUpActive, setIsSignUpActive] = useState<boolean>(false);
     const [isLoginActive, setIsLoginActive] = useState<boolean>(false);
     const navigate = useNavigate();
@@ -54,12 +51,10 @@ export function AppProvider({ children }: AppProviderProps) {
             if (isExpired) {
                 setAuthToken(null);
             } else {
-                setUserId(payload.user_id);
                 localStorage.setItem("authToken", authToken);
             }
         } else {
             localStorage.removeItem("authToken");
-            setUserId(null);
             navigate("/");
         }
     }, [authToken]);
@@ -81,8 +76,6 @@ export function AppProvider({ children }: AppProviderProps) {
             value={{
                 authToken,
                 setAuthToken,
-                userId,
-                setUserId,
                 isSignUpActive,
                 setIsSignUpActive,
                 isLoginActive,

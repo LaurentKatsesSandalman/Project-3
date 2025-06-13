@@ -14,6 +14,9 @@ dotenv.config();
 // TEMP, Remove when real route using authenticateToken is available
 export const getAllUsers: RequestHandler = async (req, res, next) => {
     try {
+        const body = req.body;
+        const userId = req.user.user_id;
+        console.log(userId);
         const users: User[] = await findAllUsers();
         res.status(200).json(users);
     } catch (err) {
