@@ -48,7 +48,7 @@ function SignUpForm({ setActiveModal }: SignUpFormProps) {
         // Axio is used to make HTTP request more readable than fetch (automaticcaly parses JSON, better error handling)
         try {
             const response = await axios.post(
-                "http://localhost:3000/api/users",
+                `${import.meta.env.VITE_QUICKY_API_URL}/api/users`,
                 {
                     email: email,
                     password: password,

@@ -38,7 +38,7 @@ function LoginForm({ setActiveModal }: LoginFormProps) {
 
         try {
             const response = await axios.post(
-                "http://localhost:3000/api/users/login",
+                `${import.meta.env.VITE_QUICKY_API_URL}/api/users/login`,
                 { email: email, password: password }
             );
             setUser(response.data);
