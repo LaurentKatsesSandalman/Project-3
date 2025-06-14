@@ -2,7 +2,7 @@
 
 import { RowDataPacket } from "mysql2";
 
-export interface Field extends RowDataPacket{
+export interface Field extends RowDataPacket {
     field_id: number;
     ordering: number;
     name: string;
@@ -14,14 +14,14 @@ export interface Field extends RowDataPacket{
     field_type_id: number;
 }
 
-// export interface NewFieldInput {
-
-// }
-
-export interface FieldOption extends RowDataPacket{
+export interface FieldOption extends RowDataPacket {
     field_option_id: number;
     ordering: number;
     name: string;
     value: string;
     field_id: number;
+}
+
+export interface FullField extends Field {
+    field_options: FieldOption[];
 }

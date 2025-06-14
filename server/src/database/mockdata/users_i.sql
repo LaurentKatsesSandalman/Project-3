@@ -1,6 +1,6 @@
 USE quicky;
 INSERT INTO user (email, password) VALUES
-('exemple1@exemple.com', '$2b$10$KBNblg.lfPAj9g.pqR/wN.41ydoyZ14gfiGWuE7a9MIi8l4vfvz0a'),
+('exemple@exemple.com', '$2b$10$8rwcxciPeOrq0mOkl.3lJuYEocIPbiKPjT1KHJ2SkNjabUoqEjEH.'),
 ('exemple2@exemple.com', '$2b$10$FRI.13foxavcYv18g64mTu.3lhHD4yGwdmPEtYkSXozXPI/ZOv5Sy'),
 ('exemple3@exemple.com', '$2b$10$DEFcgMhi.QP9gw.OdGXrlOAp82auzn4LN2hSU2/AChy4TMGpt2XTa'),
 ('exemple4@exemple.com', '$2b$10$3YEVAJhBtv1niWdjPxs58.sAFWepi7m5HZcV1xWKais7J/S1IhcwC'),

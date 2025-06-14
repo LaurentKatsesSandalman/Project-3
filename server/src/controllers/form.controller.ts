@@ -1,6 +1,8 @@
 import type { RequestHandler } from "express";
 import { findAllForms } from "../models/form.model";
-import { FormType } from "../types/form";
+import { getFullForm } from "../services/FullForm";
+import { FullForm } from "../types/form";
+import { formatDate } from "../utils/formatDate";
 
 // The B of BREAD - Browse (Read All) operation
 
@@ -25,20 +27,87 @@ export const getAllForms: RequestHandler = async (req, res, next) => {
 };
 
 // The R of BREAD - Read operation
-export const getFormById: RequestHandler<
-    { form_id: string },
-    FormType | { error: string }
+export const getFullFormById: RequestHandler<
+    { id: string },
+    FullForm | { error: string }
 > = async (req, res, next) => {
     try {
-        console.log(req.params);
-        const parsedId = Number.parseInt(req.params.form_id);
+        console.log("params: ", req.params.id);
+        console.log("user: ", req.user.user_id);
+        const parsedId = Number.parseInt(req.params.id);
         if (isNaN(parsedId)) {
             res.status(400).json({ error: "L'id n'est pas un nombre" });
             return;
         }
         // We use a service to format the data we want
         const fullForm = await getFullForm(parsedId);
+        if (!fullForm) {
+            res.status(404).json({
+                error: "Il n'existe pas de form ayant cet Id",
+            });
+            return;
+        }
+
         res.status(200).json(fullForm);
+    } catch (err) {
+        next(err);
+    }
+};
+
+export const getSecuredFullFormById: RequestHandler<
+    { id: string },
+    Partial<FullForm> | { error: string }
+> = async (req, res, next) => {
+    try {
+        console.log("params: ", req.params.id);
+        const parsedId = Number.parseInt(req.params.id);
+        if (isNaN(parsedId)) {
+            res.status(400).json({ error: "L'id n'est pas un nombre" });
+            return;
+        }
+
+        // We use a service to format the data we want
+        const fullForm = await getFullForm(parsedId);
+        if (!fullForm || !fullForm.is_deployed) {
+            res.status(404).json({
+                error: "Il n'existe pas de formulaire ayant cet Id",
+            });
+            return;
+        }
+
+        // All the cases where the securedFullForm should not be returned to the front
+        if (fullForm.is_closed) {
+            res.status(403).json({
+                error: "Le formulaire est clos",
+            });
+        }
+        const currentDate = new Date();
+        const closeDate = new Date(fullForm.creation_date);
+        if (currentDate > closeDate) {
+            res.status(403).json({
+                error: `Le formulaire est clos depuis le ${formatDate(
+                    closeDate
+                )}`,
+            });
+        }
+
+        if (!fullForm.is_public) {
+            res.status(403).json({
+                error: "Le formulaire n'est pas public pour le moment",
+            });
+        }
+
+        // Build the securedFullForm without all the informations not needed in the front
+        const {
+            user_id,
+            is_deployed,
+            is_closed,
+            is_public,
+            theme_id,
+            original_version_id,
+            ...securedFullForm
+        } = fullForm;
+        res.status(200).json(securedFullForm);
     } catch (err) {
         next(err);
     }

@@ -13,7 +13,7 @@ CREATE TABLE user (
 
 CREATE TABLE theme (
     theme_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    color_value CHAR(8) NOT NULL,
+    color_value INT NOT NULL,
     font1_value VARCHAR(30) NOT NULL,
     font2_value VARCHAR(30) NOT NULL,
     font1_size TINYINT(255),
