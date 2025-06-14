@@ -30,10 +30,8 @@ export const getAllForms: RequestHandler = async (req, res, next) => {
 export const getFullFormById: RequestHandler<
     { id: string },
     FullForm | { error: string }
-> = async (req, res, next) => {
+> = async (req: any, res, next) => {
     try {
-        console.log("params: ", req.params.id);
-        console.log("user: ", req.user.user_id);
         const parsedId = Number.parseInt(req.params.id);
         if (isNaN(parsedId)) {
             res.status(400).json({ error: "L'id n'est pas un nombre" });
@@ -43,7 +41,14 @@ export const getFullFormById: RequestHandler<
         const fullForm = await getFullForm(parsedId);
         if (!fullForm) {
             res.status(404).json({
-                error: "Il n'existe pas de form ayant cet Id",
+                error: "Il n'existe pas de formulaire ayant cet id",
+            });
+            return;
+        }
+
+        if (fullForm.user_id !== req.user.user_id) {
+            res.status(403).json({
+                error: "Le formulaire ayant cet id n'est pas le votre",
             });
             return;
         }
@@ -59,7 +64,6 @@ export const getSecuredFullFormById: RequestHandler<
     Partial<FullForm> | { error: string }
 > = async (req, res, next) => {
     try {
-        console.log("params: ", req.params.id);
         const parsedId = Number.parseInt(req.params.id);
         if (isNaN(parsedId)) {
             res.status(400).json({ error: "L'id n'est pas un nombre" });
@@ -68,9 +72,10 @@ export const getSecuredFullFormById: RequestHandler<
 
         // We use a service to format the data we want
         const fullForm = await getFullForm(parsedId);
+
         if (!fullForm || !fullForm.is_deployed) {
             res.status(404).json({
-                error: "Il n'existe pas de formulaire ayant cet Id",
+                error: "404 - Formulaire n'existe pas",
             });
             return;
         }
@@ -78,23 +83,26 @@ export const getSecuredFullFormById: RequestHandler<
         // All the cases where the securedFullForm should not be returned to the front
         if (fullForm.is_closed) {
             res.status(403).json({
-                error: "Le formulaire est clos",
+                error: "403 - Le formulaire est clos",
             });
+            return;
         }
         const currentDate = new Date();
         const closeDate = new Date(fullForm.creation_date);
         if (currentDate > closeDate) {
             res.status(403).json({
-                error: `Le formulaire est clos depuis le ${formatDate(
+                error: `403 - Le formulaire est clos depuis le ${formatDate(
                     closeDate
                 )}`,
             });
+            return;
         }
 
         if (!fullForm.is_public) {
             res.status(403).json({
-                error: "Le formulaire n'est pas public pour le moment",
+                error: "403 - Le formulaire n'est pas disponible pour le moment",
             });
+            return;
         }
 
         // Build the securedFullForm without all the informations not needed in the front

@@ -30,6 +30,7 @@ export const getFullForm = async (form_id: number) => {
         fields.map(async (field) => {
             const fieldOptions: FieldOption[] | undefined =
                 await findAllOptions(field.field_id);
+
             return {
                 ...field,
                 is_required: Boolean(field.is_required),
