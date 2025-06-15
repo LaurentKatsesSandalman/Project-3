@@ -1,4 +1,4 @@
-import type { Field } from "react-hook-form";
+import type { Field } from "./fields";
 import type { Theme } from "./theme";
 
 // Back => Front

@@ -73,6 +73,7 @@ export const getSecuredFullFormById: RequestHandler<
         // We use a service to format the data we want
         const fullForm = await getFullForm(parsedId);
 
+        // All the cases where the securedFullForm should not be returned to the front
         if (!fullForm || !fullForm.is_deployed) {
             res.status(404).json({
                 error: "404 - Formulaire n'existe pas",
@@ -80,7 +81,6 @@ export const getSecuredFullFormById: RequestHandler<
             return;
         }
 
-        // All the cases where the securedFullForm should not be returned to the front
         if (fullForm.is_closed) {
             res.status(403).json({
                 error: "403 - Le formulaire est clos",
