@@ -4,9 +4,6 @@ import { useAppContext } from "../../context/AppContext";
 import Button from "../../components/Button/Button";
 import styles from "./CreatorPage.module.css";
 
-// choppe :user_id de l'url
-// fetch les formulaire pour user_id = xx
-
 function CreatorPage() {
     const [users, setUsers] = useState();
 
