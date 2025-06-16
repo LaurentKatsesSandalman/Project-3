@@ -66,7 +66,7 @@ function CreatorPage() {
 			</section>
 			<section className="button_section">
 				<div className="contener_button">
-					<Button variant="primary" onClick={() => window.location.href = `/create-form/${params.user_id}`}>
+					<Button variant="create_form" onClick={() => window.location.href = `/create-form/${params.user_id}`}>
 						Créer un nouveau formulaire
 					</Button>
 				</div>

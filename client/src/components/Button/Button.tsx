@@ -3,7 +3,7 @@ import styles from "./Button.module.css";
 
 interface ButtonProps {
     children: React.ReactNode;
-    variant: "primary" | "secondary" | "danger";
+    variant: "primary" | "secondary" | "danger" | "create_form";
     className?: string;
     style?: React.CSSProperties;
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -25,6 +25,7 @@ const Button = ({
                 variant === "primary" && styles.primary,
                 variant === "secondary" && styles.secondary,
                 variant === "danger" && styles.danger,
+                variant === "create_form" && styles.create_form,
                 className
             )}
             style={style}
