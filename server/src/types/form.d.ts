@@ -11,4 +11,7 @@ export interface Form extends RowDataPacket {
   original_version_id?: number;
   theme_id: number;
   user_id: number;
+  name: string;
+  description: string | null;
 }
+
