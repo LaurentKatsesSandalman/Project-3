@@ -21,7 +21,9 @@ function AnswerForm() {
         try {
             setLoading(true);
             const response = await axios.get(
-                `http://localhost:3000/api/forms/answerable/${form_id}`
+                `${
+                    import.meta.env.VITE_QUICKY_API_URL
+                }/api/forms/answerable/${form_id}`
             );
 
             setSecuredForm(response.data);
