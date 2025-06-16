@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {useNavigate, Link} from 'react-router-dom';
-import Button from '../Button/button';
-import settingIcon from 'src/assets/icons/wheel.png';
+import Button from '../Button/Button';
+// import settingIcon from '../assets/icons/wheel.png';
 
 export type FormItem = {
     id: string;
@@ -28,8 +28,8 @@ function Item({ form, onPublish, onClose, onDelete }: ItemProps) {
             <section className="Item_contenainer">
                 <div className="Item_header">
                     <h2 className="Item_title">{form.name}</h2>
-                    <button className="absolute top-3 right-3 p-2" onClick={() => setOpenMenu((o) => !o)}>
-				        <img src={settingsIcon} alt="Paramètres"/>
+                    <button className="absolute top-3 right-3 p-2" onClick={() => SetOpenMenu((o) => !o)}>
+				        {/* <img src={settingIcon} alt="Paramètres"/> */}
                     </button>
                     {openMenu && (
                         <div className="parameters-menu">
@@ -46,19 +46,19 @@ function Item({ form, onPublish, onClose, onDelete }: ItemProps) {
                             </ul>
                         </div>
                     )}
-                    {/* <Link to={form.link} ><p>Lien vers du formulaire</p></Link> */}
+                    <Link to={form.link} ><p>Lien vers du formulaire</p></Link>
                 </div>
                 <div className="Item_body">
                     <ul>
                         <li><p>Crée le : {new Date(form.createdAt).toLocaleDateString()} </p></li>
-                        <li><p>Publié le : {new Date(form.publishedAt).toLocaleDateString()}</p></li>
+                        {/* <li><p>Publié le : {new Date(form.publishedAt).toLocaleDateString()}</p></li> */}
                         <li><p>Statut : {form.isClosed ? 'Fermé' : 'Ouvert'}</p></li>
                     </ul>
                 </div>
                 <div className="Item_footer">
-                    <Button onClick={()=> navigate(`/edit-form/${form.id}}`)}>Editer</button>
-                    <Button onClick={() => navigate(`/form/${form.id}`)}>Apperçu</Button>
-                    <Button onClick={()=> navigate(`/form/${form.id}`)}>Résultat</Button>
+                    <Button  variant= "primary"onClick={()=> navigate(`/edit-form/${form.id}`)}>Editer</Button>
+                    <Button variant ="primary" onClick={() => navigate(`/form/${form.id}`)}>Apperçu</Button>
+                    <Button variant="primary" onClick={()=> navigate(`/form/${form.id}`)}>Résultat</Button>
                 </div>
             </section>
         </>

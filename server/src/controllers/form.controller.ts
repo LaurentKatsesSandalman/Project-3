@@ -1,5 +1,5 @@
-import type { RequestHandler } from "express";
-import { findAllForms, findFormById } from "../models/form.model";
+import type { RequestHandler, Request, Response, NextFunction } from "express";
+import { insertForm, findAllForms, findFormById } from "../models/form.model";
 
 // The B of BREAD - Browse (Read All) operation
 
@@ -41,11 +41,18 @@ export const getThisForm: RequestHandler = async (req, res, next) => {
 };
 
 // The A of BREAD - Add (Create) operation
-export const createForm: RequestHandler = async (req, res, next) => {
+export const createForm: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // Extract the form data from the request body
+        const {name, description, userId} = req.body;
+        if (!name || !description || !userId) {
+            res.status(400).json({ error: 'Tous les champs sont requis' });
+            return;
+        }
         // Create the form
+        const newForm = await insertForm({name, description});
         // Respond with HTTP 201 (Created) and the ID of the newly inserted form
+        res.status(201).json({ id: newForm.id });
     } catch (err) {
         // Pass any errors to the error-handling middleware
         next(err);

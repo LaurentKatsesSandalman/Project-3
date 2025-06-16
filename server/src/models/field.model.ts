@@ -1,6 +1,8 @@
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import database from "./db_model.ts";
 import { Field } from "../types/field";
+import { Form } from "../types/form";
+
 
 // copied on user, which was TEMP
 export async function findAllFields(form_id: number): Promise<Field[]> {
@@ -137,4 +139,28 @@ export async function deleteFieldById(id: number) {
     );
   }
   return result;
+}
+
+export async function insertForm({name, description, user_id}: {name:string, description?:string |null, user_id:number}): 
+Promise<Form> {
+  const fields = ["name", "description", "user_id"];
+  const values = [name, description, user_id];
+
+  const connectingElement = values.map(() => "?").join(",");
+  const sqlQuery = `
+        INSERT INTO form (${fields.join(",")})
+        VALUES (${connectingElement})
+    `;
+  // Insert a new form into form table
+  const [result] = await database.query<ResultSetHeader>(sqlQuery, values);
+  const [rows] = await database.query<Form[] & RowDataPacket[]>(
+    `SELECT * FROM form WHERE form_id = ? `,
+    [result.insertId]
+  );
+
+  if (rows.length === 0) {
+    throw new Error("Formulaire inséré mais ne semble pas être trouvé");
+  }
+  // Returns the new form
+  return rows[0];
 }

@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@types/express": "^5.0.3",
     "@types/node": "^24.0.0",
     "@types/react": "^19.1.7",
     "@types/react-dom": "^19.1.6",
@@ -28,4 +29,3 @@
   "homepage": "https://github.com/LaurentKatsesSandalman/Project-3#readme",
   "description": ""
 }
-

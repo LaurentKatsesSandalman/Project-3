@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import database from "./db_model.ts";
-import { User } from "../types/user";
+import { completeUser, User } from "../types/user";
 
 // TEMP, used for practice
 export async function findAllUsers(): Promise<User[]> {
@@ -28,9 +28,13 @@ export async function insertUser({ email, password }): Promise<User> {
     // Insert a new user into user table
     const [result] = await database.query<ResultSetHeader>(sqlQuery, values);
 
-    // Select only the id and email of the new user
+    // Select only the use_id and email of the new user
     const [rows] = await database.query<User[] & RowDataPacket[]>(
+<<<<<<< HEAD
         `SELECT id, email FROM user WHERE user_id = ?`,
+=======
+        `SELECT user_id, email FROM user WHERE user_id = ?`,
+>>>>>>> origin/US17_login_user
         [result.insertId]
     );
 
@@ -39,5 +43,16 @@ export async function insertUser({ email, password }): Promise<User> {
     }
 
     // Returns the new user without the password to the client
+    return rows[0];
+}
+
+export async function findUser({ email }): Promise<completeUser | null> {
+    const [rows] = await database.query<completeUser[] & RowDataPacket[]>(
+        `SELECT * FROM user WHERE email = ?`,
+        [email]
+    );
+
+    if (rows.length === 0) return null;
+
     return rows[0];
 }

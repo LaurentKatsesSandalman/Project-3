@@ -5,12 +5,16 @@ import { logErrors } from "./middlewares/logErrors.ts";
 import userRouter from "./routes/user.routes.ts";
 import formRouter from "./routes/form.routes.ts";
 import answerRouter from "./routes/answer.routes.ts";
+<<<<<<< HEAD
 import fieldRoute from "./routes/field.routes.ts";
 import optionRoute from "./routes/fieldoption.routes.ts";
 import {
     createUserValidationRules,
     validate,
 } from "./middlewares/user-validation.ts";
+=======
+import { authenticateToken } from "./middlewares/authenticateToken.ts";
+>>>>>>> origin/US17_login_user
 
 const app = express();
 
@@ -27,8 +31,18 @@ if (process.env.CLIENT_URL != null) {
 app.use(express.json());
 /* ************************************************************************* */
 
+<<<<<<< HEAD
 app.use("/api/forms", formRouter);
+=======
+// DO NOT FORGET THIS LINE. Makes req.body available for JSON requests
+app.use(express.json());
+
+>>>>>>> origin/US17_login_user
 app.use("/api/users", userRouter);
+
+app.use(authenticateToken);
+
+app.use("/api/forms", formRouter);
 app.use("/api/answers/", answerRouter);
 app.use("/api/fields/", fieldRoute)
 app.use("/api/options/", optionRoute)
