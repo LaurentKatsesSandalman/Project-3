@@ -2,7 +2,54 @@
     width: 100%;
     max-width: var(--card-max-width);
     background-color: var(--color-card-background);
-    padding: 22px 2%;
+    padding: 22px max(8px, min(2%, 22px));
     box-shadow: var(--shadow-outer);
     border-radius: var(--radius);
+}
+
+.name {
+    font-size: var(--font-title-size);
+    color: var(--color-primary);
+    margin-bottom: 12px;
+}
+
+.name span {
+    color: var(--color-text-placeholder);
+}
+
+.description {
+    color: var(--color-text-dark);
+}
+
+.inputContainer {
+    width: 100%;
+    margin-top: 24px;
+}
+
+.input {
+    color: var(--color-text-dark);
+    font-size: var(--font-text-size);
+    font-family: var(--font-base);
+    padding: 8px 12px;
+    width: 100%;
+    border: 1px solid var(--color-text-dark);
+    border-radius: var(--radius);
+    background-color: white;
+}
+
+.input::placeholder {
+    color: var(--color-text-placeholder);
+    opacity: 0.7;
+}
+
+.date,
+.number,
+.phone,
+.time {
+    width: auto;
+    max-width: 100%;
+}
+
+.textarea {
+    height: 6rem;
 }

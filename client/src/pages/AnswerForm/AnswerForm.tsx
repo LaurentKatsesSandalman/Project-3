@@ -8,12 +8,14 @@ import Loading from "../../components/Loading/Loading";
 import type { Field } from "../../types/fields";
 import Button from "../../components/Button/Button";
 import InputField from "../../components/InputField/InputField";
+import type { Answer } from "../../types/answers";
 
 function AnswerForm() {
     const { form_id } = useParams();
     const [securedForm, setSecuredForm] = useState<SecuredForm | null>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const [answers, setAnswers] = useState<Answer[]>([]);
 
     const getSecuredForm = async (form_id: string) => {
         try {
@@ -45,6 +47,16 @@ function AnswerForm() {
 
     useEffect(() => {
         console.log(securedForm);
+        if (!securedForm) return;
+        const baseAnswers = securedForm.fields.map((field) => {
+            return {
+                field_id: field.field_id,
+                is_unique: field.is_unique,
+                default_value: field.default_value || "",
+                value: "",
+            };
+        });
+        setAnswers(baseAnswers);
     }, [securedForm]);
 
     return (
@@ -79,9 +91,6 @@ function AnswerForm() {
                     "--color-text-dark": `hsl(${
                         securedForm?.theme.color_value ?? 169
                     }, 75%, 4%)`,
-                    "--color-text-accent": `hsl(${
-                        securedForm?.theme.color_value ?? 169
-                    }, 75%, 28%)`,
                     "--color-text-placeholder": `hsl(${
                         securedForm?.theme.color_value ?? 169
                     }, 75%, 60%)`,
@@ -124,10 +133,21 @@ function AnswerForm() {
                                     <InputField
                                         key={field.field_id}
                                         field={field}
+                                        answer={answers.find((answer) => {
+                                            return (
+                                                answer.field_id ===
+                                                field.field_id
+                                            );
+                                        })}
+                                        setAnswers={setAnswers}
                                     />
                                 );
                             })}
-                            <Button variant="primary" type="submit">
+                            <Button
+                                variant="primary"
+                                type="submit"
+                                className={styles.submitBtn}
+                            >
                                 Envoyer
                             </Button>
                         </form>
