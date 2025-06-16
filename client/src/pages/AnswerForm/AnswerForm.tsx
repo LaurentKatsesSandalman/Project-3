@@ -104,7 +104,7 @@ function AnswerForm() {
                     </>
                 ) : (
                     // Show the form
-                    <>
+                    <div className={styles.formContainer}>
                         <div className={styles.formInfos}>
                             <h1 className={styles.formTitle}>
                                 {securedForm.form_name}
@@ -114,6 +114,7 @@ function AnswerForm() {
                             </p>
                         </div>
                         <form
+                            className={styles.form}
                             onSubmit={(e) => {
                                 handleSubmit(e);
                             }}
@@ -130,7 +131,7 @@ function AnswerForm() {
                                 Envoyer
                             </Button>
                         </form>
-                    </>
+                    </div>
                 )
             }
             <Link to="/" className={styles.link}>

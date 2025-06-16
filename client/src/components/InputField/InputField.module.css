@@ -1,0 +1,8 @@
+.fieldContainer {
+    width: 100%;
+    max-width: var(--card-max-width);
+    background-color: var(--color-card-background);
+    padding: 22px 2%;
+    box-shadow: var(--shadow-outer);
+    border-radius: var(--radius);
+}

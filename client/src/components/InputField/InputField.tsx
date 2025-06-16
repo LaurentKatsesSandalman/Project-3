@@ -1,3 +1,4 @@
+import styles from "./InputField.module.css";
 import type { Field } from "../../types/fields";
 
 interface InputFieldProps {
@@ -5,7 +6,7 @@ interface InputFieldProps {
 }
 
 function InputField({ field }: InputFieldProps) {
-    return <div>Input FIELD</div>;
+    return <div className={styles.fieldContainer}>Input FIELD</div>;
 }
 
 export default InputField;
