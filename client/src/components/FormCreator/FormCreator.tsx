@@ -1,8 +1,10 @@
+import axios from "axios";
 import { useState } from "react";
 //import { useForm } from "react-hook-form";
 import FormField from "../FormField/FormField";
 import styles from "./FormCreator.module.css";
 import type { FormPayload } from "../../types/form";
+import { useAppContext } from "../../context/AppContext";
 
 type TypeOfField =
   | "text"
@@ -25,7 +27,7 @@ interface FieldType {
   field_type_id: number;
 }
 
-const fieldTypes = [
+const fieldTypes:FieldType[] = [
   { type: "text", name: "Texte court", field_type_id: 1 },
   { type: "textarea", name: "Texte long", field_type_id: 11 },
   { type: "email", name: "Email", field_type_id: 4 },
@@ -48,7 +50,7 @@ const emptyForm = {
   is_public: false,
   multi_answer: false,
   form_name: "Nouveau formulaire",
-  form_description: null,
+  form_description: "", //il faudra veiller à indiquer que form_description n'est plus optionnel
   theme: {
     color_value: 169,
     font1_value: "Chivo",
@@ -60,105 +62,125 @@ const emptyForm = {
 };
 
 const FormCreator = () => {
+  const { authToken, setAuthToken } = useAppContext();
   const [form, setForm] = useState<FormPayload>(emptyForm);
 
-  // const [formTitle, setFormTitle] = useState('Nouveau Formulaire');
-  // const [formDescription, setFormDescription] = useState('');
-  // const [formFields, setFormFields] = useState([]);
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // <-- empêche le reset du formulaire
+    try {
+      const formData = await axios.post(
+        `${import.meta.env.VITE_QUICKY_API_URL}/api/forms`,
+        {
+          form: form,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+    } catch (err: any) {
+      // When there is an issue with the token
+      if (err.status === 403 || err.status === 401) {
+        setAuthToken(null);
+      }
+    }
+  };
+  //  const onSubmit = (data) => {
+  //     // fetch?
+  //     console.log(data);
+  //   };
 
- // je ne comprends pas ce que ça fait, j'essaie sans: const { register, handleSubmit } = useForm();
-
-const handleSubmit=async()=>{
+  const handleChange = (string: 'title'|'description', eventTargetValue: string){
+    if (string ==='title'){setForm((prev)=>({...prev, form_name:eventTargetValue }))}
+    if (string ==='description'){setForm((prev)=>({...prev, form_description:eventTargetValue }))}
+  }
   
- } 
-//  const onSubmit = (data) => {
-//     // fetch?
-//     console.log(data);
-//   };
-
   const addField = (type: TypeOfField) => {
     const newField = {
-      field_ordering: 999, //trouver comment avoir l'ordering,
+      field_ordering: (form.fields.length+1),
       field_name: `Nouvelle question`,
       is_required: false,
       is_unique: false,
       field_type_id:
         fieldTypes[fieldTypes.findIndex((fieldType) => fieldType.type === type)]
           .field_type_id,
-      field_description: null,
+      field_description: "",
       default_value: null,
       field_options: [],
     };
     setForm((prev) => ({ ...prev, fields: [...prev.fields, newField] }));
   };
 
-  const removeField = (field_ordering: number) => {
-    setForm((prev) => ({
-      ...prev,
-      fields: prev.fields.filter(
-        (field) => field.field_ordering !== field_ordering
-      ),
-    }));
-  };
+  // const removeField = (field_ordering: number) => {
+  //   setForm((prev) => ({
+  //     ...prev,
+  //     fields: prev.fields.filter(
+  //       (field) => field.field_ordering !== field_ordering
+  //     ),
+  //   }));
+  // };
 
-  const updateFieldName = (field_ordering: number, field_name: string) => {
-    setForm((prev) => ({
-      ...prev,
-      fields: prev.fields.map((field, index) =>
-        index === field_ordering - 1
-          ? { ...field, field_name: field_name }
-          : field
-      ),
-    }));
-  };
+  // const updateFieldName = (field_ordering: number, field_name: string) => {
+  //   setForm((prev) => ({
+  //     ...prev,
+  //     fields: prev.fields.map((field, index) =>
+  //       index === field_ordering - 1
+  //         ? { ...field, field_name: field_name }
+  //         : field
+  //     ),
+  //   }));
+  // };
 
-  const updateFieldDescription = (
-    field_ordering: number,
-    field_description: string
-  ) => {
-    setForm((prev) => ({
-      ...prev,
-      fields: prev.fields.map((field, index) =>
-        index === field_ordering - 1
-          ? { ...field, field_description: field_description }
-          : field
-      ),
-    }));
-  };
+  // const updateFieldDescription = (
+  //   field_ordering: number,
+  //   field_description: string
+  // ) => {
+  //   setForm((prev) => ({
+  //     ...prev,
+  //     fields: prev.fields.map((field, index) =>
+  //       index === field_ordering - 1
+  //         ? { ...field, field_description: field_description }
+  //         : field
+  //     ),
+  //   }));
+  // };
 
-// doit-on mettre fieldname et fielddesc dans field? sinon, il faut remonter fieldoptions ici !!
+  // doit-on mettre fieldname et fielddesc dans field? sinon, il faut remonter fieldoptions ici !!
 
   return (
     <div className={styles["form-container"]}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit}>
         <div className={styles["form-header"]}>
           <input
             type="text"
             placeholder="Titre du formulaire"
-            value={formTitle}
-            onChange={(e) => setFormTitle(e.target.value)}
+            value={form.form_name}
+            onChange={(event) => {
+    event.preventDefault();
+    handleChange("title", event.target.value);
+  }}
             className={styles["form-title"]}
           />
           <input
             type="text"
             placeholder="Description du formulaire"
-            value={formDescription}
-            onChange={(e) => setFormDescription(e.target.value)}
+            value={form.form_description}
+            onChange={(event) => {
+    event.preventDefault();
+    handleChange("description", event.target.value);
+  }}
             className={styles["form-description"]}
           />
         </div>
 
         <div className={styles["form-layout"]}>
           <div className={styles["form-editor"]}>
-            {formFields.map((field) => (
+            {form.fields.map((field) => (
               <FormField
-                key={field.id}
-                field={field}
-                register={register}
-                removeField={removeField}
-                updateFieldLabel={updateFieldLabel}
-                updateFieldDescription={updateFieldDescription}
-                setFormFields={setFormFields}
+                key={field.field_ordering}
+                field={field} 
+                setForm={setForm}
               />
             ))}
           </div>
@@ -171,7 +193,7 @@ const handleSubmit=async()=>{
               <h3>Choisir un champ</h3>
               {fieldTypes.map((fieldType) => (
                 <button
-                  key={fieldType.type}
+                  key={fieldType.field_type_id}
                   type="button"
                   onClick={() => addField(fieldType.type)}
                 >

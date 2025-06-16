@@ -21,7 +21,7 @@ export interface FormPayload {
   is_public: boolean;
   multi_answer: boolean;
   form_name: string;
-  form_description: string | null;
+  form_description: string;
   theme: Theme;
   fields: FieldPayload[] | [];
 }
