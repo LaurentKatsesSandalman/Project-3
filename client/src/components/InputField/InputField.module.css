@@ -50,6 +50,45 @@
     max-width: 100%;
 }
 
+.optionContainer {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.optionContainer:last-child {
+    margin-bottom: 0;
+}
+
+.radio {
+    appearance: none;
+    border: solid 1px var(--color-text-dark);
+    width: var(--font-text-size);
+    height: var(--font-text-size);
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.radio::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-primary);
+    border-radius: 100%;
+    visibility: hidden;
+}
+
+.radio:checked::before {
+    visibility: visible;
+}
+
+.label {
+    color: var(--color-text-dark);
+}
+
 .textarea {
     height: 6rem;
 }

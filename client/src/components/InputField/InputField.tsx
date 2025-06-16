@@ -1,22 +1,23 @@
 import clsx from "clsx";
 import styles from "./InputField.module.css";
 import type { Field } from "../../types/fields";
-import type { Answer } from "../../types/answers";
+import type { FieldAnswer } from "../../types/answers";
 
 interface InputFieldProps {
     field: Field;
-    answer?: Answer;
-    setAnswers: React.Dispatch<React.SetStateAction<Answer[]>>;
+    answer?: FieldAnswer;
+    setAnswers: React.Dispatch<React.SetStateAction<FieldAnswer[]>>;
 }
 
 function InputField({ field, answer, setAnswers }: InputFieldProps) {
     if (!answer) return null;
     let inputElement: React.ReactNode;
 
-    console.log(answer);
     // Change the value of the field is the ids match
     const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        e: React.ChangeEvent<
+            HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+        >
     ) => {
         setAnswers((prev) =>
             prev.map((ans) =>
@@ -36,14 +37,14 @@ function InputField({ field, answer, setAnswers }: InputFieldProps) {
                     type="text"
                     maxLength={255}
                     required={field.is_required ? true : false}
-                    placeholder={answer.default_value}
+                    placeholder="Texte..."
                     onChange={handleChange}
                     value={answer.value}
                 />
             );
             break;
         case 2: // Checkbox
-            inputElement = <div>checkbox</div>;
+            inputElement = <div>Checkbox</div>;
             break;
         case 3: // Date
             inputElement = (
@@ -63,7 +64,7 @@ function InputField({ field, answer, setAnswers }: InputFieldProps) {
                     type="email"
                     maxLength={255}
                     required={field.is_required ? true : false}
-                    placeholder={answer.default_value}
+                    placeholder="johndoe@gmail.com..."
                     onChange={handleChange}
                     value={answer.value}
                 />
@@ -78,13 +79,30 @@ function InputField({ field, answer, setAnswers }: InputFieldProps) {
                     className={clsx(styles.input, styles.number)}
                     type="number"
                     required={field.is_required ? true : false}
+                    placeholder="42"
                     onChange={handleChange}
                     value={answer.value}
                 />
             );
             break;
         case 7: // Radio
-            inputElement = <div>radio</div>;
+            inputElement = field.field_options.map((option) => (
+                <div
+                    className={styles.optionContainer}
+                    key={option.option_value}
+                >
+                    <input
+                        className={styles.radio}
+                        type="radio"
+                        required={field.is_required ? true : false}
+                        name={option.field_id.toString()}
+                        value={option.option_value}
+                        checked={option.option_value === answer.value}
+                        onChange={handleChange}
+                    />
+                    <label className={styles.label}>{option.option_name}</label>
+                </div>
+            ));
             break;
         case 8: // Phone number
             inputElement = (
@@ -92,7 +110,7 @@ function InputField({ field, answer, setAnswers }: InputFieldProps) {
                     className={clsx(styles.input, styles.phone)}
                     type="tel"
                     required={field.is_required ? true : false}
-                    placeholder="0612345678"
+                    placeholder="0612345678..."
                     onChange={handleChange}
                     value={answer.value}
                     pattern="0[1-9][0-9]{8}"
@@ -106,7 +124,7 @@ function InputField({ field, answer, setAnswers }: InputFieldProps) {
                     type="url"
                     maxLength={255}
                     required={field.is_required ? true : false}
-                    placeholder={answer.default_value}
+                    placeholder="https://exemple.com..."
                     onChange={handleChange}
                     value={answer.value}
                 />
@@ -129,14 +147,34 @@ function InputField({ field, answer, setAnswers }: InputFieldProps) {
                     className={clsx(styles.input, styles.textarea)}
                     maxLength={255}
                     required={field.is_required ? true : false}
-                    placeholder={answer.default_value}
+                    placeholder="Texte..."
                     onChange={handleChange}
                     value={answer.value}
                 />
             );
             break;
         case 12: // Droplist
-            inputElement = <div>droplist</div>;
+            inputElement = (
+                <select
+                    className={styles.input}
+                    required={field.is_required ? true : false}
+                    value={answer.value}
+                    onChange={handleChange}
+                >
+                    <option value="" disabled>
+                        Sélectionner une option...
+                    </option>
+                    {field.field_options.map((option) => (
+                        <option
+                            className={styles.input}
+                            key={option.option_value}
+                            value={option.option_value}
+                        >
+                            {option.option_name}
+                        </option>
+                    ))}
+                </select>
+            );
             break;
         case 13: // Grade
             inputElement = <div>notes</div>;

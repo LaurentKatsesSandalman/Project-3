@@ -8,14 +8,14 @@ import Loading from "../../components/Loading/Loading";
 import type { Field } from "../../types/fields";
 import Button from "../../components/Button/Button";
 import InputField from "../../components/InputField/InputField";
-import type { Answer } from "../../types/answers";
+import type { FieldAnswer } from "../../types/answers";
 
 function AnswerForm() {
     const { form_id } = useParams();
     const [securedForm, setSecuredForm] = useState<SecuredForm | null>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
-    const [answers, setAnswers] = useState<Answer[]>([]);
+    const [answers, setAnswers] = useState<FieldAnswer[]>([]);
 
     const getSecuredForm = async (form_id: string) => {
         try {
@@ -36,6 +36,8 @@ function AnswerForm() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        // CHECK IF MULTIANSWER, if it is not, save form_id in local storage and stop the user
+        // from sending his answers if he already has this form_id stored
         // SEND THE ANSWERS
         console.log("Answers sent");
     };
@@ -46,13 +48,11 @@ function AnswerForm() {
     }, []);
 
     useEffect(() => {
-        console.log(securedForm);
         if (!securedForm) return;
         const baseAnswers = securedForm.fields.map((field) => {
             return {
                 field_id: field.field_id,
                 is_unique: field.is_unique,
-                default_value: field.default_value || "",
                 value: "",
             };
         });

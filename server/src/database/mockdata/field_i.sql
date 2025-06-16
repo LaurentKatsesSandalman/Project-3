@@ -1,13 +1,13 @@
-INSERT INTO field (field_id,field_ordering,field_name,field_description,default_value,is_required,is_unique,form_id,field_type_id) VALUES
-(1,1,"quel est ton nom ?","Ton prénom et nom de famille","John Doe",1,0,1,1),
-(2,2,"quel animal aimes-tu ?",NULL,NULL,0,0,1,2),
-(3,3,"quel est ton anniversaire?",NULL,NULL,0,0,1,3),
-(4,4,"quel est ton email ?",NULL,"johndoe@gmail.com",1,1,1,4),
-(5,5,"quand sont tes vacances ?",NULL,NULL,0,0,1,5),
-(6,6,"combien d'amis as-tu ?",NULL,NULL,0,0,1,6),
-(7,7,"bleu, blanc ou rouge ?","Choisis une couleur",NULL,1,0,1,7),
-(8,8,"quel numéro de téléphone ?",NULL,NULL,0,0,1,8),
-(9,9,"adresse de ton linkedin ?",NULL,"https://www.linkedin.com/in/johndoe",0,0,1,9),
-(10,10,"à quelle heure vas-tu manger ?",NULL,NULL,0,0,1,10),
-(11,11,"décris-nous ta maison","Dis-nous à quoi elle ressemble","Une maison comme les autres",0,0,1,11),
-(12,12,"sélectionne ton genre",NULL,NULL,0,0,1,12);
+INSERT INTO field (field_id,field_ordering,field_name,field_description,is_required,is_unique,form_id,field_type_id) VALUES
+(1,1,"quel est ton nom ?","Ton prénom et nom de famille",1,0,1,1),
+(2,2,"quel animal aimes-tu ?",NULL,0,0,1,2),
+(3,3,"quel est ton anniversaire?",NULL,0,0,1,3),
+(4,4,"quel est ton email ?",NULL,1,1,1,4),
+(5,5,"quand sont tes vacances ?",NULL,0,0,1,5),
+(6,6,"combien d'amis as-tu ?",NULL,0,0,1,6),
+(7,7,"bleu, blanc ou rouge ?","Choisis une couleur",1,0,1,7),
+(8,8,"quel numéro de téléphone ?",NULL,0,0,1,8),
+(9,9,"adresse de ton linkedin ?",NULL,0,0,1,9),
+(10,10,"à quelle heure vas-tu manger ?",NULL,0,0,1,10),
+(11,11,"décris-nous ta maison","Dis-nous à quoi elle ressemble",0,0,1,11),
+(12,12,"sélectionne ton genre",NULL,0,0,1,12);

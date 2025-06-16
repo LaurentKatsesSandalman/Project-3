@@ -1,7 +1,7 @@
 // Back => Front
 export interface FieldOption {
     field_option_id: number;
-    option_order: number;
+    option_ordering: number;
     option_name: string;
     option_value: string;
     field_id: number;
