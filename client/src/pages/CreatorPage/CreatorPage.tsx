@@ -4,9 +4,6 @@ import { useAppContext } from "../../context/AppContext";
 import Button from "../../components/Button/Button";
 import styles from "./CreatorPage.module.css";
 
-// choppe :user_id de l'url
-// fetch les formulaire pour user_id = xx
-
 function CreatorPage() {
     const [users, setUsers] = useState();
 
@@ -16,7 +13,7 @@ function CreatorPage() {
         // COPY THIS WHEN YOU WANT TO REQUEST THE API
         try {
             const response = await axios.get(
-                `http://localhost:3000/api/users`, // You could add /${form_id} to the route for example if you want to pass params to your request
+                `${import.meta.env.VITE_QUICKY_API_URL}/api/users`, // You could add /${form_id} to the route for example if you want to pass params to your request
                 // WHERE YOU WOULD WANT TO ADD THE REQUEST BODY if .post or .patch
                 // {
                 //     form: formData,
