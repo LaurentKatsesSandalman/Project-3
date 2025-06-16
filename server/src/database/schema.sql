@@ -25,7 +25,7 @@ CREATE TABLE form (
     is_deployed BOOL NOT NULL,
     is_closed BOOL NOT NULL,
     date_to_close DATE,
-    creation_date DATETIME NOT NULL,
+    creation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     is_public BOOL NOT NULL,
     multi_answer BOOL NOT NULL,
     original_version_id INT UNSIGNED,

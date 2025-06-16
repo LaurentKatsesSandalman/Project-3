@@ -1,7 +1,7 @@
 import type { RequestHandler } from "express";
-import { findAllForms } from "../models/form.model";
+import { findAllForms, insertForm } from "../models/form.model";
 import { getFullForm } from "../services/FullForm";
-import { FullForm } from "../types/form";
+import { FormPayload, FullForm } from "../types/form";
 import { formatDate } from "../utils/formatDate";
 
 // The B of BREAD - Browse (Read All) operation
@@ -123,10 +123,19 @@ export const getSecuredFullFormById: RequestHandler<
 
 // The A of BREAD - Add (Create) operation
 export const createForm: RequestHandler = async (req, res, next) => {
-    try {
+    try { 
         // Extract the form data from the request body
-        // Create the form
+        const {is_deployed, is_closed,  is_public, multi_answer, theme_id, form_name, user_id} = req.body
+
+        const optionalFields: Partial<FormPayload> = {}
+        if (typeof(req.body["date_to_close"])==="string"){optionalFields["date_to_close"]=req.body["date_to_close"]}
+        if (typeof(req.body["form_description"])==="string"){optionalFields["form_description"]=req.body["form_description"]}
+
+// Create the form
+        const newForm = await insertForm({is_deployed, is_closed, is_public, multi_answer, theme_id, form_name, user_id, ...optionalFields}) 
+        
         // Respond with HTTP 201 (Created) and the ID of the newly inserted form
+        res.status(201).json(newForm)
     } catch (err) {
         // Pass any errors to the error-handling middleware
         next(err);

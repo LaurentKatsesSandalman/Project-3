@@ -11,6 +11,20 @@ export interface Form extends RowDataPacket {
     multi_answer: boolean;
     original_version_id?: number;
     theme_id: number;
+    form_name: string;
+    form_description?: string;
+    user_id: number;
+}
+
+export interface FormPayload {
+    is_deployed: boolean;
+    is_closed: boolean;
+    date_to_close?: string;
+    is_public: boolean;
+    multi_answer: boolean;
+    theme_id: number;
+    form_name: string;
+    form_description?: string;    
     user_id: number;
 }
 
