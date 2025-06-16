@@ -3,14 +3,7 @@ import { useState } from "react";
 import type { AppContextType } from "../../context/AppContext";
 import Button from "../Button/Button";
 import styles from "./SignUp.module.css";
-
-type SignUpData = {
-    email: string;
-    password: string;
-    confirmPassword: string;
-};
-
-type ResultData = { id: number; email: string } | { error: string };
+import type { UserSignedUp, UserSignUp } from "../../types/users";
 
 interface SignUpFormProps {
     setActiveModal: AppContextType["setIsSignUpActive"];
@@ -18,7 +11,7 @@ interface SignUpFormProps {
 
 function SignUpForm({ setActiveModal }: SignUpFormProps) {
     // Rerender the fields when they are updated, will be used to send the info to the backend
-    const [signUpData, setSignUpData] = useState<SignUpData>({
+    const [signUpData, setSignUpData] = useState<UserSignUp>({
         email: "",
         password: "",
         confirmPassword: "",
@@ -26,7 +19,7 @@ function SignUpForm({ setActiveModal }: SignUpFormProps) {
 
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const [resultData, setResultData] = useState<ResultData | null>(null);
+    const [newUser, setnewUser] = useState<UserSignedUp | null>(null);
 
     // Update the value of signUpData when the user modifies one field input
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,14 +48,14 @@ function SignUpForm({ setActiveModal }: SignUpFormProps) {
         // Axio is used to make HTTP request more readable than fetch (automaticcaly parses JSON, better error handling)
         try {
             const response = await axios.post(
-                "http://localhost:3000/api/users",
+                `${import.meta.env.VITE_QUICKY_API_URL}/api/users`,
                 {
                     email: email,
                     password: password,
                 }
             );
 
-            setResultData(response.data);
+            setnewUser(response.data);
             setActiveModal(false);
         } catch (err) {
             // TO DO, backend error handling and display using status code

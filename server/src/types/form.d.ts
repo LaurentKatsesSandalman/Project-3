@@ -13,5 +13,6 @@ export interface Form extends RowDataPacket {
   user_id: number;
   name: string;
   description: string | null;
+  id: number;
 }
 

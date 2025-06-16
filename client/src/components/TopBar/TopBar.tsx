@@ -6,7 +6,8 @@ import { AvatarIcon } from "../Icons/Icons";
 import styles from "./TopBar.module.css";
 
 function TopBar() {
-    const { authToken, setAuthToken, userId, setIsSignUpActive, setIsLoginActive } = useAppContext();
+    const { authToken, setAuthToken, setIsSignUpActive, setIsLoginActive } =
+        useAppContext();
 
     return (
         <div className={styles.navbar}>
@@ -17,10 +18,15 @@ function TopBar() {
             {authToken !== null ? (
                 <div className={styles.buttonsContainer}>
                     {/* Go to the account settings of the user */}
-                    <Link to={`/settings/${userId}`} className={styles.link}>
-                        <AvatarIcon className={styles.avatarIcon}/>
+                    <Link to={`/settings`} className={styles.link}>
+                        <AvatarIcon className={styles.avatarIcon} />
                     </Link>
-                    <Button variant="primary" onClick={() => setAuthToken(null)}>Deconnexion</Button>
+                    <Button
+                        variant="primary"
+                        onClick={() => setAuthToken(null)}
+                    >
+                        Deconnexion
+                    </Button>
                 </div>
             ) : (
                 <div className={styles.buttonsContainer}>

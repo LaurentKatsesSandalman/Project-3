@@ -1,10 +1,10 @@
 import dotenv from "dotenv";
-import { NextFunction, Request, RequestHandler, Response } from "express";
+import { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
 
 dotenv.config();
 
-export const authenticateToken: RequestHandler = (req, res, next) => {
+export const authenticateToken: RequestHandler = (req: any, res, next) => {
     const authHeader = req.headers["authorization"];
     const authToken = authHeader && authHeader.split(" ")[1];
 

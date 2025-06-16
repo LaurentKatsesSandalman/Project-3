@@ -15,8 +15,11 @@ function CreatorPage() {
         // COPY THIS WHEN YOU WANT TO REQUEST THE API
         try {
             const response = await axios.get(
-                `http://localhost:3000/api/users`,
-                // WHERE YOU WOULD WANT TO ADD THE REQUEST BODY
+                `${import.meta.env.VITE_QUICKY_API_URL}/api/users`, // You could add /${form_id} to the route for example if you want to pass params to your request
+                // WHERE YOU WOULD WANT TO ADD THE REQUEST BODY if .post or .patch
+                // {
+                //     form: formData,
+                // },
                 {
                     headers: {
                         Authorization: `Bearer ${authToken}`,
@@ -26,8 +29,6 @@ function CreatorPage() {
 
             setUsers(response.data);
         } catch (err: any) {
-            // TEMP
-            console.log(err);
             // When there is an issue with the token
             if (err.reponse?.status === 401 || err.response?.status === 403) {
                 // Maybe do something to show the user he is being disconnected

@@ -1,4 +1,5 @@
 import { useAppContext } from "../../context/AppContext";
+import { useEffect } from "react";
 import Modal from "../../components/Modal/Modal";
 import SignUpForm from "../../components/SignUpForm/SignUpForm";
 import LoginForm from "../../components/LoginForm/LoginForm";
@@ -11,7 +12,16 @@ function Home() {
         setIsSignUpActive,
         isLoginActive,
         setIsLoginActive,
+        navigate,
+        authToken,
     } = useAppContext();
+
+    // If I try to go to the home page when I am already connected, get sent back to the forms page
+    useEffect(() => {
+        if (authToken) {
+            navigate(`/forms`);
+        }
+    }, [authToken]);
 
     return (
         <>
@@ -26,12 +36,6 @@ function Home() {
                     <LoginForm setActiveModal={setIsLoginActive} />
                 </Modal>
             )}
-            {/* morceau commun (background avec exemples) */}
-            {/*switch case
-			pas connecté :  rien
-			en connexion : popup connexion
-			en inscription: pop-up inscription
-			*/}
         </>
     );
 }
