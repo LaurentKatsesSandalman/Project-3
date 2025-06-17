@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
-import styles from "./CreatorPage.module.css";
 import { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
 import axios from "axios";
 import { useAppContext } from "../../context/AppContext";
+import Item from "../../components/Item/item";
 
 
 function CreatorPage() {
@@ -72,34 +72,17 @@ function CreatorPage() {
 					</Button>
 				</div>
 			</section>
-			{/* <div>User id: {user_id}</div> */}
-			{/*bouton pour creer nouveau formulaire*/}
-
-				{/* <div className={styles.formList}>
+			<section className="form_list_section">
 				{forms.map((form) => (
-					<div key={form.id} className={styles.formItem}>
-						<h2>{form.title}</h2>
-						<Button variant="secondary" onClick={() => window.location.href = `/form/${form.id}`}>
-							Gérer le formulaire
-						</Button>
-					</div>
-				))}	
-			</div>			 */}
-			{/*map la liste des formulaires
-    
-
-    // TEMP, used as an exemple
-    
-
-    return (
-        <>
-            <h1>Creator page</h1>
-            <Button variant="danger" onClick={handleClick}>
-                TEST
-            </Button>
-            {/*map la liste des formulaires
-			=> pour chacun, le petit recap avec bouton pour aller plus loin
-			*/}	
+					<Item 
+						key={form.form_id}
+						form={form}
+						onPublish={() => console.log(`Publish form with id: ${form.form_id}`)}
+					onClose={() => console.log(`Close form with id: ${form.form_id}`)}
+					// onDelete={() => console.log(`Delete form with id: ${form.form_id}`)} Poser la question à Laurent
+					/>
+			))}
+			</section>
 		</>
 	);
 }

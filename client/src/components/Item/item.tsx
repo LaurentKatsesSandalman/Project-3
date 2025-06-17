@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {useNavigate, Link} from 'react-router-dom';
 import Button from '../Button/Button';
-// import settingIcon from '../assets/icons/wheel.png';
+import settingIcon from '../assets/icons/wheel.png';
 
 export type FormItem = {
     id: string;
@@ -29,7 +29,7 @@ function Item({ form, onPublish, onClose, onDelete }: ItemProps) {
                 <div className="Item_header">
                     <h2 className="Item_title">{form.name}</h2>
                     <button className="absolute top-3 right-3 p-2" onClick={() => SetOpenMenu((o) => !o)}>
-				        {/* <img src={settingIcon} alt="Paramètres"/> */}
+				        <img src={settingIcon} alt="Paramètres"/>
                     </button>
                     {openMenu && (
                         <div className="parameters-menu">
@@ -51,8 +51,8 @@ function Item({ form, onPublish, onClose, onDelete }: ItemProps) {
                 <div className="Item_body">
                     <ul>
                         <li><p>Crée le : {new Date(form.createdAt).toLocaleDateString()} </p></li>
-                        {/* <li><p>Publié le : {new Date(form.publishedAt).toLocaleDateString()}</p></li> */}
                         <li><p>Statut : {form.isClosed ? 'Fermé' : 'Ouvert'}</p></li>
+                        {/* <li><p>Nombre de réponses : </p></li> Laurent doit valider ce statut*/}
                     </ul>
                 </div>
                 <div className="Item_footer">
