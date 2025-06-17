@@ -1,5 +1,5 @@
 import { ResultSetHeader, RowDataPacket } from "mysql2";
-import database from "./db_model.ts";
+import database from "./db_model";
 import { Form, FormPayload } from "../types/form";
 import { Field, FieldOption } from "../types/field";
 

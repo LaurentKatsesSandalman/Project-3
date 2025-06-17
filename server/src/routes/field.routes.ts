@@ -6,7 +6,7 @@ import {
     createField,
     updateThisField,
     deleteField,
-} from "./../controllers/field.controller.ts";
+} from "./../controllers/field.controller";
 
 const router = express.Router();
 

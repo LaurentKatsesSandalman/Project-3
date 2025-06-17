@@ -5,7 +5,7 @@ import {
     getThisOption,
     createOption,
     deleteOption,
-} from "../controllers/fieldoption.controller.ts";
+} from "../controllers/fieldoption.controller";
 
 const router = express.Router();
 

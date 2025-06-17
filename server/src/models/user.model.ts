@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
-import database from "./db_model.ts";
+import database from "./db_model";
 import { completeUser, User } from "../types/user";
 
 // TEMP, Remove when real route using authenticateToken is available

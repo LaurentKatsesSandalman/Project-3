@@ -1,5 +1,5 @@
 import { ResultSetHeader, RowDataPacket } from "mysql2";
-import database from "./db_model.ts";
+import database from "./db_model";
 import { Field } from "../types/field";
 
 // copied on user, which was TEMP
