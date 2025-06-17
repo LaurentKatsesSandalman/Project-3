@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import styles from "./AnswerForm.module.css";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import type { SecuredForm } from "../../types/form";
 import axios from "axios";
 import logoUrl from "./../../assets/logos/Logo-Quicky.svg";
@@ -33,6 +33,9 @@ function AnswerForm() {
             if (err.status === 403 || err.status === 404) {
                 setErrorMessage(err.response.data.error);
             }
+            setErrorMessage(
+                "Oups ! Nous n'avons pas pu vous connecter au serveur."
+            );
         } finally {
             setLoading(false);
         }
