@@ -3,11 +3,15 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import type { UserInput, User, completeUser } from "../types/user";
-import { findAllUsers, findUser, insertUser } from "../models/user.model";
+import {
+    findAllUsers,
+    findUserByEmail,
+    insertUser,
+} from "../models/user.model";
 
 dotenv.config();
 
-// TEMP, used for practice
+// TEMP, Remove when real route using authenticateToken is available
 export const getAllUsers: RequestHandler = async (req, res, next) => {
     try {
         const users: User[] = await findAllUsers();
@@ -16,6 +20,7 @@ export const getAllUsers: RequestHandler = async (req, res, next) => {
         next(err);
     }
 };
+// TEMP END
 
 // Handles user creation: inserts a new user (email and password) and returns it (id and email only)
 export const createUser: RequestHandler = async (
@@ -41,13 +46,13 @@ export const createUser: RequestHandler = async (
 // Handles user login
 export const loginUser: RequestHandler = async (
     req: Request<{}, {}, UserInput>,
-    res: Response<{ accessToken: string; id: number } | { error: string }>,
+    res: Response<{ accessToken: string; user_id: number } | { error: string }>,
     next: NextFunction
 ) => {
     const { email, password } = req.body;
     try {
         // Look for a user with the corresponding unique email
-        const user: completeUser | null = await findUser({ email });
+        const user: completeUser | null = await findUserByEmail({ email });
         if (!user) {
             res.status(404).json({
                 error: "Il n'existe pas d'utilisateur ayant cet email",
@@ -72,12 +77,12 @@ export const loginUser: RequestHandler = async (
         }
 
         // Create the access token and sends it back to the client with the user_id
-        const accessToken = jwt.sign({ id: user.user_id }, privateKey, {
+        const accessToken = jwt.sign({ user_id: user.user_id }, privateKey, {
             expiresIn: "6h",
         });
         res.status(201).json({
             accessToken: accessToken,
-            id: user.user_id,
+            user_id: user.user_id,
         });
     } catch (err) {
         next(err);

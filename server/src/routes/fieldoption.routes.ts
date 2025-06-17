@@ -1,11 +1,11 @@
 import express from "express";
 
 import {
-    getAllOptions,
-    getThisOption,
-    createOption,
-    deleteOption,
-} from "../controllers/fieldoption.controller.ts";
+  getAllOptions,
+  getThisOption,
+  createOption,
+  deleteOption,
+} from "../controllers/fieldoption.controller";
 
 const router = express.Router();
 

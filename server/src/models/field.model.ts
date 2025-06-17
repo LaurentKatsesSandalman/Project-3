@@ -141,10 +141,10 @@ export async function deleteFieldById(id: number) {
   return result;
 }
 
-export async function insertForm({name, description, user_id}: {name:string, description?:string |null, user_id:number}): 
+export async function insertForm({name, description, userId}: {name:string, description?:string |null, userId:number}): 
 Promise<Form> {
-  const fields = ["name", "description", "user_id"];
-  const values = [name, description, user_id];
+  const fields = ["name", "description", "userId"];
+  const values = [name, description, userId];
 
   const connectingElement = values.map(() => "?").join(",");
   const sqlQuery = `

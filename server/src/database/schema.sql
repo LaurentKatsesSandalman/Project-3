@@ -33,13 +33,9 @@ CREATE TABLE form (
     theme_id INT UNSIGNED NOT NULL,
     FOREIGN KEY (theme_id) REFERENCES theme (theme_id),
     user_id INT UNSIGNED NOT NULL,
-<<<<<<< HEAD
     FOREIGN KEY (user_id) REFERENCES user (user_id),
     form_name VARCHAR(100) NOT NULL,
     form_description VARCHAR(255)
-=======
-    FOREIGN KEY (user_id) REFERENCES user (user_id)
->>>>>>> origin/US17_login_user
 );
 
 CREATE TABLE field_type (

@@ -1,0 +1,86 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.form-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form-title, .form-description {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--color-text-dark);
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.form-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.form-layout {
+  display: flex;
+  gap: 20px;
+}
+
+.form-editor {
+  flex: 1;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.form-field {
+  margin-bottom: 20px;
+}
+
+.form-field input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid var(--color-text-dark);
+  border-radius: 4px;
+}
+
+.form-right-panel {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+}
+
+.form-fields-container {
+  background-color: var(--color-card-background);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: var(--shadow-outer);
+}
+
+.form-fields-container h3 {
+  margin-top: 0;
+}
+
+.form-fields-container button, .form-save-button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: var(--color-text-placeholder);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.form-fields-container button:hover, .form-save-button:hover {
+  background-color: var(--shadow-inner);
+}
+
+.form-save-button {
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+}

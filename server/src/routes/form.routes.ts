@@ -6,14 +6,14 @@ import {
     createForm,
     deleteForm,
 } from "./../controllers/form.controller.ts";
+import { authenticateToken } from "../middlewares/authenticateToken.ts";
 
 const router = express.Router();
 
-
-router.get("/:user_id/", getAllForms);
-router.get("/:user_id/:id", getThisForm);
-router.post("/:user_id/", createForm);
-router.delete("/:user_id/id", deleteForm);
+router.get("/", authenticateToken, getAllForms);
+router.get("/:id", authenticateToken, getThisForm);
+router.post("/", authenticateToken, createForm);
+router.delete("/id", authenticateToken, deleteForm);
 
 //put
 //patch

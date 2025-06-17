@@ -1,16 +1,19 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import {
+    useLocation,
+    useNavigate,
+    type NavigateFunction,
+} from "react-router-dom";
 
 // Add Typing
 export interface AppContextType {
     authToken: string | null;
     setAuthToken: React.Dispatch<React.SetStateAction<string | null>>;
-    userId: number | null;
-    setUserId: React.Dispatch<React.SetStateAction<number | null>>;
     isSignUpActive: boolean;
     setIsSignUpActive: React.Dispatch<React.SetStateAction<boolean>>;
     isLoginActive: boolean;
     setIsLoginActive: React.Dispatch<React.SetStateAction<boolean>>;
+    navigate: NavigateFunction;
 }
 
 interface AppProviderProps {
@@ -24,12 +27,11 @@ export function AppProvider({ children }: AppProviderProps) {
     const [authToken, setAuthToken] = useState<string | null>(
         localStorage.getItem("authToken") || null
     );
-    const [userId, setUserId] = useState<number | null>(null);
     const [isSignUpActive, setIsSignUpActive] = useState<boolean>(false);
     const [isLoginActive, setIsLoginActive] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const location = useLocation();
-    const navigate = useNavigate();
 
     //Get the authToken from the user's local storage if it exists
     useEffect(() => {
@@ -49,12 +51,10 @@ export function AppProvider({ children }: AppProviderProps) {
             if (isExpired) {
                 setAuthToken(null);
             } else {
-                setUserId(payload.id);
                 localStorage.setItem("authToken", authToken);
             }
         } else {
             localStorage.removeItem("authToken");
-            setUserId(null);
             navigate("/");
         }
     }, [authToken]);
@@ -76,12 +76,11 @@ export function AppProvider({ children }: AppProviderProps) {
             value={{
                 authToken,
                 setAuthToken,
-                userId,
-                setUserId,
                 isSignUpActive,
                 setIsSignUpActive,
                 isLoginActive,
                 setIsLoginActive,
+                navigate,
             }}
         >
             {children}
