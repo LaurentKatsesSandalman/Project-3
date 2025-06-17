@@ -1,5 +1,5 @@
 import { ResultSetHeader, RowDataPacket } from "mysql2";
-import database from "./db_model.ts";
+import database from "./db_model";
 import { FieldOption } from "../types/field";
 
 // copied on user, which was TEMP
@@ -26,7 +26,7 @@ export async function insertOption({
     name,
     value,
     field_id,
-}): Promise<FieldOption> {
+}: FieldOption): Promise<FieldOption> {
     // connerie !! le field Id est dans les params !!!!!!!!
     const fields = ["ordering", "name", "value", "field_id"];
     const values = [ordering, name, value, field_id];

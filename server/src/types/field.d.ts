@@ -6,7 +6,7 @@ export interface Field extends RowDataPacket {
     field_id: number;
     ordering: number;
     name: string;
-    description?: string;
+    description?: string | null;
     default_value?: string;
     is_required: boolean;
     is_unique: boolean;
