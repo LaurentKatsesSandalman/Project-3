@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import styles from "./AnswerForm.module.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import type { SecuredForm } from "../../types/form";
 import axios from "axios";
 import logoUrl from "./../../assets/logos/Logo-Quicky.svg";
@@ -9,8 +9,10 @@ import type { Field } from "../../types/fields";
 import Button from "../../components/Button/Button";
 import InputField from "../../components/InputField/InputField";
 import type { FieldAnswer } from "../../types/answers";
+import { useAppContext } from "../../context/AppContext";
 
 function AnswerForm() {
+    const { authToken, setAuthToken } = useAppContext();
     const { form_id } = useParams();
     const [securedForm, setSecuredForm] = useState<SecuredForm | null>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -36,8 +38,30 @@ function AnswerForm() {
         }
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (securedForm?.multi_answer) {
+            try {
+                await axios.post(
+                    `${import.meta.env.VITE_QUICKY_API_URL}/api/answers/${
+                        securedForm?.form_id
+                    }`,
+                    {
+                        answeredForm: answers,
+                    },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${authToken}`,
+                        },
+                    }
+                );
+            } catch (err: any) {
+                // When there is an issue with the token
+                if (err.status === 403 || err.status === 401) {
+                    setAuthToken(null);
+                }
+            }
+        }
         // CHECK IF MULTIANSWER, if it is not, save form_id in local storage and stop the user
         // from sending his answers if he already has this form_id stored
         // SEND THE ANSWERS
