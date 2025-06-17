@@ -5,8 +5,8 @@ import userRouter from "./routes/user.routes";
 import formRouter from "./routes/form.routes";
 import answerRouter from "./routes/answer.routes";
 import fieldRoute from "./routes/field.routes";
-import optionRoute from "./routes/option.routes";
-import { logErrors } from "./middlewares/errorHandler";
+import optionRoute from "./routes/fieldoption.routes";
+import { logErrors } from "./middlewares/logErrors";
 
 const app = express();
 

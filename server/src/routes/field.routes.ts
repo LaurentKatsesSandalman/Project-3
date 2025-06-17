@@ -6,7 +6,7 @@ import {
     createField,
     updateThisField,
     deleteField,
-} from "./../controllers/field.controller.ts"; 
+} from "../controllers/field.controller.js"; 
 import { createForm, deleteForm, getAllForms, getThisForm } from "../controllers/form.controller.js";
 
 const router = express.Router();

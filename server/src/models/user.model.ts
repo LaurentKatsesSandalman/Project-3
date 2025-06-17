@@ -13,7 +13,7 @@ export async function findAllUsers(): Promise<User[]> {
 // TEMP END
 
 // Build SQL query to insert new user
-export async function insertUser({ email, password }): Promise<User> {
+export async function insertUser({ email, password } : { email: string, password: string }): Promise<User> {
     // Use bcrypt lib to hash the password for more security, 10 is the number of salt rounds to make it even more secured
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -43,7 +43,7 @@ export async function insertUser({ email, password }): Promise<User> {
     return rows[0];
 }
 
-export async function findUserByEmail({ email }): Promise<completeUser | null> {
+export async function findUserByEmail({ email } : { email: string }): Promise<completeUser | null> {
     const [rows] = await database.query<completeUser[] & RowDataPacket[]>(
         `SELECT user.user_id, user.password FROM user WHERE email = ?`,
         [email]
