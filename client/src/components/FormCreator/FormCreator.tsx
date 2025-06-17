@@ -19,7 +19,7 @@ const FormCreator = () => {
   const [formTitle, setFormTitle] = useState('Nouveau Formulaire');
   const [formDescription, setFormDescription] = useState('');
   const [formFields, setFormFields] = useState([]);
-  const [isPanelVisible, setIsPanelVisible] = useState(true);
+  const [isFieldsPanelVisible, setIsFieldsPanelVisible] = useState(true);
 
   const { register, handleSubmit } = useForm();
 
@@ -54,8 +54,8 @@ const FormCreator = () => {
     setFormFields(formFields.map(field => field.id === id ? { ...field, description } : field));
   };
 
-  const togglePanelVisibility = () => {
-    setIsPanelVisible(!isPanelVisible);
+  const toggleFieldsPanelVisibility = () => {
+    setIsFieldsPanelVisible(!isFieldsPanelVisible);
   };
 
   return (
@@ -93,35 +93,30 @@ const FormCreator = () => {
             ))}
           </div>
 
-          {isPanelVisible && (
-            <div className={styles['form-right-panel']}>
-              <button type="submit" className={styles['form-save-button']}>Sauvegarder formulaire</button>
-              <div className={styles['form-fields-container']}>
-                <h3>Choisir un champ</h3>
-                {fieldTypes.map((fieldType) => (
-                  <button key={fieldType.type} type="button" onClick={() => addField(fieldType.type)}>
-                    {fieldType.name}
-                  </button>
-                ))}
-              </div>
+          <div className={styles['form-right-panel']}>
+            <button type="submit" className={styles['form-save-button']}>
+              Sauvegarder formulaire
+            </button>
+            <div style={{ position: 'relative' }}>
+              {isFieldsPanelVisible && (
+                <div className={styles['form-fields-container']}>
+                  <h3>Choisir un champ</h3>
+                  {fieldTypes.map((fieldType) => (
+                    <button key={fieldType.type} type="button" onClick={() => addField(fieldType.type)}>
+                      {fieldType.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={toggleFieldsPanelVisibility}
+                className={styles['toggle-panel-button']}
+              >
+                {isFieldsPanelVisible ? '➖' : '➕'}
+              </button>
             </div>
-          )}
-
-          <button
-            type="button"
-            onClick={togglePanelVisibility}
-            style={{
-              position: 'fixed',
-              right: isPanelVisible ? '270px' : '10px',
-              top: '10px',
-              background: 'none',
-              border: 'none',
-              fontSize: '20px',
-              cursor: 'pointer'
-            }}
-          >
-            {isPanelVisible ? '➕' : '➕'}
-          </button>
+          </div>
         </div>
       </form>
     </div>

@@ -96,3 +96,15 @@ body {
   border-radius: 8px;
   box-shadow:var(--shadow-outer);
 }
+
+.toggle-panel-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
