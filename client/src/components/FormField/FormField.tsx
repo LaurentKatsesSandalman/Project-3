@@ -10,12 +10,21 @@ interface FieldProps{
 const FormField = ({ field, setForm }:FieldProps) => {
   
     const removeField = () => {
+      const orderValue=field.field_ordering
     setForm((prev) => ({
       ...prev,
       fields: prev.fields.filter(
         (fieldlambda) => fieldlambda.field_ordering !== field.field_ordering
       ),
     }));
+    setForm((prev)=> ({
+      ...prev,
+      fields: prev.fields.map((fieldlambda) =>
+        fieldlambda.field_ordering > orderValue
+          ? { ...fieldlambda, field_ordering: fieldlambda.field_ordering -1 }
+          : fieldlambda
+      ),
+    }))
   };
 
   const updateFieldName = (field_name: string) => {
@@ -74,10 +83,16 @@ const FormField = ({ field, setForm }:FieldProps) => {
     }))
   };
 
+  const removeOption = ()=> {}
+
   return (
-    <div style={{ marginBottom: '20px' }}>
+    <div className={styles['form-field']}>
+      <div style={{ marginBottom: '10px', fontWeight: 'bold' }}>
+        {fieldTypeName}
+      </div>
       <input
         type="text"
+        placeholder="Question"
         value={field.field_name}
         onChange={(e) => updateFieldName(e.target.value)}
         style={{ marginBottom: '5px', width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}
@@ -99,6 +114,13 @@ const FormField = ({ field, setForm }:FieldProps) => {
                 onChange={(e) => updateOption(option.option_ordering, e.target.value)}
                 style={{ marginLeft: '5px', padding: '5px', border: '1px solid #ccc', borderRadius: '4px' }}
               />
+              <button
+                type="button"
+                onClick={() => removeOption(field.id, index)}Add commentMore actions
+                style={{ marginLeft: '10px' }}
+              >
+                Supprimer
+              </button>
             </div>
           ))}
           <button
@@ -109,7 +131,7 @@ const FormField = ({ field, setForm }:FieldProps) => {
           </button>
         </div>
       )}
-      <button type="button" onClick={removeField}>Supprimer</button>
+      <button type="button" onClick={removeField}>Supprimer cette question</button>
     </div>
   );
 };

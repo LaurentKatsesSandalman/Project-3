@@ -64,11 +64,17 @@ const emptyForm = {
 const FormCreator = () => {
   const { authToken, setAuthToken } = useAppContext();
   const [form, setForm] = useState<FormPayload>(emptyForm);
+  const [isPanelVisible, setIsPanelVisible] = useState(true);
+
+   const togglePanelVisibility = () => {
+    setIsPanelVisible(!isPanelVisible);
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // <-- empêche le reset du formulaire
     try {
-      const formData = await axios.post(
+      //const formData =
+      await axios.post(
         `${import.meta.env.VITE_QUICKY_API_URL}/api/forms`,
         {
           form: form,
@@ -86,12 +92,8 @@ const FormCreator = () => {
       }
     }
   };
-  //  const onSubmit = (data) => {
-  //     // fetch?
-  //     console.log(data);
-  //   };
 
-  const handleChange = (string: 'title'|'description', eventTargetValue: string){
+  const handleChange = (string: 'title'|'description', eventTargetValue: string)=>{
     if (string ==='title'){setForm((prev)=>({...prev, form_name:eventTargetValue }))}
     if (string ==='description'){setForm((prev)=>({...prev, form_description:eventTargetValue }))}
   }
@@ -184,7 +186,7 @@ const FormCreator = () => {
               />
             ))}
           </div>
-
+{isPanelVisible && (
           <div className={styles["form-right-panel"]}>
             <button type="submit" className={styles["form-save-button"]}>
               Sauvegarder formulaire
@@ -201,7 +203,22 @@ const FormCreator = () => {
                 </button>
               ))}
             </div>
-          </div>
+          </div>)}
+          <button
+            type="button"
+            onClick={togglePanelVisibility}
+            style={{
+              position: 'fixed',
+              right: isPanelVisible ? '270px' : '10px',
+              top: '10px',
+              background: 'none',
+              border: 'none',
+              fontSize: '20px',
+              cursor: 'pointer'
+            }}
+          >
+            {isPanelVisible ? '➕' : '➕'}
+          </button>
         </div>
       </form>
     </div>
