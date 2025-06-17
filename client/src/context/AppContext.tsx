@@ -55,7 +55,7 @@ export function AppProvider({ children }: AppProviderProps) {
             }
         } else {
             localStorage.removeItem("authToken");
-            navigate("/");
+            // navigate("/");
         }
     }, [authToken]);
 

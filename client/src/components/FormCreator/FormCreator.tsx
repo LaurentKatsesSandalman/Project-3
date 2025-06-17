@@ -19,6 +19,7 @@ const FormCreator = () => {
   const [formTitle, setFormTitle] = useState('Nouveau Formulaire');
   const [formDescription, setFormDescription] = useState('');
   const [formFields, setFormFields] = useState([]);
+  const [isPanelVisible, setIsPanelVisible] = useState(true);
 
   const { register, handleSubmit } = useForm();
 
@@ -27,10 +28,13 @@ const FormCreator = () => {
   };
 
   const addField = (type) => {
+    const fieldType = fieldTypes.find((field) => field.type === type);
+    const fieldTypeName = fieldType ? fieldType.name : 'Nouveau Champ';
+
     const newField = {
       id: Date.now().toString(),
       type,
-      name: `Nouvelle question`,
+      name: fieldTypeName,
       description: '',
       required: false,
       options: type === 'checkbox' || type === 'radio' ? ['Option 1'] : undefined,
@@ -48,6 +52,10 @@ const FormCreator = () => {
 
   const updateFieldDescription = (id, description) => {
     setFormFields(formFields.map(field => field.id === id ? { ...field, description } : field));
+  };
+
+  const togglePanelVisibility = () => {
+    setIsPanelVisible(!isPanelVisible);
   };
 
   return (
@@ -85,17 +93,35 @@ const FormCreator = () => {
             ))}
           </div>
 
-          <div className={styles['form-right-panel']}>
-            <button type="submit" className={styles['form-save-button']}>Sauvegarder formulaire</button>
-            <div className={styles['form-fields-container']}>
-              <h3>Choisir un champ</h3>
-              {fieldTypes.map((fieldType) => (
-                <button key={fieldType.type} type="button" onClick={() => addField(fieldType.type)}>
-                  {fieldType.name}
-                </button>
-              ))}
+          {isPanelVisible && (
+            <div className={styles['form-right-panel']}>
+              <button type="submit" className={styles['form-save-button']}>Sauvegarder formulaire</button>
+              <div className={styles['form-fields-container']}>
+                <h3>Choisir un champ</h3>
+                {fieldTypes.map((fieldType) => (
+                  <button key={fieldType.type} type="button" onClick={() => addField(fieldType.type)}>
+                    {fieldType.name}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+
+          <button
+            type="button"
+            onClick={togglePanelVisibility}
+            style={{
+              position: 'fixed',
+              right: isPanelVisible ? '270px' : '10px',
+              top: '10px',
+              background: 'none',
+              border: 'none',
+              fontSize: '20px',
+              cursor: 'pointer'
+            }}
+          >
+            {isPanelVisible ? '➕' : '➕'}
+          </button>
         </div>
       </form>
     </div>
