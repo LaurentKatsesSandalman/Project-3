@@ -38,7 +38,7 @@ const fieldTypes:FieldType[] = [
   { type: "date", name: "Date", field_type_id: 3 },
   { type: "time", name: "Heure", field_type_id: 10 },
   { type: "url", name: "URL", field_type_id: 9 },
-  //Pas utilisé pour l'instant car pas pertinent: { type: "month", name: "Liste des mois", field_type_id:5},
+{ type: "month", name: "Liste des mois", field_type_id:5},
   { type: "number", name: "Nombre", field_type_id: 6 },
   { type: "droplist", name: "Liste déroulante", field_type_id: 12 },
   //A voir:  { type: "notes", name: "Notation", field_type_id:13}
@@ -73,10 +73,29 @@ const FormCreator = () => {
   const { form_id } = useParams<{ form_id: string }>();
 
   useEffect (() =>{
-    fetch(`${import.meta.env.VITE_QUICKY_API_URL}/api/forms/${form_id}`)
-    .then((response) => response.json())
-    .then((data) => setForm(data))
+    const getForm = async()=>{
+     try {
+            const response = await axios.get(
+                `${import.meta.env.VITE_QUICKY_API_URL}/api/forms/1`, // 1 hardcoded, waiting for proper implem
+                //`${import.meta.env.VITE_QUICKY_API_URL}/api/forms/${form_id}`
+                {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`,
+                    },
+                }
+            );
+
+            setForm(response.data);
+        } catch (err: any) {
+            // When there is an issue with the token
+            if (err.status === 403 || err.status === 401) {
+                setAuthToken(null);
+            }
+        }}
+        getForm()
+
   },[])
+
 
 
    const togglePanelVisibility = () => {
@@ -128,6 +147,7 @@ const FormCreator = () => {
   };
 
  function findTypeName(field: FieldPayload): string {
+
   const index = fieldTypes.findIndex((fieldType) => fieldType.field_type_id === field.field_type_id)
   if (index === -1) {
     throw new Error('Field type not found');

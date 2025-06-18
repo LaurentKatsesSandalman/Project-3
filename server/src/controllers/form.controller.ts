@@ -32,6 +32,7 @@ export const getFullFormById: RequestHandler<
     { id: string },
     FullForm | { error: string }
 > = async (req: any, res, next) => {
+
     try {
         const parsedId = Number.parseInt(req.params.id);
         if (isNaN(parsedId)) {
@@ -40,6 +41,7 @@ export const getFullFormById: RequestHandler<
         }
         // We use a service to format the data we want
         const fullForm = await getFullForm(parsedId);
+
         if (!fullForm) {
             res.status(404).json({
                 error: "Il n'existe pas de formulaire ayant cet id",
