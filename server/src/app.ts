@@ -1,12 +1,12 @@
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
-import { logErrors } from "./middlewares/logErrors.ts";
-import userRouter from "./routes/user.routes.ts";
-import formRouter from "./routes/form.routes.ts";
-import answerRouter from "./routes/answer.routes.ts";
-import fieldRoute from "./routes/field.routes.ts";
-import optionRoute from "./routes/fieldoption.routes.ts";
+import { logErrors } from "./middlewares/logErrors";
+import userRouter from "./routes/user.routes";
+import formRouter from "./routes/form.routes";
+import answerRouter from "./routes/answer.routes";
+import fieldRoute from "./routes/field.routes";
+import optionRoute from "./routes/fieldoption.routes";
 
 const app = express();
 
