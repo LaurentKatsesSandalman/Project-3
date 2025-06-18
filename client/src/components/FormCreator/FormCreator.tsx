@@ -1,10 +1,11 @@
 import axios from "axios";
-import { useState } from "react";
-//import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 import FormField from "../FormField/FormField";
 import styles from "./FormCreator.module.css";
 import type { FormPayload } from "../../types/form";
 import { useAppContext } from "../../context/AppContext";
+import type { FieldPayload } from "../../types/fields";
+import { useParams } from "react-router-dom";
 
 type TypeOfField =
   | "text"
@@ -43,6 +44,7 @@ const fieldTypes:FieldType[] = [
   //A voir:  { type: "notes", name: "Notation", field_type_id:13}
 ];
 
+// à remplacer par un fetch, même pour new form, car le form n'est pas vraiment new (a déjà été créé vide)
 const emptyForm = {
   is_deployed: false,
   is_closed: false,
@@ -61,10 +63,21 @@ const emptyForm = {
   fields: [],
 };
 
+
+
 const FormCreator = () => {
   const { authToken, setAuthToken } = useAppContext();
   const [form, setForm] = useState<FormPayload>(emptyForm);
   const [isPanelVisible, setIsPanelVisible] = useState(true);
+
+  const { form_id } = useParams<{ form_id: string }>();
+
+  useEffect (() =>{
+    fetch(`${import.meta.env.VITE_QUICKY_API_URL}/api/forms/${form_id}`)
+    .then((response) => response.json())
+    .then((data) => setForm(data))
+  },[])
+
 
    const togglePanelVisibility = () => {
     setIsPanelVisible(!isPanelVisible);
@@ -113,6 +126,15 @@ const FormCreator = () => {
     };
     setForm((prev) => ({ ...prev, fields: [...prev.fields, newField] }));
   };
+
+ function findTypeName(field: FieldPayload): string {
+  const index = fieldTypes.findIndex((fieldType) => fieldType.field_type_id === field.field_type_id)
+  if (index === -1) {
+    throw new Error('Field type not found');
+  }
+
+  return fieldTypes[index].name;
+  }
 
   // const removeField = (field_ordering: number) => {
   //   setForm((prev) => ({
@@ -181,10 +203,23 @@ const FormCreator = () => {
             {form.fields.map((field) => (
               <FormField
                 key={field.field_ordering}
-                field={field} 
+                field={field}
+                fieldTypeName={findTypeName(field)}
                 setForm={setForm}
               />
             ))}
+            <button
+            type="button"
+            onClick={togglePanelVisibility}
+            style={{
+              background: 'none',
+              border: 'none',
+              fontSize: '20px',
+              cursor: 'pointer',
+            }}
+          >
+            ➕
+          </button>
           </div>
 {isPanelVisible && (
           <div className={styles["form-right-panel"]}>
@@ -192,7 +227,18 @@ const FormCreator = () => {
               Sauvegarder formulaire
             </button>
             <div className={styles["form-fields-container"]}>
-              <h3>Choisir un champ</h3>
+              <h3>Choisir un champ</h3><button
+            type="button"
+            onClick={togglePanelVisibility}
+            style={{
+              background: 'none',
+              border: 'none',
+              fontSize: '20px',
+              cursor: 'pointer',
+            }}
+          >
+            ➕
+          </button>
               {fieldTypes.map((fieldType) => (
                 <button
                   key={fieldType.field_type_id}
@@ -202,23 +248,9 @@ const FormCreator = () => {
                   {fieldType.name}
                 </button>
               ))}
+              
             </div>
           </div>)}
-          <button
-            type="button"
-            onClick={togglePanelVisibility}
-            style={{
-              position: 'fixed',
-              right: isPanelVisible ? '270px' : '10px',
-              top: '10px',
-              background: 'none',
-              border: 'none',
-              fontSize: '20px',
-              cursor: 'pointer'
-            }}
-          >
-            {isPanelVisible ? '➕' : '➕'}
-          </button>
         </div>
       </form>
     </div>
