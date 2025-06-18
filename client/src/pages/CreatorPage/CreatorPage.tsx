@@ -45,7 +45,7 @@ function CreatorPage() {
 		const user_id = params.user_id;
 		const fetchForms = async () => {
 			try {
-				const response = await fetch(`/api/creator/${user_id}/forms`);
+				const response = await fetch(`/api/:forms`);
 				if (!response.ok) {
 					throw new Error('Failed to fetch forms');
 				}
