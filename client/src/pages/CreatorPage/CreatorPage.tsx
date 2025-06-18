@@ -9,7 +9,7 @@ import Item from "../../components/Item/item";
 function CreatorPage() {
 	const params = useParams();
     const [users, setUsers] = useState<any[]>();
-	const [forms, setForms] = useState([]);
+	const [forms, setForms] = useState<Form[] | []>([]);
 	const { authToken, setAuthToken } = useAppContext();
     const handleClick = async () => {
         // COPY THIS WHEN YOU WANT TO REQUEST THE API
@@ -42,10 +42,14 @@ function CreatorPage() {
     }, [users]);
     // END OF TEMP
 	useEffect(() => {
-		const user_id = params.user_id;
 		const fetchForms = async () => {
 			try {
-				const response = await fetch(`/api/creator/${user_id}/forms`);
+				const response = await fetch(`/api/forms`, {
+      				method: 'GET',
+					headers: {
+						'Authorization': `Bearer ${authToken}`,
+					},
+					});
 				if (!response.ok) {
 					throw new Error('Failed to fetch forms');
 				}
@@ -57,7 +61,7 @@ function CreatorPage() {
 		};
 
 		fetchForms();
-	}, [params.user_id]);
+	}, []);
 	return (
 		<>
 			<section className="Header_section">
@@ -67,7 +71,7 @@ function CreatorPage() {
 			</section>
 			<section className="button_section">
 				<div className="contener_button">
-					<Button variant="create_form" onClick={() => window.location.href = `/create-form/${params.user_id}`}>
+					<Button variant="create_form" onClick={() => window.location.href = `/create-form/:form_id`}>
 						Créer un nouveau formulaire
 					</Button>
 				</div>
@@ -79,7 +83,7 @@ function CreatorPage() {
 						form={form}
 						onPublish={() => console.log(`Publish form with id: ${form.form_id}`)}
 					onClose={() => console.log(`Close form with id: ${form.form_id}`)}
-					// onDelete={() => console.log(`Delete form with id: ${form.form_id}`)} Poser la question à Laurent
+					onDelete={() => console.log(`Delete form with id: ${form.form_id}`)}
 					/>
 			))}
 			</section>
