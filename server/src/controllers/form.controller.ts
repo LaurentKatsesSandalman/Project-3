@@ -7,7 +7,7 @@ import { insertForm } from "../models/field.model";
 export const getAllForms: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         //Find user ID
-        const userId = Number.parseInt(req.params.user_id);
+        const userId = Number.parseInt(req.user.user_id);
         if (isNaN(userId)) {
             res.status(400).json({ error: 'L\'id du user est censée être numérique' });
             return;

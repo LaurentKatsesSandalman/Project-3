@@ -5,8 +5,8 @@ import {
     getThisForm,
     createForm,
     deleteForm,
-} from "./../controllers/form.controller.ts";
-import { authenticateToken } from "../middlewares/authenticateToken.ts";
+} from "./../controllers/form.controller";
+import { authenticateToken } from "../middlewares/authenticateToken";
 
 const router = express.Router();
 

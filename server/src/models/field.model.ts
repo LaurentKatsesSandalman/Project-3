@@ -140,7 +140,7 @@ export async function deleteFieldById(id: number) {
   }
   return result;
 }
-
+//this session will be move in form.model by Laurent in is branch
 export async function insertForm({name, description, userId}: {name:string, description?:string |null, userId:number}): 
 Promise<Form> {
   const fields = ["name", "description", "userId"];
