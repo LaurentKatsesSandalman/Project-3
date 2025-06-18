@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
 import axios from "axios";
 import { useAppContext } from "../../context/AppContext";
+import { Form } from "../../types/form";
 // import Item from "../../components/Item/item";
 
 
@@ -44,17 +45,13 @@ function CreatorPage() {
 	useEffect(() => {
 		const fetchForms = async () => {
 			try {
-				const authToken = localStorage.getItem('authToken');
-				if (!authToken){
-					throw new Error('No authentication token found');
-				}
 				const response = await fetch(`/api/forms`, {
       				method: 'GET',
 					headers: {
 						'Authorization': `Bearer ${authToken}`,
-						
+						'Content-Type': 'application/json',
 					},
-					Token : authToken,
+					body: JSON.stringify({})
 					});
 				if (!response.ok) {
 					throw new Error('Failed to fetch forms');
@@ -63,6 +60,7 @@ function CreatorPage() {
 				setForms(data);
 			} catch (error) {
 				console.error('Error fetching forms:', error);
+				alert("Impossible de créer un formulaire pour le moment, veuillez réessayer plus tard.");
 			}
 		};
 
@@ -77,7 +75,7 @@ function CreatorPage() {
 			</section>
 			<section className="button_section">
 				<div className="contener_button">
-					<Button variant="create_form" onClick={() => window.location.href = `/create-form/:form_id`}>
+					<Button variant="create_form" onClick={handleClick}>
 						Créer un nouveau formulaire
 					</Button>
 				</div>
