@@ -35,6 +35,7 @@ function AnswerForm() {
         } catch (err: any) {
             if (err.status === 403 || err.status === 404) {
                 setErrorMessage(err.response.data.error);
+                return;
             }
             setErrorMessage(
                 "Oups ! Nous n'avons pas pu vous connecter au serveur."
@@ -75,11 +76,14 @@ function AnswerForm() {
             // When there is an issue with the token
             if (err.response?.status === 401 || err.response?.status === 403) {
                 setAuthToken(null);
+                return;
             }
             if (err.response?.status === 409) {
                 setNotUniqueFieldAnswerId(err.response.data.notUniqueFieldId);
                 window.scrollTo({ top: 0, behavior: "smooth" });
+                return;
             }
+            console.error("Erreur lors du fetch:", err);
         }
     };
 
@@ -178,7 +182,7 @@ function AnswerForm() {
                 ) : // If the form answers were added successfully
                 success ? (
                     <div className={styles.container}>
-                        <h1 className={styles.successTitle}>
+                        <h1 className={styles.successMessage}>
                             Votre formulaire à bien été envoyé
                         </h1>
                     </div>

@@ -21,7 +21,8 @@
     border-radius: var(--radius);
 }
 
-.errorMessage {
+.errorMessage,
+.successMessage {
     font-family: var(--font-alt);
     text-align: center;
     padding: 40px 2%;
@@ -50,13 +51,6 @@
 
 .logoName {
     color: hsl(169, 75%, 28%);
-}
-
-.successTitle {
-    font-family: var(--font-alt);
-    font-size: var(--font-big-title-size);
-    font-weight: 600;
-    text-align: center;
 }
 
 .formContainer {
