@@ -23,11 +23,6 @@ app.use(express.json());
 
 
 
-
-// DO NOT FORGET THIS LINE. Makes req.body available for JSON requests
-app.use(express.json());
-
-
 app.use("/api/users", userRouter);
 app.use("/api/forms", formRouter);
 app.use("/api/answers/", answerRouter);

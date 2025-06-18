@@ -53,7 +53,7 @@ export const createForm: RequestHandler = async (req: Request, res: Response, ne
         // Create the form
         const newForm = await insertForm({name, description, userId});
         // Respond with HTTP 201 (Created) and the ID of the newly inserted form
-        res.status(201).json({ id: newForm.id });
+        res.status(201).json({ id: newForm.form_id });
     } catch (err) {
         // Pass any errors to the error-handling middleware
         next(err);

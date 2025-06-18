@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
 import axios from "axios";
 import { useAppContext } from "../../context/AppContext";
-import Item from "../../components/Item/item";
+// import Item from "../../components/Item/item";
 
 
 function CreatorPage() {
@@ -44,11 +44,17 @@ function CreatorPage() {
 	useEffect(() => {
 		const fetchForms = async () => {
 			try {
+				const authToken = localStorage.getItem('authToken');
+				if (!authToken){
+					throw new Error('No authentication token found');
+				}
 				const response = await fetch(`/api/forms`, {
       				method: 'GET',
 					headers: {
 						'Authorization': `Bearer ${authToken}`,
+						
 					},
+					Token : authToken,
 					});
 				if (!response.ok) {
 					throw new Error('Failed to fetch forms');
@@ -76,7 +82,7 @@ function CreatorPage() {
 					</Button>
 				</div>
 			</section>
-			<section className="form_list_section">
+			{/* <section className="form_list_section">
 				{forms.map((form) => (
 					<Item 
 						key={form.form_id}
@@ -86,7 +92,7 @@ function CreatorPage() {
 					onDelete={() => console.log(`Delete form with id: ${form.form_id}`)}
 					/>
 			))}
-			</section>
+			</section> */}
 		</>
 	);
 }
