@@ -1,15 +1,16 @@
 import { useParams } from "react-router-dom";
-import styles from "./CreatorPage.module.css";
 import { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
 import axios from "axios";
 import { useAppContext } from "../../context/AppContext";
+import { Form } from "../../types/form";
+// import Item from "../../components/Item/item";
 
 
 function CreatorPage() {
 	const params = useParams();
     const [users, setUsers] = useState<any[]>();
-	const [forms, setForms] = useState([]);
+	const [forms, setForms] = useState<Form[] | []>([]);
 	const { authToken, setAuthToken } = useAppContext();
     const handleClick = async () => {
         // COPY THIS WHEN YOU WANT TO REQUEST THE API
@@ -42,10 +43,16 @@ function CreatorPage() {
     }, [users]);
     // END OF TEMP
 	useEffect(() => {
-		const user_id = params.user_id;
 		const fetchForms = async () => {
 			try {
-				const response = await fetch(`/api/:forms`);
+				const response = await fetch(`/api/forms`, {
+      				method: 'GET',
+					headers: {
+						'Authorization': `Bearer ${authToken}`,
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({})
+					});
 				if (!response.ok) {
 					throw new Error('Failed to fetch forms');
 				}
@@ -53,11 +60,12 @@ function CreatorPage() {
 				setForms(data);
 			} catch (error) {
 				console.error('Error fetching forms:', error);
+				alert("Impossible de créer un formulaire pour le moment, veuillez réessayer plus tard.");
 			}
 		};
 
 		fetchForms();
-	}, [params.user_id]);
+	}, []);
 	return (
 		<>
 			<section className="Header_section">
@@ -67,39 +75,22 @@ function CreatorPage() {
 			</section>
 			<section className="button_section">
 				<div className="contener_button">
-					<Button variant="create_form" onClick={() => window.location.href = `/create-form/${params.user_id}`}>
+					<Button variant="create_form" onClick={handleClick}>
 						Créer un nouveau formulaire
 					</Button>
 				</div>
 			</section>
-			{/* <div>User id: {user_id}</div> */}
-			{/*bouton pour creer nouveau formulaire*/}
-
-				{/* <div className={styles.formList}>
+			{/* <section className="form_list_section">
 				{forms.map((form) => (
-					<div key={form.id} className={styles.formItem}>
-						<h2>{form.title}</h2>
-						<Button variant="secondary" onClick={() => window.location.href = `/form/${form.id}`}>
-							Gérer le formulaire
-						</Button>
-					</div>
-				))}	
-			</div>			 */}
-			{/*map la liste des formulaires
-    
-
-    // TEMP, used as an exemple
-    
-
-    return (
-        <>
-            <h1>Creator page</h1>
-            <Button variant="danger" onClick={handleClick}>
-                TEST
-            </Button>
-            {/*map la liste des formulaires
-			=> pour chacun, le petit recap avec bouton pour aller plus loin
-			*/}	
+					<Item 
+						key={form.form_id}
+						form={form}
+						onPublish={() => console.log(`Publish form with id: ${form.form_id}`)}
+					onClose={() => console.log(`Close form with id: ${form.form_id}`)}
+					onDelete={() => console.log(`Delete form with id: ${form.form_id}`)}
+					/>
+			))}
+			</section> */}
 		</>
 	);
 }

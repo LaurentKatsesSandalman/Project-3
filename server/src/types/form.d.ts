@@ -1,18 +1,17 @@
 import { RowDataPacket } from "mysql2";
 
-export interface Form extends RowDataPacket {
-  form_id: number;
-  is_deployed: boolean;
-  is_closed: boolean;
-  date_to_close?: string;
-  creation_date: string;
-  is_public: boolean;
-  multi_answer: boolean;
-  original_version_id?: number;
-  theme_id: number;
-  user_id: number;
-  name: string;
-  description: string | null;
-  id: number;
+export interface Form {
+    form_id: number;
+    is_deployed: boolean;
+    is_closed: boolean;
+    date_to_close?: string | null;
+    creation_date: string | null;
+    is_public: boolean;
+    multi_answer: boolean;
+    original_version_id?: number;
+    theme_id: number;
+    user_id: number;
+    form_name: string;
+    id: number;
 }
 

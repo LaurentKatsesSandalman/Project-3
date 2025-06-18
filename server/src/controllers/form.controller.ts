@@ -7,7 +7,7 @@ import { insertForm } from "../models/field.model";
 export const getAllForms: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         //Find user ID
-        const userId = Number.parseInt(req.params.user_id);
+        const userId = Number.parseInt(req.user.user_id);
         if (isNaN(userId)) {
             res.status(400).json({ error: 'L\'id du user est censée être numérique' });
             return;
@@ -53,7 +53,7 @@ export const createForm: RequestHandler = async (req: Request, res: Response, ne
         // Create the form
         const newForm = await insertForm({name, description, userId});
         // Respond with HTTP 201 (Created) and the ID of the newly inserted form
-        res.status(201).json({ id: newForm.id });
+        res.status(201).json({ id: newForm.form_id });
     } catch (err) {
         // Pass any errors to the error-handling middleware
         next(err);
