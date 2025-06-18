@@ -25,6 +25,7 @@ export const authenticateToken: RequestHandler = (req: any, res, next) => {
     try {
         const payload = jwt.verify(authToken, privateKey);
         req.user = payload;
+        console.log(payload);
         next();
     } catch (err) {
         res.status(403).json({ error: "Token invalid" });

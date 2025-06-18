@@ -19,7 +19,7 @@ export const getAllForms: RequestHandler = async (req, res, next) => {
         // Fetch all items
         const forms = await findAllForms(userId);
         // Respond with the items in JSON format
-        res.json(forms);
+        res.status(200).json(forms);
     } catch (err) {
         // Pass any errors to the error-handling middleware
         next(err);

@@ -68,7 +68,7 @@ CREATE TABLE field_option (
 
 CREATE TABLE form_answer (
     form_answer_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    answer_date DATETIME NOT NULL,
+    answer_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     form_id INT UNSIGNED NOT NULL,
     FOREIGN KEY (form_id) REFERENCES form (form_id)
 );

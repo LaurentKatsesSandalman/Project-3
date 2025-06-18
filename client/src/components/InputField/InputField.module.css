@@ -5,6 +5,7 @@
     padding: 22px max(8px, min(2%, 22px));
     box-shadow: var(--shadow-outer);
     border-radius: var(--radius);
+    box-sizing: border-box;
 }
 
 .name {
@@ -91,4 +92,13 @@
 
 .textarea {
     height: 6rem;
+}
+
+.name .notUnique {
+    color: var(--color-danger);
+}
+
+.fieldContainer.notUnique {
+    border: 2px solid var(--color-danger);
+    box-shadow: var(--shadow-outer-danger);
 }

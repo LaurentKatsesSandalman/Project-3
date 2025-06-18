@@ -7,9 +7,19 @@ interface InputFieldProps {
     field: Field;
     answer?: FieldAnswer;
     setAnswers: React.Dispatch<React.SetStateAction<FieldAnswer[]>>;
+    isNotUnique: boolean;
+    setNotUniqueFieldAnswerId: React.Dispatch<
+        React.SetStateAction<number | undefined>
+    >;
 }
 
-function InputField({ field, answer, setAnswers }: InputFieldProps) {
+function InputField({
+    field,
+    answer,
+    setAnswers,
+    isNotUnique,
+    setNotUniqueFieldAnswerId,
+}: InputFieldProps) {
     if (!answer) return null;
     let inputElement: React.ReactNode;
 
@@ -26,6 +36,9 @@ function InputField({ field, answer, setAnswers }: InputFieldProps) {
                     : ans
             )
         );
+        if (isNotUnique) {
+            setNotUniqueFieldAnswerId(undefined);
+        }
     };
 
     // Look for the field_type to display the correct input
@@ -184,9 +197,17 @@ function InputField({ field, answer, setAnswers }: InputFieldProps) {
     }
 
     return (
-        <div className={styles.fieldContainer}>
+        <div
+            className={clsx(
+                styles.fieldContainer,
+                isNotUnique && styles.notUnique
+            )}
+        >
             <h2 className={styles.name}>
-                {field.field_name} {field.is_required && <span>*</span>}
+                {field.field_name} {field.is_required && <span>*</span>}{" "}
+                {isNotUnique && (
+                    <span className={styles.notUnique}>Doit être unique</span>
+                )}
             </h2>
             {field.field_description && (
                 <p className={styles.description}>{field.field_description}</p>
