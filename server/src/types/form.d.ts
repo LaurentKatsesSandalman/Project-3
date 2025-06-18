@@ -12,7 +12,7 @@ export interface Form extends RowDataPacket {
     original_version_id?: number;
     theme_id: number;
     form_name: string;
-    form_description?: string;
+    form_description: string;
     user_id: number;
 }
 
@@ -24,7 +24,7 @@ export interface FormPayload {
     multi_answer: boolean;
     theme_id: number;
     form_name: string;
-    form_description?: string;    
+    form_description: string;    
     user_id: number;
 }
 

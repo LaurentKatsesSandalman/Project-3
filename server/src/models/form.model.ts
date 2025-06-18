@@ -12,18 +12,6 @@ export async function findAllForms(user_id: number): Promise<Form[]> {
   return rows;
 }
 
-// export async function findFormById(id: number): Promise<Form[] | undefined> {
-//     const [rows] = await database.query<Form[] & RowDataPacket[]>(
-//         `SELECT *, field.field_id AS field_id FROM form
-//     JOIN field ON field.form_id=form.form_id
-//     LEFT JOIN field_option ON field_option.field_id = field.field_id
-//     WHERE form.form_id=?`,
-//         //ORDER BY field.field_id`,
-//         [id]
-//     );
-//     return rows;
-// }
-
 export async function findFormById(id: number): Promise<Form | undefined> {
   const [rows] = await database.query<Form[] & RowDataPacket[]>(
     `SELECT * FROM form
@@ -41,6 +29,7 @@ export async function insertForm(form:FormPayload):Promise<Form | undefined> {
     "multi_answer",
     "theme_id",
     "form_name",
+    "form_description",
     "user_id",
   ];
   const values = [
@@ -50,6 +39,7 @@ export async function insertForm(form:FormPayload):Promise<Form | undefined> {
   form.multi_answer,
   form.theme_id,
   form.form_name,
+  form.form_description,
   form.user_id,
   ];
 
@@ -58,17 +48,12 @@ if (form.date_to_close){
     values.push(form.date_to_close)
 }
 
-if (form.form_description){
-    fields.push("description")
-    values.push(form.form_description)
-}
-
   const connectingElement = values.map(() => "?").join(",");
   const sqlQuery = `
-        INSERT INTO field (${fields.join(",")})
+        INSERT INTO form (${fields.join(",")})
         VALUES (${connectingElement})
     `;
-  // Insert a new field into field table
+  // Insert a new form into form table
   const [result] = await database.query<ResultSetHeader>(sqlQuery, values);
   const [rows] = await database.query<Form[] & RowDataPacket[]>(
     `SELECT * FROM form WHERE form_id = ? `,
