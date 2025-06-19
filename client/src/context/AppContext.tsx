@@ -43,6 +43,7 @@ export function AppProvider({ children }: AppProviderProps) {
     //When the authToken is updated, if he is outdated remove it from localStorage, useState and bring the user back to home.
     //Otherwise save the token to localStorage
     useEffect(() => {
+        const isPublicRoute = location.pathname.startsWith("/answer/");
         if (authToken) {
             // atob is a built-in JavaScript function that decodes a Base64-encoded string.
             const payload = JSON.parse(atob(authToken.split(".")[1]));
@@ -55,7 +56,9 @@ export function AppProvider({ children }: AppProviderProps) {
             }
         } else {
             localStorage.removeItem("authToken");
-            navigate("/");
+            if (!isPublicRoute) {
+                navigate("/");
+            }
         }
     }, [authToken]);
 
