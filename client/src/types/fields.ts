@@ -17,7 +17,7 @@ export interface Field {
     field_id: number;
     field_ordering: number;
     field_name: string;
-    field_description: string | null;
+    field_description: string;
     default_value: string | null;
     is_required: boolean;
     is_unique: boolean;
