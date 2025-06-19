@@ -48,7 +48,7 @@ function CreatorPage() {
 		const fetchForms = async () => {
 			try {
 				const response = await fetch(`/api/forms`, {
-      				method: 'GET',
+      				method: 'POST',
 					headers: {
 						'Authorization': `Bearer ${authToken}`,
 						'Content-Type': 'application/json',

@@ -9,8 +9,8 @@ function App() {
         <AppProvider>
             <TopBar />
             <main>
-                {/* <Outlet /> */}
-                <CreatorPage />
+                <Outlet />
+                {/* <CreatorPage /> */}
             </main>
         </AppProvider>
     );
