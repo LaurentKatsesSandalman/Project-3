@@ -12,5 +12,5 @@ export interface Form  {
     theme_id: number;
     user_id: number;
     form_name: string;
-    id: number;
+    form_description: string;
 }

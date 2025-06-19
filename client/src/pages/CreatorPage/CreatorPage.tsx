@@ -1,9 +1,10 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
 import axios from "axios";
 import { useAppContext } from "../../context/AppContext";
-import { Form } from "../../types/form";
+import type { Form } from "../../types/form";
+import "../CreatorPage/CreatorPage.module.css";
 // import Item from "../../components/Item/item";
 
 
@@ -12,31 +13,32 @@ function CreatorPage() {
     const [users, setUsers] = useState<any[]>();
 	const [forms, setForms] = useState<Form[] | []>([]);
 	const { authToken, setAuthToken } = useAppContext();
+	const navigate = useNavigate()
     const handleClick = async () => {
-        // COPY THIS WHEN YOU WANT TO REQUEST THE API
-        try {
-            const response = await axios.get(
-                `${import.meta.env.VITE_QUICKY_API_URL}/api/users`, // You could add /${form_id} to the route for example if you want to pass params to your request
-                // WHERE YOU WOULD WANT TO ADD THE REQUEST BODY if .post or .patch
-                // {
-                //     form: formData,
-                // },
-                {
-                    headers: {
-                        Authorization: `Bearer ${authToken}`,
-                    },
-                }
-            );
+		const emptyForm = {
+			is_deployed: false,
+			is_closed: false,
+			multi_answer: false,
+			form_name: "Nouveau formulaire",
+			form_description: "",
+			theme_id: 1,
+		};
+		try {
+			const response = await axios.post(`${import.meta.env.VITE_QUICKY_API_URL}/api/forms`, emptyForm, {
+				headers: {
+					Authorization: `Bearer ${authToken}`,
+				}
+			});
+			navigate(`/form/${response.data.form_id}`); //redirection vers la page du formulaire crée
+		}
+		catch (err: any) {
+			console.error("Une erreur s'est produite lors de la création du formulaire :", err);
 
-            setUsers(response.data);
-        } catch (err: any) {
-            // When there is an issue with the token
-            if (err.reponse?.status === 401 || err.response?.status === 403) {
-                // Maybe do something to show the user he is being disconnected
-                setAuthToken(null);
-            }
-        }
-    };
+			if (err.response?.status === 401 || err.response?.status === 403) {
+				setAuthToken(null);
+			}
+		}
+	};
 
     useEffect(() => {
         console.log(users);
@@ -95,4 +97,4 @@ function CreatorPage() {
 	);
 }
 
-export default CreatorPage;
+export default CreatorPage; 
