@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import FormField from '../FormField/FormField';
+import FormPreview from '../FormPreview/FormPreview';
 import styles from './FormCreator.module.css';
 
 const fieldTypes = [
@@ -20,6 +21,7 @@ const FormCreator = () => {
   const [formDescription, setFormDescription] = useState('');
   const [formFields, setFormFields] = useState([]);
   const [isFieldsPanelVisible, setIsFieldsPanelVisible] = useState(true);
+  const [viewMode, setViewMode] = useState('edit'); // 'edit', 'preview', or 'result'
 
   const { register, handleSubmit } = useForm();
 
@@ -60,65 +62,101 @@ const FormCreator = () => {
 
   return (
     <div className={styles['form-container']}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles['form-header']}>
-          <input
-            type="text"
-            placeholder="Titre du formulaire"
-            value={formTitle}
-            onChange={(e) => setFormTitle(e.target.value)}
-            className={styles['form-title']}
-          />
-          <input
-            type="text"
-            placeholder="Description du formulaire"
-            value={formDescription}
-            onChange={(e) => setFormDescription(e.target.value)}
-            className={styles['form-description']}
-          />
-        </div>
+      <div className={styles['mode-toggle-buttons']}>
+        <button
+          type="button"
+          onClick={() => setViewMode('edit')}
+          className={`${styles['mode-toggle-button']} ${viewMode === 'edit' ? styles['active'] : ''}`}
+        >
+          Éditer
+        </button>
+        <button
+          type="button"
+          onClick={() => setViewMode('preview')}
+          className={`${styles['mode-toggle-button']} ${viewMode === 'preview' ? styles['active'] : ''}`}
+        >
+          Aperçu
+        </button>
+        <button
+          type="button"
+          onClick={() => setViewMode('result')}
+          className={`${styles['mode-toggle-button']} ${viewMode === 'result' ? styles['active'] : ''}`}
+        >
+          Résultat
+        </button>
+      </div>
 
-        <div className={styles['form-layout']}>
-          <div className={styles['form-editor']}>
-            {formFields.map((field) => (
-              <FormField
-                key={field.id}
-                field={field}
-                register={register}
-                removeField={removeField}
-                updateFieldLabel={updateFieldLabel}
-                updateFieldDescription={updateFieldDescription}
-                setFormFields={setFormFields}
-              />
-            ))}
+      {viewMode === 'preview' ? (
+        <FormPreview
+          formTitle={formTitle}
+          formDescription={formDescription}
+          formFields={formFields}
+        />
+      ) : viewMode === 'result' ? (
+        <div className={styles['result-page']}>
+          {/* Page blanche pour les résultats pour le moments a changer pour les vrai result*/}
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className={styles['form-header']}>
+            <input
+              type="text"
+              placeholder="Titre du formulaire"
+              value={formTitle}
+              onChange={(e) => setFormTitle(e.target.value)}
+              className={styles['form-title']}
+            />
+            <input
+              type="text"
+              placeholder="Description du formulaire"
+              value={formDescription}
+              onChange={(e) => setFormDescription(e.target.value)}
+              className={styles['form-description']}
+            />
           </div>
 
-          <div className={styles['form-right-panel']}>
-            <button type="submit" className={styles['form-save-button']}>
-              Sauvegarder formulaire
-            </button>
-            <div style={{ position: 'relative' }}>
-              {isFieldsPanelVisible && (
-                <div className={styles['form-fields-container']}>
-                  <h3>Choisir un champ</h3>
-                  {fieldTypes.map((fieldType) => (
-                    <button key={fieldType.type} type="button" onClick={() => addField(fieldType.type)}>
-                      {fieldType.name}
-                    </button>
-                  ))}
-                </div>
-              )}
-              <button
-                type="button"
-                onClick={toggleFieldsPanelVisibility}
-                className={styles['toggle-panel-button']}
-              >
-                {isFieldsPanelVisible ? '➖' : '➕'}
+          <div className={styles['form-layout']}>
+            <div className={styles['form-editor']}>
+              {formFields.map((field) => (
+                <FormField
+                  key={field.id}
+                  field={field}
+                  register={register}
+                  removeField={removeField}
+                  updateFieldLabel={updateFieldLabel}
+                  updateFieldDescription={updateFieldDescription}
+                  setFormFields={setFormFields}
+                />
+              ))}
+            </div>
+
+            <div className={styles['form-right-panel']}>
+              <button type="submit" className={styles['form-save-button']}>
+                Sauvegarder formulaire
               </button>
+              <div style={{ position: 'relative' }}>
+                {isFieldsPanelVisible && (
+                  <div className={styles['form-fields-container']}>
+                    <h3>Choisir un champ</h3>
+                    {fieldTypes.map((fieldType) => (
+                      <button key={fieldType.type} type="button" onClick={() => addField(fieldType.type)}>
+                        {fieldType.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
+                <button
+                  type="button"
+                  onClick={toggleFieldsPanelVisibility}
+                  className={styles['toggle-panel-button']}
+                >
+                  {isFieldsPanelVisible ? '➖' : '➕'}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      )}
     </div>
   );
 };
