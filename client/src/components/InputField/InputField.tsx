@@ -158,7 +158,7 @@ function InputField({
             inputElement = (
                 <textarea
                     className={clsx(styles.input, styles.textarea)}
-                    maxLength={255}
+                    maxLength={2000}
                     required={field.is_required ? true : false}
                     placeholder="Texte..."
                     onChange={handleChange}

@@ -75,7 +75,7 @@ CREATE TABLE form_answer (
 
 CREATE TABLE field_answer (
     field_answer_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    value VARCHAR(255) NOT NULL,
+    value VARCHAR(2000) NOT NULL,
     form_answer_id INT UNSIGNED NOT NULL,
     FOREIGN KEY (form_answer_id) REFERENCES form_answer (form_answer_id),
     field_id INT UNSIGNED NOT NULL,
