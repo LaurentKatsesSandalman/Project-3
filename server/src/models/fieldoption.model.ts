@@ -27,7 +27,6 @@ export async function insertOption({
     value,
     field_id,
 }: FieldOption): Promise<FieldOption> {
-    // connerie !! le field Id est dans les params !!!!!!!!
     const fields = ["ordering", "name", "value", "field_id"];
     const values = [ordering, name, value, field_id];
 
@@ -50,8 +49,7 @@ export async function insertOption({
     return rows[0];
 }
 
-// NO OPTION TO UPDATE, USER CAN ONLY CREATE OR DELETE
-// export async function updateOption
+// NO OPTION TO EDIT, USER CAN ONLY BRAD
 
 export async function deleteOptionById(id: number) {
     const [result] = await database.query<ResultSetHeader>(

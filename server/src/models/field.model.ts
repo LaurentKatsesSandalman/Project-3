@@ -1,6 +1,6 @@
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import database from "./db_model";
-import { Field } from "../types/field";
+import { Field, FieldPayload } from "../types/field";
 
 // copied on user, which was TEMP
 export async function findAllFields(form_id: number): Promise<Field[]> {
@@ -23,12 +23,12 @@ export async function insertField({
     ordering,
     name,
     description = null,
-    defaultValue = null,
-    isRequired = 0,
-    isUnique = 0,
-    formId,
-    fieldTypeId,
-}: Field): Promise<Field> {
+    default_value = null,
+    is_required = false,
+    is_unique = false,
+    form_id,
+    field_type_id,
+}: FieldPayload): Promise<Field> {
     const fields = [
         "ordering",
         "name",
@@ -43,11 +43,11 @@ export async function insertField({
         ordering,
         name,
         description,
-        defaultValue,
-        isRequired,
-        isUnique,
-        formId,
-        fieldTypeId,
+        default_value,
+        is_required,
+        is_unique,
+        form_id,
+        field_type_id,
     ];
 
     const connectingElement = values.map(() => "?").join(",");

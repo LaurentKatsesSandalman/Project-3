@@ -6,7 +6,7 @@ import {
     updateField,
     deleteFieldById,
 } from "../models/field.model";
-import { Field } from "../types/field";
+import { Field, FieldPayload } from "../types/field";
 
 // The B of BREAD - Browse (Read All) operation
 
@@ -57,11 +57,11 @@ export const createField: RequestHandler = async (req, res, next) => {
             ordering,
             name,
             description,
-            defaultValue,
-            isRequired,
-            isUnique,
-            formId,
-            fieldTypeId,
+            default_value,
+            is_required,
+            is_unique,
+            form_id,
+            field_type_id,
         } = req.body;
 
         // Create the field
@@ -69,12 +69,12 @@ export const createField: RequestHandler = async (req, res, next) => {
             ordering,
             name,
             description,
-            defaultValue,
-            isRequired,
-            isUnique,
-            formId,
-            fieldTypeId,
-        } as any);
+            default_value,
+            is_required,
+            is_unique,
+            form_id,
+            field_type_id,
+        } as FieldPayload);
         res.status(201).json(newField);
     } catch (err) {
         // Pass any errors to the error-handling middleware
@@ -86,27 +86,27 @@ export const createField: RequestHandler = async (req, res, next) => {
 export const updateThisField: RequestHandler = async (req, res, next) => {
     try {
         const {
-            fieldId,
+            field_id,
             ordering,
             name,
             description,
-            defaultValue,
-            isRequired,
-            isUnique,
-            formId,
-            fieldTypeId,
+            default_value,
+            is_required,
+            is_unique,
+            form_id,
+            field_type_id,
         } = req.body;
         const updatedField = await updateField({
-            fieldId,
+            field_id,
             ordering,
             name,
             description,
-            defaultValue,
-            isRequired,
-            isUnique,
-            formId,
-            fieldTypeId,
-        } as any);
+            default_value,
+            is_required,
+            is_unique,
+            form_id,
+            field_type_id,
+        } as Field);
         res.status(200).json(updatedField);
     } catch (err) {
         next(err);
