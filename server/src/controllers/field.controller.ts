@@ -1,5 +1,12 @@
 import type { RequestHandler } from "express";
-import { findAllFields, findFieldById, insertField, updateField, deleteFieldById} from "../models/field.model";
+import {
+    findAllFields,
+    findFieldById,
+    insertField,
+    updateField,
+    deleteFieldById,
+} from "../models/field.model";
+import { Field, FieldPayload } from "../types/field";
 
 // The B of BREAD - Browse (Read All) operation
 
@@ -8,26 +15,29 @@ export const getAllFields: RequestHandler = async (req, res, next) => {
         //Find form ID
         const formId = Number.parseInt(req.params.form_id);
         if (isNaN(formId)) {
-            res.status(400).json({ error: 'L\'id du formulaire est censée être numérique' });
+            res.status(400).json({
+                error: "L'id du formulaire est censée être numérique",
+            });
             return;
         }
         // Fetch all items
-        const fields= await findAllFields(formId);
+        const fields = await findAllFields(formId);
         // Respond with the items in JSON format
         res.json(fields);
     } catch (err) {
         // Pass any errors to the error-handling middleware
         next(err);
     }
-
 };
 
 // The R of BREAD - Read operation
 export const getThisField: RequestHandler = async (req, res, next) => {
     try {
-        const fieldId = Number.parseInt(req.params.id)
+        const fieldId = Number.parseInt(req.params.id);
         if (isNaN(fieldId)) {
-            res.status(400).json({ error: 'L\'id du champ est censée être numérique' });
+            res.status(400).json({
+                error: "L'id du champ est censée être numérique",
+            });
             return;
         }
         // Fetch a specific field based on the provided ID: field
@@ -43,11 +53,29 @@ export const getThisField: RequestHandler = async (req, res, next) => {
 // The A of BREAD - Add (Create) operation
 export const createField: RequestHandler = async (req, res, next) => {
     try {
-        const { ordering, name, description, defaultValue, isRequired, isUnique, formId, fieldTypeId } = req.body
-        
+        const {
+            ordering,
+            name,
+            description,
+            default_value,
+            is_required,
+            is_unique,
+            form_id,
+            field_type_id,
+        } = req.body;
+
         // Create the field
-        const newField = await insertField({ ordering, name, description, defaultValue, isRequired, isUnique, formId, fieldTypeId })
-        res.status(201).json(newField)
+        const newField = await insertField({
+            ordering,
+            name,
+            description,
+            default_value,
+            is_required,
+            is_unique,
+            form_id,
+            field_type_id,
+        } as FieldPayload);
+        res.status(201).json(newField);
     } catch (err) {
         // Pass any errors to the error-handling middleware
         next(err);
@@ -57,9 +85,29 @@ export const createField: RequestHandler = async (req, res, next) => {
 //The U of BREAUD (lol) - Update operation
 export const updateThisField: RequestHandler = async (req, res, next) => {
     try {
-        const { fieldId, ordering, name, description, defaultValue, isRequired, isUnique, formId, fieldTypeId } = req.body
-        const updatedField = await updateField({ fieldId, ordering, name, description, defaultValue, isRequired, isUnique, formId, fieldTypeId })
-        res.status(200).json(updatedField)
+        const {
+            field_id,
+            ordering,
+            name,
+            description,
+            default_value,
+            is_required,
+            is_unique,
+            form_id,
+            field_type_id,
+        } = req.body;
+        const updatedField = await updateField({
+            field_id,
+            ordering,
+            name,
+            description,
+            default_value,
+            is_required,
+            is_unique,
+            form_id,
+            field_type_id,
+        } as Field);
+        res.status(200).json(updatedField);
     } catch (err) {
         next(err);
     }
@@ -67,18 +115,18 @@ export const updateThisField: RequestHandler = async (req, res, next) => {
 
 // The D of BREAD - Delete operation
 export const deleteField: RequestHandler = async (req, res, next) => {
-    try {        
-        const fieldId = Number.parseInt(req.params.id)
+    try {
+        const fieldId = Number.parseInt(req.params.id);
         if (isNaN(fieldId)) {
-            res.status(400).json({ error: 'L\'id du champ est censée être numérique' });
+            res.status(400).json({
+                error: "L'id du champ est censée être numérique",
+            });
             return;
         }
-    const result = await deleteFieldById(fieldId)
-    res.status(200).json(result)
+        const result = await deleteFieldById(fieldId);
+        res.status(200).json(result);
     } catch (err) {
         // Pass any errors to the error-handling middleware
         next(err);
     }
 };
-
-

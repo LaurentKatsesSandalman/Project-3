@@ -68,14 +68,14 @@ CREATE TABLE field_option (
 
 CREATE TABLE form_answer (
     form_answer_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    answer_date DATETIME NOT NULL,
+    answer_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     form_id INT UNSIGNED NOT NULL,
     FOREIGN KEY (form_id) REFERENCES form (form_id) ON DELETE CASCADE
 );
 
 CREATE TABLE field_answer (
     field_answer_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    value VARCHAR(255) NOT NULL,
+    value VARCHAR(2000) NOT NULL,
     form_answer_id INT UNSIGNED NOT NULL,
     FOREIGN KEY (form_answer_id) REFERENCES form_answer (form_answer_id) ON DELETE CASCADE,
     field_id INT UNSIGNED NOT NULL,

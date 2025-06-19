@@ -28,7 +28,7 @@ function CreatorPage() {
             setUsers(response.data);
         } catch (err: any) {
             // When there is an issue with the token
-            if (err.status === 403 || err.status === 401) {
+            if (err.response?.status === 401 || err.response?.status === 403) {
                 setAuthToken(null);
             }
         }

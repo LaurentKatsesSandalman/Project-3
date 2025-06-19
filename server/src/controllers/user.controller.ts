@@ -32,7 +32,7 @@ export const createUser: RequestHandler = async (
     try {
         const newUser: User = await insertUser({ email, password });
         res.status(201).json(newUser);
-    } catch (err) {
+    } catch (err: any) {
         if (err.code === "ER_DUP_ENTRY") {
             res.status(409).json({
                 error: `Adresse mail déjà utilisée`,

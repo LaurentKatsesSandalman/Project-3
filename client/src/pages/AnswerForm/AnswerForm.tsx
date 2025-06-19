@@ -8,34 +8,106 @@ import Loading from "../../components/Loading/Loading";
 import type { Field } from "../../types/fields";
 import Button from "../../components/Button/Button";
 import InputField from "../../components/InputField/InputField";
+import type { FieldAnswer } from "../../types/answers";
+import { useAppContext } from "../../context/AppContext";
 
 function AnswerForm() {
+    const { setAuthToken } = useAppContext();
     const { form_id } = useParams();
     const [securedForm, setSecuredForm] = useState<SecuredForm | null>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const [answers, setAnswers] = useState<FieldAnswer[]>([]);
+    const [notUniqueFieldAnswerId, setNotUniqueFieldAnswerId] =
+        useState<number>();
+    const [success, setSuccess] = useState<boolean>(false);
 
     const getSecuredForm = async (form_id: string) => {
         try {
             setLoading(true);
             const response = await axios.get(
-                `http://localhost:3000/api/forms/answerable/${form_id}`
+                `${
+                    import.meta.env.VITE_QUICKY_API_URL
+                }/api/forms/answerable/${form_id}`
             );
 
             setSecuredForm(response.data);
         } catch (err: any) {
             if (err.status === 403 || err.status === 404) {
                 setErrorMessage(err.response.data.error);
+                return;
             }
+            setErrorMessage(
+                "Oups ! Nous n'avons pas pu vous connecter au serveur."
+            );
         } finally {
             setLoading(false);
         }
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        if (!securedForm) return;
         e.preventDefault();
-        // SEND THE ANSWERS
-        console.log("Answers sent");
+
+        if (
+            // If a user can answer only once
+            !securedForm.multi_answer &&
+            // Check if form_id already exist in localStorage
+            isAlreadyAnswered(securedForm.form_id)
+        ) {
+            alert("Vous avez déjà répondu à ce formulaire.");
+            return;
+        }
+        try {
+            // Post the answers to the backend
+            await axios.post(
+                `${import.meta.env.VITE_QUICKY_API_URL}/api/answers/${
+                    securedForm.form_id
+                }`,
+                {
+                    form_id: securedForm.form_id,
+                    form_answers: answers,
+                }
+            );
+            // Add the form_id to the localStorage if everything went fine
+            addAnsweredForm(securedForm.form_id);
+            setSuccess(true);
+        } catch (err: any) {
+            // When there is an issue with the token
+            if (err.response?.status === 401 || err.response?.status === 403) {
+                setAuthToken(null);
+                return;
+            }
+            if (err.response?.status === 409) {
+                setNotUniqueFieldAnswerId(err.response.data.notUniqueFieldId);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                return;
+            }
+            console.error("Erreur lors du fetch:", err);
+        }
+    };
+
+    const isAlreadyAnswered = (id: number) => {
+        // Get the existing forms already answered
+        const answeredForms = JSON.parse(
+            localStorage.getItem("answeredForms") ?? "[]"
+        );
+
+        // Return true if the form_id is in the localStorage
+        return answeredForms.includes(id);
+    };
+
+    const addAnsweredForm = (id: number) => {
+        const answeredForms = JSON.parse(
+            localStorage.getItem("answeredForms") ?? "[]"
+        );
+
+        // Add this new answered form Id if it doesnt already exist
+        if (!answeredForms.includes(id)) {
+            answeredForms.push(id);
+        }
+
+        localStorage.setItem("answeredForms", JSON.stringify(answeredForms));
     };
 
     useEffect(() => {
@@ -44,7 +116,15 @@ function AnswerForm() {
     }, []);
 
     useEffect(() => {
-        console.log(securedForm);
+        if (!securedForm) return;
+        const baseAnswers = securedForm.fields.map((field) => {
+            return {
+                field_id: field.field_id,
+                is_unique: field.is_unique,
+                value: "",
+            };
+        });
+        setAnswers(baseAnswers);
     }, [securedForm]);
 
     return (
@@ -79,9 +159,6 @@ function AnswerForm() {
                     "--color-text-dark": `hsl(${
                         securedForm?.theme.color_value ?? 169
                     }, 75%, 4%)`,
-                    "--color-text-accent": `hsl(${
-                        securedForm?.theme.color_value ?? 169
-                    }, 75%, 28%)`,
                     "--color-text-placeholder": `hsl(${
                         securedForm?.theme.color_value ?? 169
                     }, 75%, 60%)`,
@@ -102,8 +179,14 @@ function AnswerForm() {
                             </h1>
                         </div>
                     </>
+                ) : // If the form answers were added successfully
+                success ? (
+                    <div className={styles.container}>
+                        <h1 className={styles.successMessage}>
+                            Votre formulaire à bien été envoyé
+                        </h1>
+                    </div>
                 ) : (
-                    // Show the form
                     <div className={styles.formContainer}>
                         <div className={styles.formInfos}>
                             <h1 className={styles.formTitle}>
@@ -124,10 +207,29 @@ function AnswerForm() {
                                     <InputField
                                         key={field.field_id}
                                         field={field}
+                                        answer={answers.find((answer) => {
+                                            return (
+                                                answer.field_id ===
+                                                field.field_id
+                                            );
+                                        })}
+                                        setAnswers={setAnswers}
+                                        // When form answers are sent and a field is not unique this becomes true
+                                        isNotUnique={
+                                            field.field_id ===
+                                            notUniqueFieldAnswerId
+                                        }
+                                        setNotUniqueFieldAnswerId={
+                                            setNotUniqueFieldAnswerId
+                                        }
                                     />
                                 );
                             })}
-                            <Button variant="primary" type="submit">
+                            <Button
+                                variant="primary"
+                                type="submit"
+                                className={styles.submitBtn}
+                            >
                                 Envoyer
                             </Button>
                         </form>
