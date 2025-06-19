@@ -13,7 +13,7 @@ CREATE TABLE user (
 
 CREATE TABLE theme (
     theme_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    color_value CHAR(8) NOT NULL,
+    color_value INT NOT NULL,
     font1_value VARCHAR(30) NOT NULL,
     font2_value VARCHAR(30) NOT NULL,
     font1_size TINYINT(255),
@@ -68,14 +68,14 @@ CREATE TABLE field_option (
 
 CREATE TABLE form_answer (
     form_answer_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    answer_date DATETIME NOT NULL,
+    answer_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     form_id INT UNSIGNED NOT NULL,
     FOREIGN KEY (form_id) REFERENCES form (form_id)
 );
 
 CREATE TABLE field_answer (
     field_answer_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    value VARCHAR(255) NOT NULL,
+    value VARCHAR(2000) NOT NULL,
     form_answer_id INT UNSIGNED NOT NULL,
     FOREIGN KEY (form_answer_id) REFERENCES form_answer (form_answer_id),
     field_id INT UNSIGNED NOT NULL,

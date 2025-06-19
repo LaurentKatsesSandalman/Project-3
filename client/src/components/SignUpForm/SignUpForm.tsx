@@ -57,10 +57,14 @@ function SignUpForm({ setActiveModal }: SignUpFormProps) {
 
             setnewUser(response.data);
             setActiveModal(false);
-        } catch (err) {
+        } catch (err: any) {
             // TO DO, backend error handling and display using status code
+            if (err.response.status === 409) {
+                setErrorMessage("Email déjà utilisé");
+                return;
+            }
             console.error("Erreur lors du fetch:", err);
-            setErrorMessage("Does not pass validation");
+            setErrorMessage("Ne passe pas les validations");
         }
     };
 
