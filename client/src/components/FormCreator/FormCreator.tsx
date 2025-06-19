@@ -54,6 +54,7 @@ const emptyForm = {
   form_name: "Nouveau formulaire",
   form_description: "", //il faudra veiller à indiquer que form_description n'est plus optionnel
   theme: {
+    theme_id:1,
     color_value: 169,
     font1_value: "Chivo",
     font2_value: "Spectral",
@@ -76,8 +77,8 @@ const FormCreator = () => {
     const getForm = async()=>{
      try {
             const response = await axios.get(
-                `${import.meta.env.VITE_QUICKY_API_URL}/api/forms/1`, // 1 hardcoded, waiting for proper implem
-                //`${import.meta.env.VITE_QUICKY_API_URL}/api/forms/${form_id}`
+                //`${import.meta.env.VITE_QUICKY_API_URL}/api/forms/1`, // 1 hardcoded, waiting for proper implem
+                `${import.meta.env.VITE_QUICKY_API_URL}/api/forms/${form_id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${authToken}`,
@@ -104,12 +105,19 @@ const FormCreator = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // <-- empêche le reset du formulaire
+    console.log(form)
     try {
       //const formData =
       await axios.post(
         `${import.meta.env.VITE_QUICKY_API_URL}/api/forms`,
         {
-          form: form,
+          is_deployed:form.is_deployed,
+          is_closed: form.is_closed,
+          is_public: form.is_public,
+          multi_answer: form.multi_answer,
+          theme_id: form.theme.theme_id,
+          form_name: form.form_name,
+          form_description: form.form_description,
         },
         {
           headers: {

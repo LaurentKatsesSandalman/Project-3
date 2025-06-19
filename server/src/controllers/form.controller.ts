@@ -125,10 +125,12 @@ export const getSecuredFullFormById: RequestHandler<
 };
 
 // The A of BREAD - Add (Create) operation
-export const createForm: RequestHandler = async (req:RequestWithUser, res, next) => {
+export const createForm: RequestHandler = async (req:any, res, next) => {
+    console.log("create reached")
     try { 
         // Extract the form data from the request body
         const {is_deployed, is_closed,  is_public, multi_answer, theme_id, form_name, form_description} = req.body
+        console.log(is_deployed, is_closed,  is_public, multi_answer, theme_id, form_name, form_description)
         const {user_id}= req.user
 
         const optionalFields: Partial<FormPayload> = {}

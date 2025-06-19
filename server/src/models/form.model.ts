@@ -22,6 +22,7 @@ export async function findFormById(id: number): Promise<Form | undefined> {
 }
 
 export async function insertForm(form:FormPayload):Promise<Form | undefined> {
+  console.log("model reached")
   const fields = [
     "is_deployed",
     "is_closed",

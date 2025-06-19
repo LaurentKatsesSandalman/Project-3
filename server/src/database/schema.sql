@@ -1,3 +1,4 @@
+-- Active: 1747815168837@@127.0.0.1@3306@quicky
 -- Don't forget the spreadsheet that simplifies creating tables
 DROP DATABASE IF EXISTS quicky;
 

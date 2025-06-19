@@ -12,7 +12,7 @@ export const getFullForm = async (form_id: number) => {
 
     const theme: Theme | undefined = await themeById(form.theme_id);
     if (!theme) return null;
-    const { theme_id, ...formatedTheme } = theme;
+    //const { theme_id, ...formatedTheme } = theme;
 
     const mainForm = {
         ...form,
@@ -20,7 +20,7 @@ export const getFullForm = async (form_id: number) => {
         is_closed: Boolean(form.is_closed),
         is_public: Boolean(form.is_public),
         multi_answer: Boolean(form.multi_answer),
-        theme: formatedTheme,
+        theme: theme,
     };
 
     const fields: Field[] | undefined = await findAllFields(form.form_id);
