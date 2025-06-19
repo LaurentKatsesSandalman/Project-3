@@ -67,3 +67,68 @@ if (form.date_to_close){
   // Returns the new form
   return rows[0];
 }
+
+export async function updateForm(form:Partial<Form>): Promise<Form> {
+  const fields = [
+    ];
+    const values = [
+    ];
+
+if (form.is_deployed!==null){
+fields.push("is_deployed")
+values.push(form.is_deployed)
+    }
+if (form.is_closed!==null){
+fields.push("is_closed")
+values.push(form.is_closed)
+    }
+if (form.is_public!==null){
+fields.push("is_public")
+values.push(form.is_public)
+    }
+    if (form.multi_answer!==null){
+fields.push("multi_answer")
+values.push(form.multi_answer)
+    }
+    if (form.theme_id!==null){
+fields.push("theme_id")
+values.push(form.theme_id)
+    }
+        if (form.form_name!==null){
+fields.push("form_name")
+values.push(form.form_name)
+    }
+if (form.form_description!==null){
+fields.push("form_description")
+values.push(form.form_description)
+    }
+    if (form.date_to_close!==null){
+fields.push("date_to_close")
+values.push(form.date_to_close)
+    }
+
+ if (typeof form.form_id !== "number"){
+        throw new Error("Form_id should be num");
+    }
+values.push(form.form_id)
+    const contentSet = fields.map((field) => `${field}=?`).join(",");
+    const sqlQuery = `
+        UPDATE form 
+        SET ${contentSet}
+       WHERE form_id=?
+    `;
+
+    // Replace the form values
+    await database.query<ResultSetHeader>(sqlQuery, values);
+    const [rows] = await database.query<Form[] & RowDataPacket[]>(
+        `SELECT * FROM form WHERE form_id = ? `,
+        [form.form_id]
+    );
+
+    if (rows.length === 0) {
+        throw new Error("Questionnaire modifié mais ne semble pas être trouvé");
+    }
+    // Returns the new advert
+    return rows[0];
+
+  }

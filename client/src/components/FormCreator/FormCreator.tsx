@@ -108,16 +108,10 @@ const FormCreator = () => {
     console.log(form)
     try {
       //const formData =
-      await axios.post(
-        `${import.meta.env.VITE_QUICKY_API_URL}/api/forms`,
+      await axios.put(
+        `${import.meta.env.VITE_QUICKY_API_URL}/api/forms/${form_id}`,
         {
-          is_deployed:form.is_deployed,
-          is_closed: form.is_closed,
-          is_public: form.is_public,
-          multi_answer: form.multi_answer,
-          theme_id: form.theme.theme_id,
-          form_name: form.form_name,
-          form_description: form.form_description,
+          form:form
         },
         {
           headers: {

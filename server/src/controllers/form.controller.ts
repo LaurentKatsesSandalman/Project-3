@@ -1,6 +1,6 @@
 import type { RequestHandler } from "express";
 import { findAllForms, insertForm } from "../models/form.model";
-import { getFullForm } from "../services/FullForm";
+import { getFullForm, updateFullForm } from "../services/FullForm";
 import { FormPayload, FullForm } from "../types/form";
 import { formatDate } from "../utils/formatDate";
 import { RequestWithUser } from "../types/tokenPayload";
@@ -124,9 +124,43 @@ export const getSecuredFullFormById: RequestHandler<
     }
 };
 
+// The E of BREAD - Edit operation
+export const updateFullFormById: RequestHandler<
+    { id: string },
+    FullForm | { error: string }
+> = async (req: any, res, next) => {
+    console.log("update reached")
+    try {
+        const {form} = req.body
+
+        const {user_id}= req.user
+
+        // We use a service to format the data we want
+        const fullForm = await updateFullForm(form);
+
+        if (!fullForm) {
+            res.status(404).json({
+                error: "Erreur de Laurent: fullform n'existe pas",
+            });
+            return;
+        }
+
+        if (fullForm.user_id !== req.user.user_id) {
+            res.status(403).json({
+                error: "Le formulaire ayant cet id n'est pas le votre",
+            });
+            return;
+        }
+
+        res.status(200).json(fullForm);
+    } catch (err) {
+        next(err);
+    }
+};
+
 // The A of BREAD - Add (Create) operation
 export const createForm: RequestHandler = async (req:any, res, next) => {
-    console.log("create reached")
+
     try { 
         // Extract the form data from the request body
         const {is_deployed, is_closed,  is_public, multi_answer, theme_id, form_name, form_description} = req.body
