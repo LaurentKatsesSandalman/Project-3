@@ -2,6 +2,8 @@ import type { RequestHandler } from "express";
 import { findAllAnswers, findAnswerById } from "../models/answer.model";
 import { AnsweredFormPayload } from "../types/answer";
 import { addAnsweredForm } from "../services/addAnsweredForm";
+import { FormResult } from "../types/result";
+import { findFormResultById } from "../services/FormResult";
 
 // The B of BREAD - Browse (Read All) operation
 export const getAllAnswers: RequestHandler = async (req: any, res, next) => {
@@ -38,6 +40,44 @@ export const getThisAnswer: RequestHandler = async (req: any, res, next) => {
         const answer = await findAnswerById(answerId);
         //respond with the field in JSON format
         res.json(answer);
+    } catch (err) {
+        // Pass any errors to the error-handling middleware
+        next(err);
+    }
+};
+
+// The R of BRREAD - Read operation
+export const getFormResultById: RequestHandler<
+    { id: string },
+    FormResult | { error: string }
+> = async (req: any, res, next) => {
+    try {
+        //Find form ID
+        const formId = Number.parseInt(req.params.id);
+        if (isNaN(formId)) {
+            res.status(400).json({
+                error: "L'id du formulaire est censée être numérique",
+            });
+            return;
+        }
+
+        const formResult = await findFormResultById(formId);
+        if (!formResult) {
+            res.status(404).json({
+                error: "Il n'existe pas de formulaire ayant cet id",
+            });
+            return;
+        }
+
+        // Might be better to do first do a light query to check for user_id validation, then query the full resulsts (same for getFullFormById), or use user_id in the query
+        if (formResult.user_id !== req.user.user_id) {
+            res.status(403).json({
+                error: "Le formulaire ayant cet id n'est pas le votre",
+            });
+            return;
+        }
+
+        res.status(200).json(formResult);
     } catch (err) {
         // Pass any errors to the error-handling middleware
         next(err);

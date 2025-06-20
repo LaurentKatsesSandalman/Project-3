@@ -15,7 +15,7 @@ router.get("/", authenticateToken, getAllForms);
 router.get("/:id", authenticateToken, getFullFormById);
 router.get("/answerable/:id", getSecuredFullFormById);
 router.post("/", authenticateToken, createForm);
-router.delete("/id", authenticateToken, deleteForm);
+router.delete("/:id", authenticateToken, deleteForm);
 
 //put
 //patch
