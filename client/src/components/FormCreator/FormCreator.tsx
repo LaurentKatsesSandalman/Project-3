@@ -70,7 +70,7 @@ const FormCreator = () => {
   const { authToken, setAuthToken } = useAppContext();
   const [form, setForm] = useState<FormPayload>(emptyForm);
   const [isFieldsPanelVisible, setIsFieldsPanelVisible] = useState(true);
-  const [viewMode, setViewMode] = useState('edit'); // 'edit', 'preview', or 'result'
+  
 
   const { form_id } = useParams<{ form_id: string }>();
 
