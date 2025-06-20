@@ -9,6 +9,7 @@ import { formatDate } from "../utils/formatDate";
 export const getAllForms: RequestHandler = async (req: any, res, next) => {
     try {
         //Find user ID
+        console.log(req.user);
         const userId = Number.parseInt(req.user.user_id);
         if (isNaN(userId)) {
             res.status(400).json({
@@ -169,15 +170,6 @@ export const createForm: RequestHandler = async (req: any, res, next) => {
             form_name,
             form_description,
         } = req.body;
-        console.log(
-            is_deployed,
-            is_closed,
-            is_public,
-            multi_answer,
-            theme_id,
-            form_name,
-            form_description
-        );
         const { user_id } = req.user;
 
         const optionalFields: Partial<FormPayload> = {};
