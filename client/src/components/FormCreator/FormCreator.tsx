@@ -69,7 +69,6 @@ const emptyForm = {
 const FormCreator = () => {
   const { authToken, setAuthToken } = useAppContext();
   const [form, setForm] = useState<FormPayload>(emptyForm);
-  const [isPanelVisible, setIsPanelVisible] = useState(true);
   const [isFieldsPanelVisible, setIsFieldsPanelVisible] = useState(true);
   const [viewMode, setViewMode] = useState('edit'); // 'edit', 'preview', or 'result'
 
@@ -100,10 +99,6 @@ const FormCreator = () => {
   },[])
 
 
-
-   const togglePanelVisibility = () => {
-    setIsPanelVisible(!isPanelVisible);
-  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // <-- empêche le reset du formulaire
@@ -200,59 +195,21 @@ const FormCreator = () => {
                 setForm={setForm}
               />
             ))}
-            <button
-            type="button"
-            onClick={togglePanelVisibility}
-            style={{
-              background: 'none',
-              border: 'none',
-              fontSize: '20px',
-              cursor: 'pointer',
-            }}
-          >
-            ➕
-          </button>
           </div>
-{isPanelVisible && (
-          <div className={styles["form-right-panel"]}>
-            <button type="submit" className={styles["form-save-button"]}>
-              Sauvegarder formulaire
-            </button>
-            <div className={styles["form-fields-container"]}>
-              <h3>Choisir un champ</h3><button
-            type="button"
-            onClick={togglePanelVisibility}
-            style={{
-              background: 'none',
-              border: 'none',
-              fontSize: '20px',
-              cursor: 'pointer',
-            }}
-          >
-            ➕
-          </button>
-              {fieldTypes.map((fieldType) => (
-                <button
-                  key={fieldType.field_type_id}
-                  type="button"
-                  onClick={() => addField(fieldType.type)}
-                >
-                  {fieldType.name}
-                </button>
-              ))}
-              
-            </div>
-
-            <div className={styles['form-right-panel']}>
+          <div className={styles['form-right-panel']}>
               <button type="submit" className={styles['form-save-button']}>
                 Sauvegarder formulaire
+
+
+
               </button>
-              <div style={{ position: 'relative' }}>
-                {isFieldsPanelVisible && (
+              <div style={{ position: 'relative' }}></div>
+ {isFieldsPanelVisible && 
+ (
                   <div className={styles['form-fields-container']}>
                     <h3>Choisir un champ</h3>
                     {fieldTypes.map((fieldType) => (
-                      <button key={fieldType.type} type="button" onClick={() => addField(fieldType.type)}>
+                      <button key={fieldType.field_type_id} type="button" onClick={() => addField(fieldType.type)}>
                         {fieldType.name}
                       </button>
                     ))}
@@ -266,10 +223,8 @@ const FormCreator = () => {
                   {isFieldsPanelVisible ? '➖' : '➕'}
                 </button>
               </div>
-            </div>
-          </div>
-        </form>
-      )}
+              </div>
+        </form>  
     </div>
   );
 };

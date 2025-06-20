@@ -124,22 +124,6 @@ const FormField = ({ field, setForm, fieldTypeName }: FieldProps) => {
     }));
   };
 
-  const removeOption = (fieldId, index) => {
-    setFormFields(prevFields =>
-      prevFields.map(field => {
-        if (field.id === fieldId) {
-          const updatedOptions = [...field.options];
-          updatedOptions.splice(index, 1);
-          return { ...field, options: updatedOptions };
-        }
-        return field;
-      })
-    );
-  };
-
-  const fieldType = fieldTypes.find((f) => f.type === field.type);
-  const fieldTypeName = fieldType ? fieldType.name : 'Type Inconnu';
-
   return (
     <div className={styles["form-field"]}>
       <div style={{ marginBottom: "10px", fontWeight: "bold" }}>
