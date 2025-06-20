@@ -9,7 +9,6 @@ import { formatDate } from "../utils/formatDate";
 export const getAllForms: RequestHandler = async (req: any, res, next) => {
     try {
         //Find user ID
-        console.log(req.user);
         const userId = Number.parseInt(req.user.user_id);
         if (isNaN(userId)) {
             res.status(400).json({
