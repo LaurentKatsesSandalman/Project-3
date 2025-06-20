@@ -1,4 +1,4 @@
-const [viewMode, setViewMode] = useState('edit'); // 'edit', 'preview', or 'result' 
+
  
  <div className={styles['mode-toggle-buttons']}>Add commentMore actions
         <button
