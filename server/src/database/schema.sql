@@ -1,3 +1,4 @@
+-- Active: 1747815168837@@127.0.0.1@3306@quicky
 -- Don't forget the spreadsheet that simplifies creating tables
 DROP DATABASE IF EXISTS quicky;
 
@@ -25,7 +26,7 @@ CREATE TABLE form (
     is_deployed BOOL NOT NULL,
     is_closed BOOL NOT NULL,
     date_to_close DATE,
-    creation_date DATETIME NOT NULL,
+    creation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     is_public BOOL NOT NULL,
     multi_answer BOOL NOT NULL,
     original_version_id INT UNSIGNED,
@@ -33,7 +34,7 @@ CREATE TABLE form (
     theme_id INT UNSIGNED NOT NULL,
     FOREIGN KEY (theme_id) REFERENCES theme (theme_id),
     user_id INT UNSIGNED NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user (user_id),
+    FOREIGN KEY (user_id) REFERENCES user (user_id) ON DELETE CASCADE,
     form_name VARCHAR(100) NOT NULL,
     form_description VARCHAR(255)
 );
@@ -52,7 +53,7 @@ CREATE TABLE field(
     is_required BOOL NOT NULL,
     is_unique BOOL NOT NULL,
     form_id INT UNSIGNED NOT NULL,
-    FOREIGN KEY (form_id) REFERENCES form (form_id),
+    FOREIGN KEY (form_id) REFERENCES form (form_id) ON DELETE CASCADE,
     field_type_id INT UNSIGNED NOT NULL,
     FOREIGN KEY (field_type_id) REFERENCES field_type (field_type_id)
 );
@@ -63,21 +64,21 @@ CREATE TABLE field_option (
     option_name VARCHAR(100) NOT NULL,
     option_value VARCHAR(100) NOT NULL,
     field_id INT UNSIGNED NOT NULL,
-    FOREIGN KEY (field_id) REFERENCES field(field_id)
+    FOREIGN KEY (field_id) REFERENCES field(field_id) ON DELETE CASCADE
 );
 
 CREATE TABLE form_answer (
     form_answer_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     answer_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     form_id INT UNSIGNED NOT NULL,
-    FOREIGN KEY (form_id) REFERENCES form (form_id)
+    FOREIGN KEY (form_id) REFERENCES form (form_id) ON DELETE CASCADE
 );
 
 CREATE TABLE field_answer (
     field_answer_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     value VARCHAR(2000) NOT NULL,
     form_answer_id INT UNSIGNED NOT NULL,
-    FOREIGN KEY (form_answer_id) REFERENCES form_answer (form_answer_id),
+    FOREIGN KEY (form_answer_id) REFERENCES form_answer (form_answer_id) ON DELETE CASCADE,
     field_id INT UNSIGNED NOT NULL,
     FOREIGN KEY (field_id) REFERENCES field(field_id)
 );
