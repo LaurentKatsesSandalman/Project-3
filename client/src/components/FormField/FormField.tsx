@@ -1,6 +1,6 @@
 import type { FieldPayload } from "../../types/fields";
 import type { FormPayload } from "../../types/form";
-import styles from "./FormField.module.css";
+import styles from "../FormCreator/FormCreator.module.css";
 
 interface FieldProps {
   field: FieldPayload;

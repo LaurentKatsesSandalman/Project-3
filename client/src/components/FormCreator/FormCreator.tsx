@@ -28,7 +28,7 @@ interface FieldType {
   field_type_id: number;
 }
 
-const fieldTypes:FieldType[] = [
+const fieldTypes: FieldType[] = [
   { type: "text", name: "Texte court", field_type_id: 1 },
   { type: "textarea", name: "Texte long", field_type_id: 11 },
   { type: "email", name: "Email", field_type_id: 4 },
@@ -38,13 +38,11 @@ const fieldTypes:FieldType[] = [
   { type: "date", name: "Date", field_type_id: 3 },
   { type: "time", name: "Heure", field_type_id: 10 },
   { type: "url", name: "URL", field_type_id: 9 },
-{ type: "month", name: "Liste des mois", field_type_id:5},
+  { type: "month", name: "Liste des mois", field_type_id: 5 },
   { type: "number", name: "Nombre", field_type_id: 6 },
   { type: "droplist", name: "Liste déroulante", field_type_id: 12 },
-  //A voir:  { type: "notes", name: "Notation", field_type_id:13}
 ];
 
-// à remplacer par un fetch, même pour new form, car le form n'est pas vraiment new (a déjà été créé vide)
 const emptyForm = {
   is_deployed: false,
   is_closed: false,
@@ -52,9 +50,9 @@ const emptyForm = {
   is_public: false,
   multi_answer: false,
   form_name: "Nouveau formulaire",
-  form_description: "", //il faudra veiller à indiquer que form_description n'est plus optionnel
+  form_description: "",
   theme: {
-    theme_id:1,
+    theme_id: 1,
     color_value: 169,
     font1_value: "Chivo",
     font2_value: "Spectral",
@@ -64,51 +62,42 @@ const emptyForm = {
   fields: [],
 };
 
-
-
 const FormCreator = () => {
   const { authToken, setAuthToken } = useAppContext();
   const [form, setForm] = useState<FormPayload>(emptyForm);
   const [isFieldsPanelVisible, setIsFieldsPanelVisible] = useState(true);
-  
 
   const { form_id } = useParams<{ form_id: string }>();
 
-  useEffect (() =>{
-    const getForm = async()=>{
-     try {
-            const response = await axios.get(
-                //`${import.meta.env.VITE_QUICKY_API_URL}/api/forms/1`, // 1 hardcoded, waiting for proper implem
-                `${import.meta.env.VITE_QUICKY_API_URL}/api/forms/${form_id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${authToken}`,
-                    },
-                }
-            );
-
-            setForm(response.data);
-        } catch (err: any) {
-            // When there is an issue with the token
-            if (err.response?.status === 403 || err.response?.status === 401) {
-                setAuthToken(null);
-            }
-        }}
-        getForm()
-
-  },[])
-
-
+  useEffect(() => {
+    const getForm = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_QUICKY_API_URL}/api/forms/${form_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        );
+        setForm(response.data);
+      } catch (err: any) {
+        if (err.response?.status === 403 || err.response?.status === 401) {
+          setAuthToken(null);
+        }
+      }
+    };
+    getForm();
+  }, [authToken, form_id, setAuthToken]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // <-- empêche le reset du formulaire
-    console.log(form)
+    event.preventDefault();
+    console.log(form);
     try {
-      //const formData =
       await axios.put(
         `${import.meta.env.VITE_QUICKY_API_URL}/api/forms/${form_id}`,
         {
-          form:form
+          form: form,
         },
         {
           headers: {
@@ -117,27 +106,28 @@ const FormCreator = () => {
         }
       );
     } catch (err: any) {
-      // When there is an issue with the token
       if (err.response?.status === 403 || err.response?.status === 401) {
         setAuthToken(null);
       }
     }
   };
 
-  const handleChange = (string: 'title'|'description', eventTargetValue: string)=>{
-    if (string ==='title'){setForm((prev)=>({...prev, form_name:eventTargetValue }))}
-    if (string ==='description'){setForm((prev)=>({...prev, form_description:eventTargetValue }))}
-  }
-  
+  const handleChange = (string: "title" | "description", eventTargetValue: string) => {
+    if (string === "title") {
+      setForm((prev) => ({ ...prev, form_name: eventTargetValue }));
+    }
+    if (string === "description") {
+      setForm((prev) => ({ ...prev, form_description: eventTargetValue }));
+    }
+  };
+
   const addField = (type: TypeOfField) => {
     const newField = {
-      field_ordering: (form.fields.length+1),
+      field_ordering: form.fields.length + 1,
       field_name: `Nouvelle question`,
       is_required: false,
       is_unique: false,
-      field_type_id:
-        fieldTypes[fieldTypes.findIndex((fieldType) => fieldType.type === type)]
-          .field_type_id,
+      field_type_id: fieldTypes[fieldTypes.findIndex((fieldType) => fieldType.type === type)].field_type_id,
       field_description: "",
       default_value: null,
       field_options: [],
@@ -145,15 +135,13 @@ const FormCreator = () => {
     setForm((prev) => ({ ...prev, fields: [...prev.fields, newField] }));
   };
 
- function findTypeName(field: FieldPayload): string {
-
-  const index = fieldTypes.findIndex((fieldType) => fieldType.field_type_id === field.field_type_id)
-  if (index === -1) {
-    throw new Error('Field type not found');
-  }
-
-  return fieldTypes[index].name;
-  }
+  const findTypeName = (field: FieldPayload): string => {
+    const index = fieldTypes.findIndex((fieldType) => fieldType.field_type_id === field.field_type_id);
+    if (index === -1) {
+      throw new Error("Field type not found");
+    }
+    return fieldTypes[index].name;
+  };
 
   const toggleFieldsPanelVisibility = () => {
     setIsFieldsPanelVisible(!isFieldsPanelVisible);
@@ -168,9 +156,9 @@ const FormCreator = () => {
             placeholder="Titre du formulaire"
             value={form.form_name}
             onChange={(event) => {
-    event.preventDefault();
-    handleChange("title", event.target.value);
-  }}
+              event.preventDefault();
+              handleChange("title", event.target.value);
+            }}
             className={styles["form-title"]}
           />
           <input
@@ -178,9 +166,9 @@ const FormCreator = () => {
             placeholder="Description du formulaire"
             value={form.form_description}
             onChange={(event) => {
-    event.preventDefault();
-    handleChange("description", event.target.value);
-  }}
+              event.preventDefault();
+              handleChange("description", event.target.value);
+            }}
             className={styles["form-description"]}
           />
         </div>
@@ -196,35 +184,36 @@ const FormCreator = () => {
               />
             ))}
           </div>
-          <div className={styles['form-right-panel']}>
-              <button type="submit" className={styles['form-save-button']}>
-                Sauvegarder formulaire
-
-
-
+          <div className={styles["form-right-panel"]}>
+            <button type="submit" className={styles["form-save-button"]}>
+              Sauvegarder formulaire
+            </button>
+            <div style={{ position: "relative" }}>
+              <button
+                type="button"
+                onClick={toggleFieldsPanelVisibility}
+                className={styles["toggle-panel-button"]}
+              >
+                {isFieldsPanelVisible ? "➖" : "➕"}
               </button>
-              <div style={{ position: 'relative' }}></div>
- {isFieldsPanelVisible && 
- (
-                  <div className={styles['form-fields-container']}>
-                    <h3>Choisir un champ</h3>
-                    {fieldTypes.map((fieldType) => (
-                      <button key={fieldType.field_type_id} type="button" onClick={() => addField(fieldType.type)}>
-                        {fieldType.name}
-                      </button>
-                    ))}
-                  </div>
-                )}
-                <button
-                  type="button"
-                  onClick={toggleFieldsPanelVisibility}
-                  className={styles['toggle-panel-button']}
-                >
-                  {isFieldsPanelVisible ? '➖' : '➕'}
-                </button>
-              </div>
-              </div>
-        </form>  
+              {isFieldsPanelVisible && (
+                <div className={styles["form-fields-container"]}>
+                  <h3>Choisir un champ</h3>
+                  {fieldTypes.map((fieldType) => (
+                    <button
+                      key={fieldType.field_type_id}
+                      type="button"
+                      onClick={() => addField(fieldType.type)}
+                    >
+                      {fieldType.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   );
 };
