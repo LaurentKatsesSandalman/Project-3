@@ -1,5 +1,11 @@
+import styles from "../FormCreator/FormCreator.module.css"
 
- function navBar () {
+interface NavBarProps {
+  viewMode : "preview"|"edit"|"result";
+  setViewMode : React.Dispatch<React.SetStateAction<"preview" | "edit" | "result">>;
+}
+ 
+function NavBar ( {viewMode, setViewMode} : NavBarProps) {
     return;
     <div className={styles['mode-toggle-buttons']}>Add commentMore actions
             <button
@@ -24,19 +30,6 @@
               Résultat
             </button>
           </div>
-
-          {viewMode === 'preview' ? (
-            <FormPreview
-              formTitle={formTitle}
-              formDescription={formDescription}
-              formFields={formFields}
-            />
-          ) : viewMode === 'result' ? (
-            <div className={styles['result-page']}>
-              {/* Page blanche pour les résultats pour le moments a changer pour les vrai result*/}
-            </div>
-          ) : (
-
 }
 
-export default navBar;
+export default NavBar;

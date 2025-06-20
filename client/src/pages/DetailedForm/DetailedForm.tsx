@@ -1,6 +1,7 @@
 import styles from "./DetailedForm.module.css";
 import FormCreator from "../../components/FormCreator/FormCreator";
 import { useState } from "react";
+import NavBar from "../../components/NavBar/NavBar";
 // choppe :form_id de l'url
 // fetch les infos de formulaire pour form_id = xx
 
