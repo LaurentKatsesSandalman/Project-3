@@ -160,42 +160,6 @@ const FormCreator = () => {
   return fieldTypes[index].name;
   }
 
-  // const removeField = (field_ordering: number) => {
-  //   setForm((prev) => ({
-  //     ...prev,
-  //     fields: prev.fields.filter(
-  //       (field) => field.field_ordering !== field_ordering
-  //     ),
-  //   }));
-  // };
-
-  // const updateFieldName = (field_ordering: number, field_name: string) => {
-  //   setForm((prev) => ({
-  //     ...prev,
-  //     fields: prev.fields.map((field, index) =>
-  //       index === field_ordering - 1
-  //         ? { ...field, field_name: field_name }
-  //         : field
-  //     ),
-  //   }));
-  // };
-
-  // const updateFieldDescription = (
-  //   field_ordering: number,
-  //   field_description: string
-  // ) => {
-  //   setForm((prev) => ({
-  //     ...prev,
-  //     fields: prev.fields.map((field, index) =>
-  //       index === field_ordering - 1
-  //         ? { ...field, field_description: field_description }
-  //         : field
-  //     ),
-  //   }));
-  // };
-
-  // doit-on mettre fieldname et fielddesc dans field? sinon, il faut remonter fieldoptions ici !!
-
   const toggleFieldsPanelVisibility = () => {
     setIsFieldsPanelVisible(!isFieldsPanelVisible);
   };
