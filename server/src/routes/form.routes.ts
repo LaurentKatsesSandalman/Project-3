@@ -2,17 +2,21 @@ import express from "express";
 
 import {
     getAllForms,
-    getThisForm,
+    getFullFormById,
     createForm,
     deleteForm,
-} from "./../controllers/form.controller.ts";
-import { authenticateToken } from "../middlewares/authenticateToken.ts";
+    getSecuredFullFormById,
+    updateFullFormById,
+} from "./../controllers/form.controller";
+import { authenticateToken } from "../middlewares/authenticateToken";
 
 const router = express.Router();
 
 router.get("/", authenticateToken, getAllForms);
-router.get("/:id", authenticateToken, getThisForm);
+router.get("/:id", authenticateToken, getFullFormById);
+router.get("/answerable/:id", getSecuredFullFormById);
 router.post("/", authenticateToken, createForm);
+router.patch("/:id", authenticateToken, updateFullFormById)
 router.delete("/id", authenticateToken, deleteForm);
 
 //put
