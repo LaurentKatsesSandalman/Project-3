@@ -7,7 +7,7 @@ interface NavBarProps {
  
 function NavBar ( {viewMode, setViewMode} : NavBarProps) {
     return (
-    <div className={styles['mode-toggle-buttons']}>Add commentMore actions
+    <div className={styles['mode-toggle-buttons']}>
             <button
               type="button"
               onClick={() => setViewMode('edit')}
