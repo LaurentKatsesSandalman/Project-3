@@ -1,12 +1,12 @@
 import express from "express";
-import cors from "cors";
 import "dotenv/config";
-import { logErrors } from "./middlewares/logErrors";
+import cors from 'cors';
 import userRouter from "./routes/user.routes";
 import formRouter from "./routes/form.routes";
 import answerRouter from "./routes/answer.routes";
 import fieldRoute from "./routes/field.routes";
 import optionRoute from "./routes/fieldoption.routes";
+import { logErrors } from "./middlewares/logErrors";
 
 export const app = express();
 
@@ -17,6 +17,8 @@ if (process.env.CLIENT_URL != null) {
 
 // Request Parsing (explications dans mono repo)
 app.use(express.json());
+
+
 
 app.use("/api/users", userRouter);
 app.use("/api/forms", formRouter);

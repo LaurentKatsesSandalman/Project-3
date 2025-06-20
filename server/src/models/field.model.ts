@@ -138,3 +138,27 @@ export async function deleteFieldById(id: number) {
     }
     return result;
 }
+//this session will be move in form.model by Laurent in is branch
+export async function insertForm({name, description, userId}: {name:string, description?:string |null, userId:number}): 
+Promise<Form> {
+  const fields = ["name", "description", "userId"];
+  const values = [name, description, userId];
+
+  const connectingElement = values.map(() => "?").join(",");
+  const sqlQuery = `
+        INSERT INTO form (${fields.join(",")})
+        VALUES (${connectingElement})
+    `;
+  // Insert a new form into form table
+  const [result] = await database.query<ResultSetHeader>(sqlQuery, values);
+  const [rows] = await database.query<Form[] & RowDataPacket[]>(
+    `SELECT * FROM form WHERE form_id = ? `,
+    [result.insertId]
+  );
+
+  if (rows.length === 0) {
+    throw new Error("Formulaire inséré mais ne semble pas être trouvé");
+  }
+  // Returns the new form
+  return rows[0];
+}

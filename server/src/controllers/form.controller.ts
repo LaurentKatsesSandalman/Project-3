@@ -3,14 +3,13 @@ import { findAllForms, insertForm } from "../models/form.model";
 import { getFullForm, updateFullForm } from "../services/FullForm";
 import { FormPayload, FullForm } from "../types/form";
 import { formatDate } from "../utils/formatDate";
-import { RequestWithUser } from "../types/tokenPayload";
 
 // The B of BREAD - Browse (Read All) operation
 
-export const getAllForms: RequestHandler = async (req, res, next) => {
+export const getAllForms: RequestHandler = async (req: any, res, next) => {
     try {
         //Find user ID
-        const userId = Number.parseInt(req.params.user_id);
+        const userId = Number.parseInt(req.user.user_id);
         if (isNaN(userId)) {
             res.status(400).json({
                 error: "L'id du user est censée être numérique",
@@ -32,7 +31,6 @@ export const getFullFormById: RequestHandler<
     { id: string },
     FullForm | { error: string }
 > = async (req: any, res, next) => {
-
     try {
         const parsedId = Number.parseInt(req.params.id);
         if (isNaN(parsedId)) {
@@ -129,11 +127,11 @@ export const updateFullFormById: RequestHandler<
     { id: string },
     FullForm | { error: string }
 > = async (req: any, res, next) => {
-    console.log("update reached")
+    console.log("update reached");
     try {
-        const {form} = req.body
+        const { form } = req.body;
 
-        const {user_id}= req.user
+        const { user_id } = req.user;
 
         // We use a service to format the data we want
         const fullForm = await updateFullForm(form);
@@ -159,23 +157,41 @@ export const updateFullFormById: RequestHandler<
 };
 
 // The A of BREAD - Add (Create) operation
-export const createForm: RequestHandler = async (req:any, res, next) => {
-
-    try { 
+export const createForm: RequestHandler = async (req: any, res, next) => {
+    try {
         // Extract the form data from the request body
-        const {is_deployed, is_closed,  is_public, multi_answer, theme_id, form_name, form_description} = req.body
-        console.log(is_deployed, is_closed,  is_public, multi_answer, theme_id, form_name, form_description)
-        const {user_id}= req.user
+        const {
+            is_deployed,
+            is_closed,
+            is_public,
+            multi_answer,
+            theme_id,
+            form_name,
+            form_description,
+        } = req.body;
+        const { user_id } = req.user;
 
-        const optionalFields: Partial<FormPayload> = {}
-        if (typeof(req.body["date_to_close"])==="string"){optionalFields["date_to_close"]=req.body["date_to_close"]}
+        const optionalFields: Partial<FormPayload> = {};
+        if (typeof req.body["date_to_close"] === "string") {
+            optionalFields["date_to_close"] = req.body["date_to_close"];
+        }
         // if (typeof(req.body["form_description"])==="string"){optionalFields["form_description"]=req.body["form_description"]}
 
-// Create the form
-        const newForm = await insertForm({is_deployed, is_closed, is_public, multi_answer, theme_id, form_name, form_description, user_id, ...optionalFields}) 
-        
+        // Create the form
+        const newForm = await insertForm({
+            is_deployed,
+            is_closed,
+            is_public,
+            multi_answer,
+            theme_id,
+            form_name,
+            form_description,
+            user_id,
+            ...optionalFields,
+        });
+
         // Respond with HTTP 201 (Created) and the ID of the newly inserted form
-        res.status(201).json(newForm)
+        res.status(201).json(newForm);
     } catch (err) {
         // Pass any errors to the error-handling middleware
         next(err);
