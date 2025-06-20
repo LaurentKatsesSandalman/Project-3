@@ -4,113 +4,110 @@ import { Form, FormPayload } from "../types/form";
 import { Field, FieldOption } from "../types/field";
 
 export async function findAllForms(user_id: number): Promise<Form[]> {
-  const [rows] = await database.query<Form[]>(
-    `SELECT * FROM form WHERE user_id=?`,
-    [user_id]
-  );
+    const [rows] = await database.query<Form[]>(
+        `SELECT * FROM form WHERE user_id=?`,
+        [user_id]
+    );
 
-  return rows;
+    return rows;
 }
 
 export async function findFormById(id: number): Promise<Form | undefined> {
-  const [rows] = await database.query<Form[] & RowDataPacket[]>(
-    `SELECT * FROM form
+    const [rows] = await database.query<Form[] & RowDataPacket[]>(
+        `SELECT * FROM form
     WHERE form.form_id=?`,
-    [id]
-  );
-  return rows[0];
+        [id]
+    );
+    return rows[0];
 }
 
-export async function insertForm(form:FormPayload):Promise<Form | undefined> {
-  console.log("model reached")
-  const fields = [
-    "is_deployed",
-    "is_closed",
-    "is_public",
-    "multi_answer",
-    "theme_id",
-    "form_name",
-    "form_description",
-    "user_id",
-  ];
-  const values = [
-  form.is_deployed,
-  form.is_closed,
-  form.is_public,
-  form.multi_answer,
-  form.theme_id,
-  form.form_name,
-  form.form_description,
-  form.user_id,
-  ];
+export async function insertForm(form: FormPayload): Promise<Form | undefined> {
+    const fields = [
+        "is_deployed",
+        "is_closed",
+        "is_public",
+        "multi_answer",
+        "theme_id",
+        "form_name",
+        "form_description",
+        "user_id",
+    ];
+    const values = [
+        form.is_deployed,
+        form.is_closed,
+        form.is_public,
+        form.multi_answer,
+        form.theme_id,
+        form.form_name,
+        form.form_description,
+        form.user_id,
+    ];
 
-if (form.date_to_close){
-    fields.push("date_to_close")
-    values.push(form.date_to_close)
-}
+    if (form.date_to_close) {
+        fields.push("date_to_close");
+        values.push(form.date_to_close);
+    }
 
-  const connectingElement = values.map(() => "?").join(",");
-  const sqlQuery = `
+    const connectingElement = values.map(() => "?").join(",");
+    const sqlQuery = `
         INSERT INTO form (${fields.join(",")})
         VALUES (${connectingElement})
     `;
-  // Insert a new form into form table
-  const [result] = await database.query<ResultSetHeader>(sqlQuery, values);
-  const [rows] = await database.query<Form[] & RowDataPacket[]>(
-    `SELECT * FROM form WHERE form_id = ? `,
-    [result.insertId]
-  );
+    // Insert a new form into form table
+    const [result] = await database.query<ResultSetHeader>(sqlQuery, values);
+    const [rows] = await database.query<Form[] & RowDataPacket[]>(
+        `SELECT * FROM form WHERE form_id = ? `,
+        [result.insertId]
+    );
 
-  if (rows.length === 0) {
-    throw new Error("Champ réponse inséré mais ne semble pas être trouvé");
-  }
-  // Returns the new form
-  return rows[0];
+    if (rows.length === 0) {
+        throw new Error("Champ réponse inséré mais ne semble pas être trouvé");
+    }
+    // Returns the new form
+    return rows[0];
 }
 
-export async function updateForm(form:Partial<Form>): Promise<Form> {
-  const fields = [
-    ];
-    const values = [
-    ];
+export async function updateForm(form: Partial<Form>): Promise<Form> {
+    const fields = [];
+    const values = [];
 
-if (form.is_deployed!==null){
-fields.push("is_deployed")
-values.push(form.is_deployed)
+    if (form.is_deployed !== null) {
+        fields.push("is_deployed");
+        values.push(form.is_deployed);
     }
-if (form.is_closed!==null){
-fields.push("is_closed")
-values.push(form.is_closed)
+    if (form.is_closed !== null) {
+        fields.push("is_closed");
+        values.push(form.is_closed);
     }
-if (form.is_public!==null){
-fields.push("is_public")
-values.push(form.is_public)
+    if (form.is_public !== null) {
+        fields.push("is_public");
+        values.push(form.is_public);
     }
-    if (form.multi_answer!==null){
-fields.push("multi_answer")
-values.push(form.multi_answer)
+    if (form.multi_answer !== null) {
+        fields.push("multi_answer");
+        values.push(form.multi_answer);
     }
-    if (form.theme_id!==null){
-fields.push("theme_id")
-values.push(form.theme_id)
+    if (form.theme_id !== null) {
+        fields.push("theme_id");
+        values.push(form.theme_id);
     }
-        if (form.form_name!==null){
-fields.push("form_name")
-values.push(form.form_name)
+    if (form.form_name !== null) {
+        fields.push("form_name");
+        values.push(form.form_name);
     }
-if (form.form_description!==null){
-fields.push("form_description")
-values.push(form.form_description)
+    if (form.form_description !== null) {
+        fields.push("form_description");
+        values.push(form.form_description);
     }
-    if (form.date_to_close!==null){
-fields.push("date_to_close")
-values.push(form.date_to_close)
+    if (form.date_to_close !== null) {
+        fields.push("date_to_close");
+        values.push(form.date_to_close);
     }
 
- if (typeof form.form_id !== "number"){
+    if (typeof form.form_id !== "number") {
         throw new Error("Form_id should be num");
     }
-values.push(form.form_id)
+    values.push(form.form_id);
     const contentSet = fields.map((field) => `${field}=?`).join(",");
     const sqlQuery = `
         UPDATE form 
@@ -130,5 +127,4 @@ values.push(form.form_id)
     }
     // Returns the new advert
     return rows[0];
-
-  }
+}

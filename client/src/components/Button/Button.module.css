@@ -54,3 +54,11 @@
 .base:focus-visible {
     background-color: var(--color-danger-darker);
 }
+
+.create_form {
+    background-color: var(--color-primary);
+    padding: 10px;
+    border-radius: 4px;
+    color: var(--color-text-light);
+    width: 260px;
+}
