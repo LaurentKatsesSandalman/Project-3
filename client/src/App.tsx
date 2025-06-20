@@ -2,7 +2,6 @@ import { Outlet } from "react-router-dom";
 import { AppProvider } from "./context/AppContext";
 import TopBar from "./components/TopBar/TopBar";
 import "./App.css";
-import CreatorPage from "./pages/CreatorPage/CreatorPage";
 
 function App() {
     return (
@@ -10,7 +9,6 @@ function App() {
             <TopBar />
             <main>
                 <Outlet />
-                {/* <CreatorPage /> */}
             </main>
         </AppProvider>
     );
