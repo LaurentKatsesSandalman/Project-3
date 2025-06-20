@@ -6,7 +6,7 @@ interface NavBarProps {
 }
  
 function NavBar ( {viewMode, setViewMode} : NavBarProps) {
-    return;
+    return (
     <div className={styles['mode-toggle-buttons']}>Add commentMore actions
             <button
               type="button"
@@ -30,6 +30,6 @@ function NavBar ( {viewMode, setViewMode} : NavBarProps) {
               Résultat
             </button>
           </div>
-}
+)}
 
 export default NavBar;
