@@ -6,7 +6,7 @@ export interface FieldPayload {
     ordering: number;
     name: string;
     description?: string | null;
-    default_value?: string;
+    default_value?: string| null;
     is_required: boolean;
     is_unique: boolean;
     form_id: number;

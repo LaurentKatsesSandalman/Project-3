@@ -1,15 +1,15 @@
 import type { RequestHandler } from "express";
-import { findAllForms } from "../models/form.model";
-import { getFullForm } from "../services/FullForm";
-import { FullForm } from "../types/form";
+import { findAllForms, insertForm } from "../models/form.model";
+import { getFullForm, updateFullForm } from "../services/FullForm";
+import { FormPayload, FullForm } from "../types/form";
 import { formatDate } from "../utils/formatDate";
 
 // The B of BREAD - Browse (Read All) operation
 
-export const getAllForms: RequestHandler = async (req, res, next) => {
+export const getAllForms: RequestHandler = async (req: any, res, next) => {
     try {
         //Find user ID
-        const userId = Number.parseInt(req.params.user_id);
+        const userId = Number.parseInt(req.user.user_id);
         if (isNaN(userId)) {
             res.status(400).json({
                 error: "L'id du user est censée être numérique",
@@ -39,6 +39,7 @@ export const getFullFormById: RequestHandler<
         }
         // We use a service to format the data we want
         const fullForm = await getFullForm(parsedId);
+
         if (!fullForm) {
             res.status(404).json({
                 error: "Il n'existe pas de formulaire ayant cet id",
@@ -121,12 +122,76 @@ export const getSecuredFullFormById: RequestHandler<
     }
 };
 
+// The E of BREAD - Edit operation
+export const updateFullFormById: RequestHandler<
+    { id: string },
+    FullForm | { error: string }
+> = async (req: any, res, next) => {
+    console.log("update reached");
+    try {
+        const { form } = req.body;
+
+        const { user_id } = req.user;
+
+        // We use a service to format the data we want
+        const fullForm = await updateFullForm(form);
+
+        if (!fullForm) {
+            res.status(404).json({
+                error: "Erreur de Laurent: fullform n'existe pas",
+            });
+            return;
+        }
+
+        if (fullForm.user_id !== req.user.user_id) {
+            res.status(403).json({
+                error: "Le formulaire ayant cet id n'est pas le votre",
+            });
+            return;
+        }
+
+        res.status(200).json(fullForm);
+    } catch (err) {
+        next(err);
+    }
+};
+
 // The A of BREAD - Add (Create) operation
-export const createForm: RequestHandler = async (req, res, next) => {
+export const createForm: RequestHandler = async (req: any, res, next) => {
     try {
         // Extract the form data from the request body
+        const {
+            is_deployed,
+            is_closed,
+            is_public,
+            multi_answer,
+            theme_id,
+            form_name,
+            form_description,
+        } = req.body;
+        const { user_id } = req.user;
+
+        const optionalFields: Partial<FormPayload> = {};
+        if (typeof req.body["date_to_close"] === "string") {
+            optionalFields["date_to_close"] = req.body["date_to_close"];
+        }
+        // if (typeof(req.body["form_description"])==="string"){optionalFields["form_description"]=req.body["form_description"]}
+
         // Create the form
+        const newForm = await insertForm({
+            is_deployed,
+            is_closed,
+            is_public,
+            multi_answer,
+            theme_id,
+            form_name,
+            form_description,
+            user_id,
+            ...optionalFields,
+        });
+
         // Respond with HTTP 201 (Created) and the ID of the newly inserted form
+        res.status(201).json(newForm);
     } catch (err) {
         // Pass any errors to the error-handling middleware
         next(err);

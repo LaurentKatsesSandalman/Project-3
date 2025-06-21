@@ -57,7 +57,7 @@ export function AppProvider({ children }: AppProviderProps) {
         } else {
             localStorage.removeItem("authToken");
             if (!isPublicRoute) {
-                navigate("/");
+                navigate("/"); 
             }
         }
     }, [authToken]);

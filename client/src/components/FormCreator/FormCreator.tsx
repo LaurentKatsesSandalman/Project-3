@@ -1,99 +1,215 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import FormField from '../FormField/FormField';
-import styles from './FormCreator.module.css';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import FormField from "../FormField/FormField";
+import styles from "./FormCreator.module.css";
+import type { FormPayload } from "../../types/form";
+import { useAppContext } from "../../context/AppContext";
+import type { FieldPayload } from "../../types/fields";
+import { useParams } from "react-router-dom";
 
-const fieldTypes = [
-  { type: 'text', name: 'Texte court' },
-  { type: 'textarea', name: 'Texte long' },
-  { type: 'email', name: 'Email' },
-  { type: 'tel', name: 'Téléphone' },
-  { type: 'checkbox', name: 'Case à cocher' },
-  { type: 'radio', name: 'Choix unique' },
-  { type: 'date', name: 'Date' },
-  { type: 'time', name: 'Heure' },
-  { type: 'url', name: 'URL' },
+type TypeOfField =
+  | "text"
+  | "textarea"
+  | "email"
+  | "tel"
+  | "checkbox"
+  | "radio"
+  | "date"
+  | "time"
+  | "url"
+  | "month"
+  | "number"
+  | "droplist"
+  | "notes";
+
+interface FieldType {
+  type: TypeOfField;
+  name: string;
+  field_type_id: number;
+}
+
+const fieldTypes: FieldType[] = [
+  { type: "text", name: "Texte court", field_type_id: 1 },
+  { type: "textarea", name: "Texte long", field_type_id: 11 },
+  { type: "email", name: "Email", field_type_id: 4 },
+  { type: "tel", name: "Téléphone", field_type_id: 8 },
+  { type: "checkbox", name: "Case à cocher", field_type_id: 2 },
+  { type: "radio", name: "Choix unique", field_type_id: 7 },
+  { type: "date", name: "Date", field_type_id: 3 },
+  { type: "time", name: "Heure", field_type_id: 10 },
+  { type: "url", name: "URL", field_type_id: 9 },
+  { type: "month", name: "Liste des mois", field_type_id: 5 },
+  { type: "number", name: "Nombre", field_type_id: 6 },
+  { type: "droplist", name: "Liste déroulante", field_type_id: 12 },
 ];
 
+const emptyForm = {
+  is_deployed: false,
+  is_closed: false,
+  date_to_close: null,
+  is_public: false,
+  multi_answer: false,
+  form_name: "Nouveau formulaire",
+  form_description: "",
+  theme: {
+    theme_id: 1,
+    color_value: 169,
+    font1_value: "Chivo",
+    font2_value: "Spectral",
+    font1_size: 16,
+    font2_size: 24,
+  },
+  fields: [],
+};
+
 const FormCreator = () => {
-  const [formTitle, setFormTitle] = useState('Nouveau Formulaire');
-  const [formDescription, setFormDescription] = useState('');
-  const [formFields, setFormFields] = useState([]);
+  const { authToken, setAuthToken } = useAppContext();
+  const [form, setForm] = useState<FormPayload>(emptyForm);
+  const [isFieldsPanelVisible, setIsFieldsPanelVisible] = useState(true);
 
-  const { register, handleSubmit } = useForm();
+  const { form_id } = useParams<{ form_id: string }>();
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
-  const addField = (type) => {
-    const newField = {
-      id: Date.now().toString(),
-      type,
-      name: `Nouvelle question`,
-      description: '',
-      required: false,
-      options: type === 'checkbox' || type === 'radio' ? ['Option 1'] : undefined,
+  useEffect(() => {
+    const getForm = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_QUICKY_API_URL}/api/forms/${form_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        );
+        setForm(response.data);
+      } catch (err: any) {
+        if (err.response?.status === 403 || err.response?.status === 401) {
+          setAuthToken(null);
+        }
+      }
     };
-    setFormFields([...formFields, newField]);
+    getForm();
+  }, [authToken, form_id, setAuthToken]);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log(form);
+    try {
+      await axios.put(
+        `${import.meta.env.VITE_QUICKY_API_URL}/api/forms/${form_id}`,
+        {
+          form: form,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+    } catch (err: any) {
+      if (err.response?.status === 403 || err.response?.status === 401) {
+        setAuthToken(null);
+      }
+    }
   };
 
-  const removeField = (id) => {
-    setFormFields(formFields.filter((field) => field.id !== id));
+  const handleChange = (string: "title" | "description", eventTargetValue: string) => {
+    if (string === "title") {
+      setForm((prev) => ({ ...prev, form_name: eventTargetValue }));
+    }
+    if (string === "description") {
+      setForm((prev) => ({ ...prev, form_description: eventTargetValue }));
+    }
   };
 
-  const updateFieldLabel = (id, name) => {
-    setFormFields(formFields.map(field => field.id === id ? { ...field, name } : field));
+  const addField = (type: TypeOfField) => {
+    const newField = {
+      field_ordering: form.fields.length + 1,
+      field_name: `Nouvelle question`,
+      is_required: false,
+      is_unique: false,
+      field_type_id: fieldTypes[fieldTypes.findIndex((fieldType) => fieldType.type === type)].field_type_id,
+      field_description: "",
+      default_value: null,
+      field_options: [],
+    };
+    setForm((prev) => ({ ...prev, fields: [...prev.fields, newField] }));
   };
 
-  const updateFieldDescription = (id, description) => {
-    setFormFields(formFields.map(field => field.id === id ? { ...field, description } : field));
+  const findTypeName = (field: FieldPayload): string => {
+    const index = fieldTypes.findIndex((fieldType) => fieldType.field_type_id === field.field_type_id);
+    if (index === -1) {
+      throw new Error("Field type not found");
+    }
+    return fieldTypes[index].name;
+  };
+
+  const toggleFieldsPanelVisibility = () => {
+    setIsFieldsPanelVisible(!isFieldsPanelVisible);
   };
 
   return (
-    <div className={styles['form-container']}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles['form-header']}>
+    <div className={styles["form-container"]}>
+      <form onSubmit={handleSubmit}>
+        <div className={styles["form-header"]}>
           <input
             type="text"
             placeholder="Titre du formulaire"
-            value={formTitle}
-            onChange={(e) => setFormTitle(e.target.value)}
-            className={styles['form-title']}
+            value={form.form_name}
+            onChange={(event) => {
+              event.preventDefault();
+              handleChange("title", event.target.value);
+            }}
+            className={styles["form-title"]}
           />
           <input
             type="text"
             placeholder="Description du formulaire"
-            value={formDescription}
-            onChange={(e) => setFormDescription(e.target.value)}
-            className={styles['form-description']}
+            value={form.form_description}
+            onChange={(event) => {
+              event.preventDefault();
+              handleChange("description", event.target.value);
+            }}
+            className={styles["form-description"]}
           />
         </div>
 
-        <div className={styles['form-layout']}>
-          <div className={styles['form-editor']}>
-            {formFields.map((field) => (
+        <div className={styles["form-layout"]}>
+          <div className={styles["form-editor"]}>
+            {form.fields.map((field) => (
               <FormField
-                key={field.id}
+                key={field.field_ordering}
                 field={field}
-                register={register}
-                removeField={removeField}
-                updateFieldLabel={updateFieldLabel}
-                updateFieldDescription={updateFieldDescription}
-                setFormFields={setFormFields}
+                fieldTypeName={findTypeName(field)}
+                setForm={setForm}
               />
             ))}
           </div>
-
-          <div className={styles['form-right-panel']}>
-            <button type="submit" className={styles['form-save-button']}>Sauvegarder formulaire</button>
-            <div className={styles['form-fields-container']}>
-              <h3>Choisir un champ</h3>
-              {fieldTypes.map((fieldType) => (
-                <button key={fieldType.type} type="button" onClick={() => addField(fieldType.type)}>
-                  {fieldType.name}
-                </button>
-              ))}
+          <div className={styles["form-right-panel"]}>
+            <button type="submit" className={styles["form-save-button"]}>
+              Sauvegarder formulaire
+            </button>
+            <div style={{ position: "relative" }}>
+              <button
+                type="button"
+                onClick={toggleFieldsPanelVisibility}
+                className={styles["toggle-panel-button"]}
+              >
+                {isFieldsPanelVisible ? "➖" : "➕"}
+              </button>
+              {isFieldsPanelVisible && (
+                <div className={styles["form-fields-container"]}>
+                  <h3>Choisir un champ</h3>
+                  {fieldTypes.map((fieldType) => (
+                    <button
+                      key={fieldType.field_type_id}
+                      type="button"
+                      onClick={() => addField(fieldType.type)}
+                    >
+                      {fieldType.name}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

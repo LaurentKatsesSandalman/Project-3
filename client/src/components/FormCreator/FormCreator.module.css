@@ -1,3 +1,7 @@
+body {
+  font-family: var(--font-alt);
+}
+
 .form-container {
   display: flex;
   flex-direction: column;
@@ -69,18 +73,65 @@
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
-  background-color: var(--color-text-placeholder);
-  border: none;
+  background-color: var(--color-body-background);
+  border: 1px solid var(--color-text-dark);
   border-radius: 4px;
   cursor: pointer;
   text-align: left;
 }
 
 .form-fields-container button:hover, .form-save-button:hover {
-  background-color: var(--shadow-inner);
+  box-shadow: var(--shadow-inner);
 }
 
 .form-save-button {
   background-color: var(--color-primary);
   color: var(--color-text-light);
+}
+
+.form-field {
+  margin-bottom: 20px;
+  background-color: var(--color-text-light);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow:var(--shadow-outer);
+}
+
+.toggle-panel-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1000;
+}
+.mode-toggle-buttons {
+  display: flex;
+  margin-bottom: 20px;
+   justify-content: center;
+  
+}
+
+.mode-toggle-button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  background-color: var(--color-text-light);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.mode-toggle-button.active {
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+}
+
+.result-page {
+  background-color: var(--color-text-light);
+  min-height: 500px;
+  border: 1px solid var(var(--color-text-dark));
+  border-radius: var(--radius);
+  padding: 20px;
 }
