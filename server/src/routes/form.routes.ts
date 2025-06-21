@@ -19,8 +19,4 @@ router.post("/", authenticateToken, createForm);
 router.patch("/:id", authenticateToken, updateFullFormById);
 router.delete("/:id", authenticateToken, deleteForm);
 
-//put
-//patch
-//...
-
 export default router;
