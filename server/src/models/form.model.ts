@@ -2,7 +2,7 @@ import { ResultSetHeader, RowDataPacket } from "mysql2";
 import database from "./db_model";
 import { Form, FormPayload } from "../types/form";
 import { Field, FieldOption } from "../types/field";
-import { FormResult } from "../types/result";
+import { FormResult, MainResult } from "../types/result";
 
 export async function findAllForms(user_id: number): Promise<Form[]> {
     const [rows] = await database.query<Form[]>(
@@ -131,10 +131,8 @@ export async function updateForm(form: Partial<Form>): Promise<Form> {
 }
 
 //Get the main data to a form, with nbr of answers
-export async function findMainResultData(
-    id: number
-): Promise<Partial<FormResult>> {
-    const [rows] = await database.query<Partial<FormResult> & RowDataPacket[]>(
+export async function findMainResultData(id: number): Promise<MainResult> {
+    const [rows] = await database.query<MainResult & RowDataPacket[]>(
         `
         SELECT form.user_id, form.form_name, form.creation_date, COUNT (form_answer.form_id) AS total_answers
         FROM form
@@ -144,5 +142,5 @@ export async function findMainResultData(
         [id]
     );
 
-    return rows[0] || null;
+    return rows[0];
 }

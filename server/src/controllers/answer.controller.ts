@@ -61,9 +61,7 @@ export const getFormResultById: RequestHandler<
             return;
         }
 
-        const formResult: FormResult | undefined = await findFormResultById(
-            formId
-        );
+        const formResult: FormResult | null = await findFormResultById(formId);
         if (!formResult) {
             res.status(404).json({
                 error: "Il n'existe pas de formulaire ayant cet id",

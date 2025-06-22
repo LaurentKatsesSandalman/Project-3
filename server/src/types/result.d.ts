@@ -23,10 +23,17 @@ export interface FieldResult {
     options_results: OptionResult[] | [];
 }
 
-export interface FormResult extends RowDataPacket {
+export interface MainResult extends RowDataPacket {
     user_id: number;
     form_name: string;
     creation_date: Date;
     total_answers: number;
-    field_result: FieldResult[] | [];
+}
+
+export interface FormResult {
+    user_id: number;
+    form_name: string;
+    creation_date: Date;
+    total_answers: number;
+    field_results: FieldResult[] | [];
 }

@@ -5,32 +5,39 @@ import {
 } from "../models/fieldanswer.model";
 import { findMainResultData } from "../models/form.model";
 import { Field, FieldAnswer } from "../types/field";
-import { FormResult, OptionResultWithFieldId } from "../types/result";
+import {
+    FormResult,
+    MainResult,
+    OptionResultWithFieldId,
+} from "../types/result";
 
 export const findFormResultById = async (form_id: number) => {
-    const mainResultData: Partial<FormResult> = await findMainResultData(
-        form_id
-    );
+    // First part of our object, info about the form
+    const mainResultData: MainResult = await findMainResultData(form_id);
     if (!mainResultData) return null;
 
+    // Second part of our object, info about the fields for this form
     const fieldsInfo: Field[] | undefined = await findAllFields(form_id);
     if (!fieldsInfo) return null;
 
+    // Third part of our object, info about the answers for all fields
     const fieldsAnswers: FieldAnswer[] | undefined = await findAllFieldAnswers(
         form_id
     );
     if (!fieldsAnswers) return null;
 
+    // Fourth part of object, aggregate data for the right field_type
     const aggregateAnswers: OptionResultWithFieldId[] | undefined =
         await findOptionResults(form_id);
     if (!aggregateAnswers) return null;
 
+    // Building of our big object
     const formResult = {
         user_id: mainResultData.user_id,
         form_name: mainResultData.form_name,
         creation_date: mainResultData.creation_date,
         total_answers: mainResultData.total_answers,
-        fields:
+        field_results:
             fieldsInfo.map((field) => {
                 return {
                     field_id: field.field_id,
