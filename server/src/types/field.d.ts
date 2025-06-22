@@ -6,7 +6,7 @@ export interface FieldPayload {
     ordering: number;
     name: string;
     description?: string | null;
-    default_value?: string| null;
+    default_value?: string | null;
     is_required: boolean;
     is_unique: boolean;
     form_id: number;
@@ -16,7 +16,7 @@ export interface FieldPayload {
 export interface Field extends RowDataPacket {
     field_id: number;
     ordering: number;
-    name: string;
+    field_name: string;
     description?: string | null;
     default_value?: string;
     is_required: boolean;
@@ -35,4 +35,11 @@ export interface FieldOption extends RowDataPacket {
 
 export interface FullField extends Field {
     field_options: FieldOption[];
+}
+
+export interface FieldAnswer extends RowDataPacket {
+    field_answer_id: number;
+    form_answer_id: number;
+    field_id: number;
+    value: string;
 }

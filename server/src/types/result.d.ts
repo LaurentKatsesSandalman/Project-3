@@ -1,6 +1,12 @@
+import { RowDataPacket } from "mysql2";
+
 export interface OptionResult {
     value: string;
     count: number;
+}
+
+export interface OptionResultWithFieldId extends OptionResult {
+    field_id: number;
 }
 
 export interface Result {
@@ -13,14 +19,14 @@ export interface FieldResult {
     field_id: number;
     field_type_id: number;
     field_name: string;
-    results: Result[];
-    options_results: OptionResult[];
+    results: Result[] | [];
+    options_results: OptionResult[] | [];
 }
 
-export interface FormResult {
+export interface FormResult extends RowDataPacket {
     user_id: number;
     form_name: string;
     creation_date: Date;
     total_answers: number;
-    field_result: FieldResult[];
+    field_result: FieldResult[] | [];
 }
