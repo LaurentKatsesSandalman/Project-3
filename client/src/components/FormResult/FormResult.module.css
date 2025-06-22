@@ -11,6 +11,7 @@
     justify-content: center;
     align-items: center;
     gap: 24px;
+    margin-bottom: 32px;
 }
 
 .formResult {
@@ -35,6 +36,16 @@
     display: flex;
     gap: 16px;
     align-items: center;
+}
+
+.backIcon {
+    color: var(--color-primary);
+    width: 42px;
+    height: 42px;
+}
+
+.backIcon:hover {
+    color: var(--color-primary-darker);
 }
 
 .title {

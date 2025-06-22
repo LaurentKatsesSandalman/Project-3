@@ -41,7 +41,7 @@
 .avatarIcon {
     height: 100%;
     color: var(--color-primary);
-    transition: color .1s ease-in-out;
+    transition: color 0.1s ease-in-out;
     cursor: pointer;
 }
 

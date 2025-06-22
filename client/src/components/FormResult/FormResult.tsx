@@ -8,6 +8,7 @@ import Loading from "../Loading/Loading";
 import { Link } from "react-router-dom";
 import { formatDate } from "../utils/formatDate";
 import ResultField from "../ResultField/ResultField";
+import { BackIcon } from "../Icons/Icons";
 
 function FormResult() {
     const { authToken, setAuthToken } = useAppContext();
@@ -42,10 +43,6 @@ function FormResult() {
         getFormResult(form_id);
     }, []);
 
-    useEffect(() => {
-        console.log(formResult);
-    }, [formResult]);
-
     return (
         <div className={styles.pageContainer}>
             {
@@ -56,7 +53,9 @@ function FormResult() {
                     formResult && (
                         <div className={styles.formResult}>
                             <div className={styles.titleContainer}>
-                                <Link to="/forms">BACK</Link>
+                                <Link to="/forms">
+                                    <BackIcon className={styles.backIcon} />
+                                </Link>
                                 <h1 className={styles.title}>
                                     {formResult.form_name}
                                 </h1>
@@ -83,7 +82,11 @@ function FormResult() {
                                 <ResultField
                                     key={field_result.field_id}
                                     field_name={field_result.field_name}
+                                    field_type_id={field_result.field_type_id}
                                     results={field_result.results}
+                                    options_results={
+                                        field_result.options_results
+                                    }
                                 />
                             ))}
                         </div>

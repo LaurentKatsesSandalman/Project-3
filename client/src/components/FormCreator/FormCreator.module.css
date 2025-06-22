@@ -106,24 +106,40 @@
     cursor: pointer;
     z-index: 1000;
 }
+
 .mode-toggle-buttons {
     display: flex;
     margin-bottom: 20px;
     justify-content: center;
 }
 
+.mode-toggle-buttons > :first-child {
+    border-bottom-left-radius: var(--radius);
+}
+
+.mode-toggle-buttons > :last-child {
+    border-bottom-right-radius: var(--radius);
+}
+
 .mode-toggle-button {
     padding: 10px 20px;
-    margin-right: 10px;
     background-color: var(--color-text-light);
     border: none;
-    border-radius: 4px;
     cursor: pointer;
+    box-shadow: 0 6px 6px -4px hsla(0, 0%, 0%, 0.2);
+}
+
+.mode-toggle-button:hover {
+    box-shadow: var(--shadow-inner), 0 6px 6px -4px hsla(0, 0%, 0%, 0.2);
 }
 
 .mode-toggle-button.active {
     background-color: var(--color-primary);
     color: var(--color-text-light);
+}
+
+.mode-toggle-button.active:hover {
+    box-shadow: var(--shadow-outer);
 }
 
 .result-page {
