@@ -10,8 +10,14 @@ import Button from "../../components/Button/Button";
 import InputField from "../../components/InputField/InputField";
 import type { FieldAnswer } from "../../types/answers";
 import { useAppContext } from "../../context/AppContext";
+import clsx from "clsx";
+import { BackIcon } from "../../components/Icons/Icons";
 
-function AnswerForm() {
+interface AnswerFormProps {
+    isPreview: boolean;
+}
+
+function AnswerForm({ isPreview }: AnswerFormProps) {
     const { setAuthToken } = useAppContext();
     const { form_id } = useParams();
     const [securedForm, setSecuredForm] = useState<SecuredForm | null>(null);
@@ -45,9 +51,8 @@ function AnswerForm() {
         }
     };
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async () => {
         if (!securedForm) return;
-        e.preventDefault();
 
         if (
             // If a user can answer only once
@@ -164,7 +169,10 @@ function AnswerForm() {
                     }, 75%, 60%)`,
                 } as React.CSSProperties
             }
-            className={styles.pageContainer}
+            className={clsx(
+                styles.pageContainer,
+                isPreview && styles.previewSpacing
+            )}
         >
             {
                 // While the form is being requested
@@ -189,9 +197,16 @@ function AnswerForm() {
                 ) : (
                     <div className={styles.formContainer}>
                         <div className={styles.formInfos}>
-                            <h1 className={styles.formTitle}>
-                                {securedForm.form_name}
-                            </h1>
+                            <div className={styles.previewContainer}>
+                                {isPreview && (
+                                    <Link to="/forms">
+                                        <BackIcon className={styles.backIcon} />
+                                    </Link>
+                                )}
+                                <h1 className={styles.formTitle}>
+                                    {securedForm.form_name}
+                                </h1>
+                            </div>
                             <p className={styles.formDescription}>
                                 {securedForm.form_description}
                             </p>
@@ -199,7 +214,12 @@ function AnswerForm() {
                         <form
                             className={styles.form}
                             onSubmit={(e) => {
-                                handleSubmit(e);
+                                e.preventDefault();
+                                isPreview
+                                    ? alert(
+                                          "Vous ne pouvez pas répondre à votre formulaire en mode Aperçu"
+                                      )
+                                    : handleSubmit();
                             }}
                         >
                             {securedForm.fields.map((field: Field) => {

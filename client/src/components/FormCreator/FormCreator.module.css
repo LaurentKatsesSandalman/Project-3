@@ -4,6 +4,7 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+    padding-top: 58px;
 }
 
 .form-header {
@@ -108,6 +109,9 @@
 }
 
 .mode-toggle-buttons {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     margin-bottom: 20px;
     justify-content: center;
