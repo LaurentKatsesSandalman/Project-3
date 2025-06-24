@@ -12,8 +12,7 @@
 }
 
 .previewSpacing {
-    padding-top: 10px;
-    min-height: calc(100vh - 48px);
+    padding-top: 60px;
 }
 
 .container {
@@ -89,11 +88,13 @@
     height: 42px;
 }
 
+.backIcon:hover {
+    color: var(--color-primary-darker);
+}
+
 .formTitle {
-    font-family: var(--font-alt);
     font-size: var(--font-big-title-size);
-    font-weight: 600;
-    text-decoration: underline;
+    font-weight: 500;
 }
 
 .form {

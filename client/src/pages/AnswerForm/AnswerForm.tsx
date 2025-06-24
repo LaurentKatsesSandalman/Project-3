@@ -256,11 +256,17 @@ function AnswerForm({ isPreview }: AnswerFormProps) {
                     </div>
                 )
             }
-            <Link to="/" className={styles.link}>
-                Réalisez vos formulaires facilement grâce à
-                <img className={styles.logo} src={logoUrl} alt="Quicky logo" />
-                <span className={styles.logoName}>Quicky</span>
-            </Link>
+            {!isPreview && (
+                <Link to="/" className={styles.link}>
+                    Réalisez vos formulaires facilement grâce à
+                    <img
+                        className={styles.logo}
+                        src={logoUrl}
+                        alt="Quicky logo"
+                    />
+                    <span className={styles.logoName}>Quicky</span>
+                </Link>
+            )}
         </div>
     );
 }

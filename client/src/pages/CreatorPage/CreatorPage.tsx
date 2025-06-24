@@ -4,7 +4,7 @@ import Button from "../../components/Button/Button";
 import axios from "axios";
 import { useAppContext } from "../../context/AppContext";
 import type { Form } from "../../types/form";
-import "../CreatorPage/CreatorPage.module.css";
+import styles from "../CreatorPage/CreatorPage.module.css";
 // import Item from "../../components/Item/item";
 
 function CreatorPage() {
@@ -69,13 +69,13 @@ function CreatorPage() {
 
     return (
         <>
-            <section className="Header_section">
-                <div className="H1_contener">
+            <section className={styles.headerSection}>
+                <div className={styles.h1Container}>
                     <h1>Vos formulaires</h1>
                 </div>
             </section>
-            <section className="button_section">
-                <div className="contener_button">
+            <section className={styles.buttonSection}>
+                <div className={styles.containerButton}>
                     <Button variant="create_form" onClick={handleClick}>
                         Créer un nouveau formulaire
                     </Button>

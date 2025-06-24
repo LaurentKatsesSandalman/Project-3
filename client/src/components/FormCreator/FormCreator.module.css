@@ -4,7 +4,30 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    padding-top: 58px;
+    padding-top: 108px;
+}
+
+.title-container {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.back-icon {
+    color: var(--color-primary);
+    width: 42px;
+    height: 42px;
+}
+
+.back-icon:hover {
+    color: var(--color-primary-darker);
+}
+
+.form-title {
+    font-size: 1.8rem;
+    font-weight: 500;
 }
 
 .form-header {
@@ -13,7 +36,7 @@
     margin-bottom: 20px;
 }
 
-.form-title,
+.form-title-input,
 .form-description {
     width: 100%;
     padding: 10px;
@@ -22,7 +45,7 @@
     margin-bottom: 10px;
 }
 
-.form-title {
+.form-title-input {
     font-size: 24px;
     font-weight: bold;
 }
@@ -106,50 +129,4 @@
     font-size: 20px;
     cursor: pointer;
     z-index: 1000;
-}
-
-.mode-toggle-buttons {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    margin-bottom: 20px;
-    justify-content: center;
-}
-
-.mode-toggle-buttons > :first-child {
-    border-bottom-left-radius: var(--radius);
-}
-
-.mode-toggle-buttons > :last-child {
-    border-bottom-right-radius: var(--radius);
-}
-
-.mode-toggle-button {
-    padding: 10px 20px;
-    background-color: var(--color-text-light);
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 6px 6px -4px hsla(0, 0%, 0%, 0.2);
-}
-
-.mode-toggle-button:hover {
-    box-shadow: var(--shadow-inner), 0 6px 6px -4px hsla(0, 0%, 0%, 0.2);
-}
-
-.mode-toggle-button.active {
-    background-color: var(--color-primary);
-    color: var(--color-text-light);
-}
-
-.mode-toggle-button.active:hover {
-    box-shadow: var(--shadow-outer);
-}
-
-.result-page {
-    background-color: var(--color-text-light);
-    min-height: 500px;
-    border: 1px solid var(var(--color-text-dark));
-    border-radius: var(--radius);
-    padding: 20px;
 }

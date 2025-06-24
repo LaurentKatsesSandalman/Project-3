@@ -4,14 +4,13 @@
     color: var(--color-text-dark);
     width: 100%;
     padding: 0 2%;
-    background-color: var(--color-body-background);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 24px;
     margin-bottom: 32px;
-    padding-top: 58px;
+    padding-top: 108px;
 }
 
 .formResult {
@@ -49,10 +48,8 @@
 }
 
 .title {
-    font-family: var(--font-alt);
     font-size: 1.8rem;
-    font-weight: 600;
-    text-decoration: underline;
+    font-weight: 500;
 }
 
 .generalInfos {
