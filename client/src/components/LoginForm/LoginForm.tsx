@@ -4,6 +4,7 @@ import { useAppContext, type AppContextType } from "../../context/AppContext";
 import Button from "../Button/Button";
 import styles from "./LoginForm.module.css";
 import type { User, UserLogin } from "../../types/users";
+import type { AxiosError } from "axios";
 
 interface LoginFormProps {
     setActiveModal: AppContextType["setIsLoginActive"];
@@ -42,8 +43,14 @@ function LoginForm({ setActiveModal }: LoginFormProps) {
                 { email: email, password: password }
             );
             setUser(response.data);
-        } catch (err: any) {
-            setErrorMessage(err.response.data.error);
+        } catch (err: unknown) {
+            const axiosError = err as AxiosError<{error: string}>;
+            if (axiosError.response?.data?.error){
+                setErrorMessage(axiosError.response.data.error);
+            }
+            else {
+                setErrorMessage("Une erreur est survenue, veuillez réessayer plus tard.");
+            }
         }
     };
 

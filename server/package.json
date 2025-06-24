@@ -1,9 +1,11 @@
 {
     "name": "server",
     "version": "1.0.0",
-    "description": "",
     "main": "index.js",
     "scripts": {
+        "start": "vite",
+        "dev": "vite",
+        "build": "vite build",
         "start:dev": "tsx --watch ./src/app.ts",
         "create:db": "mysql -u root -p < src/database/schema.sql",
         "setup:all": "npm run create:db && npm run start:dev",
@@ -28,6 +30,8 @@
         "@types/express": "^5.0.2",
         "@types/jsonwebtoken": "^9.0.9",
         "@types/node": "^22.15.21",
-        "tsx": "^4.19.4"
-    }
+        "tsx": "^4.19.4",
+        "vite": "^6.3.5"
+    },
+    "description": ""
 }

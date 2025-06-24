@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
 import axios from "axios";
 import { useAppContext } from "../../context/AppContext";
-import { Form } from "../../types/form";
-// import Item from "../../components/Item/item";
+import type { Form } from "../../types/form";
+// import type { Item } from "../../components/Item/item";
 
 
 function CreatorPage() {
