@@ -7,6 +7,7 @@ import CreatorPage from "./pages/CreatorPage/CreatorPage.tsx";
 import DetailedForm from "./pages/DetailedForm/DetailedForm.tsx";
 import AnswerForm from "./pages/AnswerForm/AnswerForm.tsx";
 import CreatorSettings from "./pages/CreatorSettings/CreatorSettings.tsx";
+import PublicLayout from "./PublicLayout.tsx";
 
 const router = createBrowserRouter([
     {
@@ -28,8 +29,14 @@ const router = createBrowserRouter([
                 path: "/forms/:form_id",
                 element: <DetailedForm />,
             },
+        ],
+    },
+    // Separate this path from the others to not display the topbar
+    {
+        element: <PublicLayout />,
+        children: [
             {
-                path: "/answer/:form_id",
+                path: "/answers/:form_id",
                 element: <AnswerForm />,
             },
         ],

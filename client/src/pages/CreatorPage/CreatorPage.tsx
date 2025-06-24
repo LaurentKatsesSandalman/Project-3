@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
 import axios from "axios";
@@ -6,81 +6,81 @@ import { useAppContext } from "../../context/AppContext";
 import type { Form } from "../../types/form";
 // import type { Item } from "../../components/Item/item";
 
-
 function CreatorPage() {
-	const params = useParams();
-    const [users, setUsers] = useState<any[]>();
-	const [forms, setForms] = useState<Form[] | []>([]);
-	const { authToken, setAuthToken } = useAppContext();
+    const [forms, setForms] = useState<Form[] | []>([]);
+    const { authToken, setAuthToken } = useAppContext();
+    const navigate = useNavigate();
     const handleClick = async () => {
-        // COPY THIS WHEN YOU WANT TO REQUEST THE API
+        const emptyForm = {
+            is_public: true,
+            is_deployed: true,
+            is_closed: false,
+            multi_answer: false,
+            form_name: "Nouveau formulaire",
+            form_description: "",
+            theme_id: 1,
+        };
         try {
-            const response = await axios.get(
-                `${import.meta.env.VITE_QUICKY_API_URL}/api/users`, // You could add /${form_id} to the route for example if you want to pass params to your request
-                // WHERE YOU WOULD WANT TO ADD THE REQUEST BODY if .post or .patch
-                // {
-                //     form: formData,
-                // },
+            const response = await axios.post(
+                `${import.meta.env.VITE_QUICKY_API_URL}/api/forms`,
+                emptyForm,
                 {
                     headers: {
                         Authorization: `Bearer ${authToken}`,
                     },
                 }
             );
-
-            setUsers(response.data);
+            navigate(`/forms/${response.data.form_id}`); //redirection vers la page du formulaire crée
         } catch (err: any) {
-            // When there is an issue with the token
-            if (err.reponse?.status === 401 || err.response?.status === 403) {
-                // Maybe do something to show the user he is being disconnected
+            console.error(
+                "Une erreur s'est produite lors de la création du formulaire :",
+                err
+            );
+
+            if (err.response?.status === 401 || err.response?.status === 403) {
                 setAuthToken(null);
             }
+            alert(
+                "Impossible de créer un formulaire pour le moment, veuillez réessayer plus tard."
+            );
         }
     };
 
     useEffect(() => {
-        console.log(users);
-    }, [users]);
-    // END OF TEMP
-	useEffect(() => {
-		const fetchForms = async () => {
-			try {
-				const response = await fetch(`/api/forms`, {
-      				method: 'GET',
-					headers: {
-						'Authorization': `Bearer ${authToken}`,
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({})
-					});
-				if (!response.ok) {
-					throw new Error('Failed to fetch forms');
-				}
-				const data = await response.json();
-				setForms(data);
-			} catch (error) {
-				console.error('Error fetching forms:', error);
-				alert("Impossible de créer un formulaire pour le moment, veuillez réessayer plus tard.");
-			}
-		};
+        const fetchForms = async () => {
+            try {
+                const response = await axios.get(
+                    `${import.meta.env.VITE_QUICKY_API_URL}/api/forms`,
+                    { headers: { Authorization: `Bearer ${authToken}` } }
+                );
+                setForms(response.data);
+            } catch (err) {
+                console.error("Error fetching forms:", err);
+            }
+        };
 
-		fetchForms();
-	}, []);
-	return (
-		<>
-			<section className="Header_section">
-				<div className="H1_contener">
-					<h1>Vos formulaires</h1>
-				</div>			
-			</section>
-			<section className="button_section">
-				<div className="contener_button">
-					<Button variant="create_form" onClick={handleClick}>
-						Créer un nouveau formulaire
-					</Button>
-				</div>
-			</section>
-			{/* <section className="form_list_section">
+        fetchForms();
+    }, []);
+
+    useEffect(() => {
+        console.log(forms);
+    }, [forms]);
+
+    return (
+        <>
+            <section className="Header_section">
+                <div className="H1_contener">
+                    <h1>Vos formulaires</h1>
+                </div>
+            </section>
+            <section className="button_section">
+                <div className="contener_button">
+                    <Button variant="create_form" onClick={handleClick}>
+                        Créer un nouveau formulaire
+                    </Button>
+                </div>
+            </section>
+            {/* <section className="form_list_section">
 				{forms.map((form) => (
 					<Item 
 						key={form.form_id}
@@ -91,8 +91,8 @@ function CreatorPage() {
 					/>
 			))}
 			</section> */}
-		</>
-	);
+        </>
+    );
 }
 
 export default CreatorPage;

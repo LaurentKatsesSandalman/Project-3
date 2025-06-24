@@ -1,21 +1,20 @@
 import styles from "./DetailedForm.module.css";
 import FormCreator from "../../components/FormCreator/FormCreator";
-// choppe :form_id de l'url
-// fetch les infos de formulaire pour form_id = xx
+import { useState } from "react";
+import NavBar from "../../components/NavBar/NavBar";
+import FormResult from "../../components/FormResult/FormResult";
 
 function DetailedForm() {
-	// 3 value entre create / show /data
-	return (
-		<>
-			<h1>DetailedForm</h1>
-			<FormCreator/>
-			{/* <detail de la nav bar + chgmt valeur/> */}
-			{/*puis switch case en foncion de la value nav bar
-		cas1 : <CreateForm>
-		cas2 : <AnswerForm> <= normalement, on n'a pas besoin de créer 
-		cas3 : <Data:>*/}
-		</>
-	);
+    const [viewMode, setViewMode] = useState<"preview" | "edit" | "result">(
+        "edit"
+    );
+    return (
+        <>
+            <NavBar viewMode={viewMode} setViewMode={setViewMode} />
+            {viewMode === "edit" && <FormCreator />}
+            {viewMode === "result" && <FormResult />}
+        </>
+    );
 }
 
 export default DetailedForm;
