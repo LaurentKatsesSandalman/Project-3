@@ -1,6 +1,6 @@
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import database from "./db_model";
-import { FieldOption } from "../types/field";
+import { FieldOption, FieldOptionPayload } from "../types/field";
 
 // copied on user, which was TEMP
 export async function findAllOptions(field_id: number): Promise<FieldOption[]> {
@@ -21,14 +21,9 @@ export async function findOptionById(
     return rows[0];
 }
 
-export async function insertOption({
-    ordering,
-    name,
-    value,
-    field_id,
-}: FieldOption): Promise<FieldOption> {
-    const fields = ["ordering", "name", "value", "field_id"];
-    const values = [ordering, name, value, field_id];
+export async function insertOption(option: FieldOptionPayload): Promise<FieldOption> {
+    const fields = ["option_ordering", "option_name", "option_value", "field_id"];
+    const values = [option.option_ordering, option.option_name, option.option_value, option.field_id];
 
     const connectingElement = values.map(() => "?").join(",");
     const sqlQuery = `

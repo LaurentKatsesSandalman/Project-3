@@ -34,6 +34,7 @@ export interface FullForm extends Form {
 
 // Front => Back
 export interface FullFormPayload{
+    form_id: number;
     is_deployed: boolean;
     is_closed: boolean;
     date_to_close: string | null;

@@ -11,6 +11,15 @@ export async function findAllFields(form_id: number): Promise<Field[]> {
     return rows;
 }
 
+//Not used anymore
+/*export async function findAllFieldsId (form_id: number): Promise<Partial<Field[]>> {
+        const [rows] = await database.query<Field[] & RowDataPacket[]>(
+        `SELECT GROUP_CONCAT(field_id SEPARATOR ',') as fields_id FROM field WHERE form_id=1 GROUP BY form_id`,
+        [form_id]
+    );
+    return rows;
+}*/
+
 export async function findFieldById(id: number): Promise<Field | undefined> {
     const [rows] = await database.query<Field[] & RowDataPacket[]>(
         `SELECT * FROM field WHERE field_id=?`,
@@ -19,20 +28,11 @@ export async function findFieldById(id: number): Promise<Field | undefined> {
     return rows[0];
 }
 
-export async function insertField({
-    ordering,
-    name,
-    description = null,
-    default_value = null,
-    is_required = false,
-    is_unique = false,
-    form_id,
-    field_type_id,
-}: FieldPayload): Promise<Field> {
+export async function insertField(field : FieldPayload): Promise<Field> {
     const fields = [
-        "ordering",
-        "name",
-        "description",
+        "field_ordering",
+        "field_name",
+        "field_description",
         "default_value",
         "is_required",
         "is_unique",
@@ -40,14 +40,14 @@ export async function insertField({
         "field_type_id",
     ];
     const values = [
-        ordering,
-        name,
-        description,
-        default_value,
-        is_required,
-        is_unique,
-        form_id,
-        field_type_id,
+        field.field_ordering,
+        field.field_name,
+        field.field_description,
+       field.default_value,
+       field.is_required,
+        field.is_unique,
+        field.form_id,
+        field.field_type_id,
     ];
 
     const connectingElement = values.map(() => "?").join(",");
@@ -72,9 +72,9 @@ export async function insertField({
 export async function updateField(
     field : FieldPayload): Promise<Field> {
     const fields = [
-        "ordering",
-        "name",
-        "description",
+        "field_ordering",
+        "field_name",
+        "field_description",
         "default_value",
         "is_required",
         "is_unique",
@@ -82,9 +82,9 @@ export async function updateField(
         "field_type_id",
     ];
     const values = [
-        field.ordering,
-        field.name,
-        field.description,
+        field.field_ordering,
+        field.field_name,
+        field.field_description,
        field.default_value,
        field.is_required,
         field.is_unique,
@@ -93,7 +93,7 @@ export async function updateField(
         field.field_id,
     ];
 
-    const contentSet = fields.map((field) => `${field}=?`).join(",");
+    const contentSet = fields.map((eachfield) => `${eachfield}=?`).join(",");
     const sqlQuery = `
         UPDATE field 
         SET ${contentSet}

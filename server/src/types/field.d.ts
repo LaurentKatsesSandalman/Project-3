@@ -12,6 +12,7 @@ export interface FieldPayload {
     is_unique: boolean;
     form_id: number;
     field_type_id: number;
+    field_options: FieldOptionPayload[] | [];
 }
 
 export interface Field extends RowDataPacket {
@@ -32,6 +33,14 @@ export interface FieldOption extends RowDataPacket {
     option_name: string;
     option_value: string;
     field_id: number;
+}
+
+export interface FieldOptionPayload {
+    field_option_id?:number
+    option_ordering: number;
+    option_name: string;
+    option_value: string;
+    field_id?:number
 }
 
 export interface FullField extends Field {
