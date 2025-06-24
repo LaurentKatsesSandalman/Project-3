@@ -69,17 +69,8 @@ export async function insertField({
     return rows[0];
 }
 
-export async function updateField({
-    fieldId,
-    ordering,
-    name,
-    description = null,
-    defaultValue = null,
-    isRequired = 0,
-    isUnique = 0,
-    formId,
-    fieldTypeId,
-}: Field): Promise<Field> {
+export async function updateField(
+    field : FieldPayload): Promise<Field> {
     const fields = [
         "ordering",
         "name",
@@ -91,15 +82,15 @@ export async function updateField({
         "field_type_id",
     ];
     const values = [
-        ordering,
-        name,
-        description,
-        defaultValue,
-        isRequired,
-        isUnique,
-        formId,
-        fieldTypeId,
-        fieldId,
+        field.ordering,
+        field.name,
+        field.description,
+       field.default_value,
+       field.is_required,
+        field.is_unique,
+        field.form_id,
+        field.field_type_id,
+        field.field_id,
     ];
 
     const contentSet = fields.map((field) => `${field}=?`).join(",");
@@ -113,7 +104,7 @@ export async function updateField({
     await database.query<ResultSetHeader>(sqlQuery, values);
     const [rows] = await database.query<Field[] & RowDataPacket[]>(
         `SELECT * FROM field WHERE field_id = ? `,
-        [fieldId]
+        [field.field_id]
     );
 
     if (rows.length === 0) {
@@ -137,35 +128,4 @@ export async function deleteFieldById(id: number) {
         );
     }
     return result;
-}
-//this session will be move in form.model by Laurent in is branch
-export async function insertForm({
-    name,
-    description,
-    userId,
-}: {
-    name: string;
-    description?: string | null;
-    userId: number;
-}): Promise<Form> {
-    const fields = ["name", "description", "userId"];
-    const values = [name, description, userId];
-
-    const connectingElement = values.map(() => "?").join(",");
-    const sqlQuery = `
-        INSERT INTO form (${fields.join(",")})
-        VALUES (${connectingElement})
-    `;
-    // Insert a new form into form table
-    const [result] = await database.query<ResultSetHeader>(sqlQuery, values);
-    const [rows] = await database.query<Form[] & RowDataPacket[]>(
-        `SELECT * FROM form WHERE form_id = ? `,
-        [result.insertId]
-    );
-
-    if (rows.length === 0) {
-        throw new Error("Formulaire inséré mais ne semble pas être trouvé");
-    }
-    // Returns the new form
-    return rows[0];
 }

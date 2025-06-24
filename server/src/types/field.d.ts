@@ -3,9 +3,10 @@
 import { RowDataPacket } from "mysql2";
 
 export interface FieldPayload {
-    ordering: number;
-    name: string;
-    description?: string | null;
+    field_id?: number
+    field_ordering: number;
+    field_name: string;
+    field_description?: string | null;
     default_value?: string | null;
     is_required: boolean;
     is_unique: boolean;
@@ -15,9 +16,9 @@ export interface FieldPayload {
 
 export interface Field extends RowDataPacket {
     field_id: number;
-    ordering: number;
+    field_ordering: number;
     field_name: string;
-    description?: string | null;
+    field_description?: string | null;
     default_value?: string;
     is_required: boolean;
     is_unique: boolean;
@@ -27,9 +28,9 @@ export interface Field extends RowDataPacket {
 
 export interface FieldOption extends RowDataPacket {
     field_option_id: number;
-    ordering: number;
-    name: string;
-    value: string;
+    option_ordering: number;
+    option_name: string;
+    option_value: string;
     field_id: number;
 }
 
