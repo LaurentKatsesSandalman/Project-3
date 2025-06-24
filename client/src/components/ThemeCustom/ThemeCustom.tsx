@@ -69,7 +69,7 @@ const ColorDropdown = ({ selectedColor, onColorSelect, colors }) => {
   );
 };
 
-const ThemeCustomizer = ({ onThemeChange }) => {
+const ThemeCustom = ({ onThemeChange }) => {
   const [titleFontFamily, setTitleFontFamily] = useState('Arial');
   const [questionFontFamily, setQuestionFontFamily] = useState('Arial');
   const [fontSize, setFontSize] = useState(16);
@@ -168,4 +168,4 @@ const ThemeCustomizer = ({ onThemeChange }) => {
   );
 };
 
-export default ThemeCustomizer;
+export default ThemeCustom;

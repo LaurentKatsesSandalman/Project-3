@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import FormField from '../FormField/FormField';
-import ThemeCustomizer from '../ThemeCustom/ThemeCustom'; // Assurez-vous que le chemin est correct
+import ThemeCustom from '../ThemeCustom/ThemeCustom'; // Assurez-vous que le chemin est correct
 import styles from './FormCreator.module.css';
 import type { FormPayload } from '../../types/form';
 import { useAppContext } from '../../context/AppContext';
@@ -156,7 +156,7 @@ const FormCreator = () => {
   return (
     <div className={styles["form-container"]}>
       <form onSubmit={handleSubmit}>
-        <ThemeCustomizer onThemeChange={handleThemeChange} />
+        <ThemeCustom onThemeChange={handleThemeChange} />
 
         <div className={styles["form-header"]}>
           <input
