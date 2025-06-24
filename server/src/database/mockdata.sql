@@ -14,8 +14,8 @@ INSERT INTO theme (color_value, font1_size, font2_size, font1_value, font2_value
 (220,16,20,"Verdana","Arial");
 
 INSERT INTO form (is_deployed, is_closed, creation_date, is_public, multi_answer, theme_id, user_id, form_name, form_description) VALUES
-(1,0,"2026-06-01 00:00:01",1,1,1,1,"Titre du formulaire","Description de mon formulaire, je suis sur qu'il est bien et qu'il faut y répondre"),
-(1,0,"2025-06-02 00:01:01",0,0,1,2, "form2 name", "form2 desc");
+(1,0,"2024-06-01 00:00:01",1,1,1,1,"Titre du formulaire","Description de mon formulaire, je suis sur qu'il est bien et qu'il faut y répondre"),
+(1,0,"2023-06-02 00:01:01",0,0,1,2, "form2 name", "form2 desc");
 
 INSERT INTO field (field_id,field_ordering,field_name,field_description,is_required,is_unique,form_id,field_type_id) VALUES
 (1,1,"quel est ton nom ?","Ton prénom et nom de famille",1,0,1,1),

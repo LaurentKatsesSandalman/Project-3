@@ -36,7 +36,7 @@ const router = createBrowserRouter([
         element: <PublicLayout />,
         children: [
             {
-                path: "/answer/:form_id",
+                path: "/answers/:form_id",
                 element: <AnswerForm />,
             },
         ],
