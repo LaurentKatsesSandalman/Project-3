@@ -15,6 +15,13 @@ export interface Form {
     form_name: string;
     form_description: string;
 }
+export interface FormItem{
+    form_id: number;
+    form_name: string;
+    link: string; // URL publique du formulaire
+    creation_date: string;
+    is_closed: boolean;
+}
 // Back => Front
 export interface SecuredForm {
     form_id: number;

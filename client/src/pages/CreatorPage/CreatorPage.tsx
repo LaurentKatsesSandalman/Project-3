@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
 import axios from "axios";
 import { useAppContext } from "../../context/AppContext";
-import type { Form } from "../../types/form";
-// import type { Item } from "../../components/Item/item";
+import type { Form, FormItem } from "../../types/form";
+import styles from "../CreatorPage/CreatorPage.module.css";
+import Item from "../../components/Item/item"
 
 function CreatorPage() {
     const [forms, setForms] = useState<Form[] | []>([]);
@@ -65,32 +66,32 @@ function CreatorPage() {
     useEffect(() => {
         console.log(forms);
     }, [forms]);
-
     return (
         <>
-            <section className="Header_section">
-                <div className="H1_contener">
+            <section className={styles.headerSection}>
+                <div className={styles.h1Container}>
                     <h1>Vos formulaires</h1>
                 </div>
             </section>
-            <section className="button_section">
-                <div className="contener_button">
+            <section className={styles.buttonSection}>
+                <div className={styles.containerButton}>
                     <Button variant="create_form" onClick={handleClick}>
                         Créer un nouveau formulaire
                     </Button>
                 </div>
             </section>
-            {/* <section className="form_list_section">
-				{forms.map((form) => (
+            <section className="form_list_section">
+                
+				{/* {forms.map((form) => (
 					<Item 
 						key={form.form_id}
-						form={form}
+                        form={form}
 						onPublish={() => console.log(`Publish form with id: ${form.form_id}`)}
 					onClose={() => console.log(`Close form with id: ${form.form_id}`)}
 					onDelete={() => console.log(`Delete form with id: ${form.form_id}`)}
 					/>
-			))}
-			</section> */}
+			))} */}
+			</section>
         </>
     );
 }
