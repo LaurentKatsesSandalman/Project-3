@@ -1,11 +1,12 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import FormField from "../FormField/FormField";
-import styles from "./FormCreator.module.css";
-import type { FormPayload } from "../../types/form";
-import { useAppContext } from "../../context/AppContext";
-import type { FieldPayload } from "../../types/fields";
-import { useParams } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import FormField from '../FormField/FormField';
+import ThemeCustomizer from '../ThemeCustom/ThemeCustom'; // Assurez-vous que le chemin est correct
+import styles from './FormCreator.module.css';
+import type { FormPayload } from '../../types/form';
+import { useAppContext } from '../../context/AppContext';
+import type { FieldPayload } from '../../types/fields';
 
 type TypeOfField =
   | "text"
@@ -96,9 +97,7 @@ const FormCreator = () => {
     try {
       await axios.put(
         `${import.meta.env.VITE_QUICKY_API_URL}/api/forms/${form_id}`,
-        {
-          form: form,
-        },
+        { form },
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
@@ -110,6 +109,13 @@ const FormCreator = () => {
         setAuthToken(null);
       }
     }
+  };
+
+  const handleThemeChange = (newTheme: any) => {
+    setForm(prevForm => ({
+      ...prevForm,
+      theme: newTheme
+    }));
   };
 
   const handleChange = (string: "title" | "description", eventTargetValue: string) => {
@@ -150,6 +156,8 @@ const FormCreator = () => {
   return (
     <div className={styles["form-container"]}>
       <form onSubmit={handleSubmit}>
+        <ThemeCustomizer onThemeChange={handleThemeChange} />
+
         <div className={styles["form-header"]}>
           <input
             type="text"
