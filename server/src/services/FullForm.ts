@@ -3,9 +3,14 @@ import {
   findFieldById,
   insertField,
   updateField,
-  deleteFieldById
+  deleteFieldById,
 } from "../models/field.model";
-import { deleteOptionById, findAllOptions, findOptionById, insertOption } from "../models/fieldoption.model";
+import {
+  deleteOptionById,
+  findAllOptions,
+  findOptionById,
+  insertOption,
+} from "../models/fieldoption.model";
 import { findFormById, updateForm } from "../models/form.model";
 import { themeById } from "../models/theme.model";
 import { Field, FieldOption, FieldPayload } from "../types/field";
@@ -58,38 +63,56 @@ export const getFullForm = async (form_id: number) => {
 export const updateFullForm = async (form: FullFormPayload) => {
   //update form only
   const initialForm: Form | undefined = await findFormById(form.form_id);
+
   const updatedForm: Partial<Form> = {};
+  let iDontKnowHowToCheckIfObjectIsEmpty = true;
   if (initialForm) {
+    console.log("initial theme id", initialForm.theme_id);
+    console.log("form theme id", form.theme.theme_id);
     updatedForm.form_id = form.form_id;
-    if (initialForm.is_deployed !== form.is_deployed) {
+    if (Number(initialForm.is_deployed) !== Number(form.is_deployed)) {
+      console.log("initialForm.is_deployed", initialForm.is_deployed);
+      console.log("form.is_deployed", form.is_deployed);
       updatedForm.is_deployed = form.is_deployed;
+      iDontKnowHowToCheckIfObjectIsEmpty = false;
     }
-    if (initialForm.is_closed !== form.is_closed) {
+    if (Number(initialForm.is_closed) !== Number(form.is_closed)) {
       updatedForm.is_closed = form.is_closed;
+      iDontKnowHowToCheckIfObjectIsEmpty = false;
     }
-    if (initialForm.is_public !== form.is_public) {
+    if (Number(initialForm.is_public) !== Number(form.is_public)) {
       updatedForm.is_public = form.is_public;
+      iDontKnowHowToCheckIfObjectIsEmpty = false;
     }
-    if (initialForm.multi_answer !== form.multi_answer) {
+    if (Number(initialForm.multi_answer) !== Number(form.multi_answer)) {
       updatedForm.multi_answer = form.multi_answer;
+      iDontKnowHowToCheckIfObjectIsEmpty = false;
     }
     if (initialForm.theme_id !== form.theme.theme_id) {
       updatedForm.theme_id = form.theme.theme_id;
+      console.log("theme_id", updatedForm.theme_id);
+      iDontKnowHowToCheckIfObjectIsEmpty = false;
     }
     if (initialForm.form_name !== form.form_name) {
       updatedForm.form_name = form.form_name;
+      iDontKnowHowToCheckIfObjectIsEmpty = false;
     }
     if (initialForm.form_description !== form.form_description) {
       updatedForm.form_description = form.form_description;
+      iDontKnowHowToCheckIfObjectIsEmpty = false;
     }
     if (
       form.date_to_close &&
       initialForm.date_to_close !== form.date_to_close
     ) {
       updatedForm.date_to_close = form.date_to_close;
+      iDontKnowHowToCheckIfObjectIsEmpty = false;
     }
-
-    const updatedFormOnly = await updateForm(updatedForm);
+    console.log("updated form", updatedForm);
+    if (!iDontKnowHowToCheckIfObjectIsEmpty) {
+      console.log("go to model");
+      const updatedFormOnly = await updateForm(updatedForm);
+    }
   }
 
   //update fields & options
@@ -107,9 +130,13 @@ export const updateFullForm = async (form: FullFormPayload) => {
   //start update
   for (const field of form.fields) {
     if (!field.field_id) {
-      const newField = await insertField(field);
+      const fieldWithFormId = { ...field, form_id: form.form_id };
+      const newField = await insertField(fieldWithFormId);
       if (field.field_options.length > 0) {
-        for (const option of field.field_options) {await insertOption(option)};
+        for (const option of field.field_options) {
+          const optionWithFieldId = { ...option, field_id: field.field_id };
+          await insertOption(optionWithFieldId);
+        }
       }
     } else {
       remainingFieldsIds.push(field.field_id);
@@ -123,40 +150,46 @@ export const updateFullForm = async (form: FullFormPayload) => {
       }
       const remainingOptionsIds: number[] = [];
 
-      const initialField: Field | undefined = await findFieldById(field.field_id);
+      const initialField: Field | undefined = await findFieldById(
+        field.field_id
+      );
       if (initialField && initialField !== field) {
         const updatedField = await updateField(field);
       }
       if (field.field_options.length > 0) {
         for (const option of field.field_options) {
-            if(!option.field_option_id)
-           { await insertOption(option)}
-            else{
-                
-                const initialOption: FieldOption|undefined = await findOptionById (option.field_option_id)
-                if(initialOption&& initialOption !== option){
-                    await insertOption(option) // no update on options
-                }
-                if(initialOption&& initialOption === option){
-                    remainingOptionsIds.push(option.field_option_id)
-                }
-            }};
+          if (!option.field_option_id) {
+            const optionWithFieldId = { ...option, field_id: field.field_id };
+            await insertOption(optionWithFieldId);
+          } else {
+            const initialOption: FieldOption | undefined = await findOptionById(
+              option.field_option_id
+            );
+            if (initialOption && initialOption !== option) {
+              const optionWithFieldId = { ...option, field_id: field.field_id };
+              await insertOption(optionWithFieldId); // no update on options
+            }
+            if (initialOption && initialOption === option) {
+              remainingOptionsIds.push(option.field_option_id);
+            }
+          }
+        }
       }
       //delete obsolete options
-      if(initialOptionsIds.length>0){
-        for(let i=0;i<initialOptionsIds.length;i++)
-            if(!remainingOptionsIds.includes(initialOptionsIds[i])){
-                await deleteOptionById(initialOptionsIds[i])
-            }
+      if (initialOptionsIds.length > 0) {
+        for (let i = 0; i < initialOptionsIds.length; i++)
+          if (!remainingOptionsIds.includes(initialOptionsIds[i])) {
+            await deleteOptionById(initialOptionsIds[i]);
+          }
       }
     }
   }
 
   //delete obsolete fields
-     if(initialFieldsIds.length>0){
-        for(let i=0;i<initialFieldsIds.length;i++)
-            if(!remainingFieldsIds.includes(initialFieldsIds[i])){
-                await deleteFieldById(initialFieldsIds[i])
-            }
+  if (initialFieldsIds.length > 0) {
+    for (let i = 0; i < initialFieldsIds.length; i++)
+      if (!remainingFieldsIds.includes(initialFieldsIds[i])) {
+        await deleteFieldById(initialFieldsIds[i]);
       }
+  }
 };

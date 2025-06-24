@@ -81,6 +81,7 @@ const FormCreator = () => {
           }
         );
         setForm(response.data);
+        console.log("form",form)
       } catch (err: any) {
         if (err.response?.status === 403 || err.response?.status === 401) {
           setAuthToken(null);
@@ -92,9 +93,10 @@ const FormCreator = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(form);
+    console.log("forn to send",form);
+    console.log("form id", form_id)
     try {
-      await axios.put(
+      await axios.patch(
         `${import.meta.env.VITE_QUICKY_API_URL}/api/forms/${form_id}`,
         {
           form: form,

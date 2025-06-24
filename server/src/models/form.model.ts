@@ -69,38 +69,39 @@ export async function insertForm(form: FormPayload): Promise<Form | undefined> {
 }
 
 export async function updateForm(form: Partial<Form>): Promise<Form> {
+    console.log("model form", form)
     const fields = [];
     const values = [];
 
-    if (form.is_deployed !== null) {
+    if (form.is_deployed) {
         fields.push("is_deployed");
         values.push(form.is_deployed);
     }
-    if (form.is_closed !== null) {
+    if (form.is_closed) {
         fields.push("is_closed");
         values.push(form.is_closed);
     }
-    if (form.is_public !== null) {
+    if (form.is_public) {
         fields.push("is_public");
         values.push(form.is_public);
     }
-    if (form.multi_answer !== null) {
+    if (form.multi_answer) {
         fields.push("multi_answer");
         values.push(form.multi_answer);
     }
-    if (form.theme_id !== null) {
+    if (form.theme_id) {
         fields.push("theme_id");
         values.push(form.theme_id);
     }
-    if (form.form_name !== null) {
+    if (form.form_name) {
         fields.push("form_name");
         values.push(form.form_name);
     }
-    if (form.form_description !== null) {
+    if (form.form_description) {
         fields.push("form_description");
         values.push(form.form_description);
     }
-    if (form.date_to_close !== null) {
+    if (form.date_to_close) {
         fields.push("date_to_close");
         values.push(form.date_to_close);
     }
@@ -115,6 +116,8 @@ export async function updateForm(form: Partial<Form>): Promise<Form> {
         SET ${contentSet}
        WHERE form_id=?
     `;
+
+    console.log(sqlQuery)
 
     // Replace the form values
     await database.query<ResultSetHeader>(sqlQuery, values);
