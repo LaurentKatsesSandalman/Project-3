@@ -9,7 +9,7 @@ export async function findAllFieldAnswers(
 ): Promise<FieldAnswer[]> {
     const [rows] = await database.query(
         `
-        SELECT fa.field_answer_id, fa.form_answer_id, fa.value, fa.field_id, foa.form_answer_id
+        SELECT fa.field_answer_id, fa.form_answer_id, fa.field_answer_value, fa.field_id, foa.form_answer_id
         FROM field_answer AS fa
         JOIN field ON field.field_id = fa.field_id
         JOIN form_answer AS foa ON fa.form_answer_id = foa.form_answer_id
@@ -27,12 +27,12 @@ export async function findOptionResults(
 ): Promise<OptionResultWithFieldId[]> {
     const [rows] = await database.query(
         `
-        SELECT fa.field_id, fa.value, COUNT(*) AS count
+        SELECT fa.field_id, fa.field_answer_value, COUNT(*) AS count
         FROM field_answer fa
         JOIN field ON field.field_id = fa.field_id
         WHERE field.form_id = ?
         AND field.field_type_id IN (2, 7, 12)
-        GROUP BY fa.field_id, fa.value
+        GROUP BY fa.field_id, fa.field_answer_value
         ORDER BY count DESC
     `,
         [form_id]
