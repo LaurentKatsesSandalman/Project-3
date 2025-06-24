@@ -61,7 +61,7 @@ export const getFullForm = async (form_id: number) => {
 };
 
 export const updateFullForm = async (form: FullFormPayload) => {
-  //update form only
+  //HEAD: update form only
   const initialForm: Form | undefined = await findFormById(form.form_id);
 
   const updatedForm: Partial<Form> = {};
@@ -114,10 +114,12 @@ export const updateFullForm = async (form: FullFormPayload) => {
       const updatedFormOnly = await updateForm(updatedForm);
     }
   }
+// HEAD: fin
 
   //update fields & options
 
-  //prepare delete fields
+//FIELDS: F
+  //F1: prepare delete fields
   const initialFields = await findAllFields(form.form_id);
   const initialFieldsIds: number[] = [];
   if (initialFields) {
@@ -127,20 +129,24 @@ export const updateFullForm = async (form: FullFormPayload) => {
   }
   const remainingFieldsIds: number[] = [];
 
-  //start update
+  //F2: start update of each field
   for (const field of form.fields) {
+    //F2-a : new fields
     if (!field.field_id) {
       const fieldWithFormId = { ...field, form_id: form.form_id };
       const newField = await insertField(fieldWithFormId);
+      //OPTIONS: O
+      //F2-a-O1: options of new field
       if (field.field_options.length > 0) {
         for (const option of field.field_options) {
           const optionWithFieldId = { ...option, field_id: field.field_id };
           await insertOption(optionWithFieldId);
         }
       }
+    //F2-b : existing fields
     } else {
       remainingFieldsIds.push(field.field_id);
-      // prepare delete options
+      //F2-b-O1 prepare delete options
       const initialOptions = await findAllOptions(field.field_id);
       const initialOptionsIds: number[] = [];
       if (initialOptions) {
@@ -149,33 +155,48 @@ export const updateFullForm = async (form: FullFormPayload) => {
         }
       }
       const remainingOptionsIds: number[] = [];
-
-      const initialField: Field | undefined = await findFieldById(
-        field.field_id
-      );
-      if (initialField && initialField !== field) {
+      //F2-b compare with existing field in BDD
+      const initialField: Field | undefined = await findFieldById(field.field_id);
+      const newfield = {
+        field_id: field.field_id,
+        field_ordering: field.field_ordering,
+        field_name: field.field_name,
+        field_description: field.field_description,
+        default_value: field.default_value,
+        is_required: field.is_required,
+        is_unique: field.is_unique,
+        form_id: field.form_id,
+        field_type_id: field.field_type_id
+      }
+      //F2-b1 : not the same field, update field
+      if (initialField && initialField !== newfield) {
         const updatedField = await updateField(field);
       }
+      //F2-b-O2 : updated or not updated field, now let's focus on options
       if (field.field_options.length > 0) {
         for (const option of field.field_options) {
+          //F2-b-O2-a : new option
           if (!option.field_option_id) {
             const optionWithFieldId = { ...option, field_id: field.field_id };
             await insertOption(optionWithFieldId);
+          //F2-b-O2-b : existing option
           } else {
             const initialOption: FieldOption | undefined = await findOptionById(
               option.field_option_id
             );
+            //F2-b-O2-b1: existing option has been updated => create a new one and prepare to delete (not added to remainingOptionsIds)
             if (initialOption && initialOption !== option) {
               const optionWithFieldId = { ...option, field_id: field.field_id };
               await insertOption(optionWithFieldId); // no update on options
             }
+            //F2-b-O2-b2: existing option and not updated => add to remainingOptionsIds to prevent deletion
             if (initialOption && initialOption === option) {
               remainingOptionsIds.push(option.field_option_id);
             }
           }
         }
       }
-      //delete obsolete options
+      //F2-b-O2-c: delete obsolete options
       if (initialOptionsIds.length > 0) {
         for (let i = 0; i < initialOptionsIds.length; i++)
           if (!remainingOptionsIds.includes(initialOptionsIds[i])) {
@@ -185,7 +206,7 @@ export const updateFullForm = async (form: FullFormPayload) => {
     }
   }
 
-  //delete obsolete fields
+  //F2-c : delete obsolete fields
   if (initialFieldsIds.length > 0) {
     for (let i = 0; i < initialFieldsIds.length; i++)
       if (!remainingFieldsIds.includes(initialFieldsIds[i])) {
