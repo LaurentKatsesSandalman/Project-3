@@ -114,11 +114,11 @@ export const updateFullForm = async (form: FullFormPayload) => {
       const updatedFormOnly = await updateForm(updatedForm);
     }
   }
-// HEAD: fin
+  // HEAD: fin
 
   //update fields & options
 
-//FIELDS: F
+  //FIELDS: F
   //F1: prepare delete fields
   const initialFields = await findAllFields(form.form_id);
   const initialFieldsIds: number[] = [];
@@ -143,7 +143,7 @@ export const updateFullForm = async (form: FullFormPayload) => {
           await insertOption(optionWithFieldId);
         }
       }
-    //F2-b : existing fields
+      //F2-b : existing fields
     } else {
       remainingFieldsIds.push(field.field_id);
       //F2-b-O1 prepare delete options
@@ -156,7 +156,9 @@ export const updateFullForm = async (form: FullFormPayload) => {
       }
       const remainingOptionsIds: number[] = [];
       //F2-b compare with existing field in BDD
-      const initialField: Field | undefined = await findFieldById(field.field_id);
+      const initialField: Field | undefined = await findFieldById(
+        field.field_id
+      );
       const newfield = {
         field_id: field.field_id,
         field_ordering: field.field_ordering,
@@ -166,8 +168,8 @@ export const updateFullForm = async (form: FullFormPayload) => {
         is_required: field.is_required,
         is_unique: field.is_unique,
         form_id: field.form_id,
-        field_type_id: field.field_type_id
-      }
+        field_type_id: field.field_type_id,
+      };
       //F2-b1 : not the same field, update field
       if (initialField && initialField !== newfield) {
         const updatedField = await updateField(field);
@@ -179,7 +181,7 @@ export const updateFullForm = async (form: FullFormPayload) => {
           if (!option.field_option_id) {
             const optionWithFieldId = { ...option, field_id: field.field_id };
             await insertOption(optionWithFieldId);
-          //F2-b-O2-b : existing option
+            //F2-b-O2-b : existing option
           } else {
             const initialOption: FieldOption | undefined = await findOptionById(
               option.field_option_id
