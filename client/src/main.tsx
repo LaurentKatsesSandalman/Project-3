@@ -8,6 +8,7 @@ import DetailedForm from "./pages/DetailedForm/DetailedForm.tsx";
 import AnswerForm from "./pages/AnswerForm/AnswerForm.tsx";
 import CreatorSettings from "./pages/CreatorSettings/CreatorSettings.tsx";
 import PublicLayout from "./PublicLayout.tsx";
+import Page404 from "./pages/Page404/Page404.tsx";
 
 const router = createBrowserRouter([
     {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
                 element: <AnswerForm isPreview={false} />,
             },
         ],
+    },
+    {
+        path: "*",
+        element: <Page404 />,
     },
 ]);
 
