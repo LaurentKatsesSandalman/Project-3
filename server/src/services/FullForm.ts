@@ -139,7 +139,7 @@ export const updateFullForm = async (form: FullFormPayload) => {
       //F2-a-O1: options of new field
       if (field.field_options.length > 0) {
         for (const option of field.field_options) {
-          const optionWithFieldId = { ...option, field_id: field.field_id };
+          const optionWithFieldId = { ...option, field_id: newField.field_id };
           await insertOption(optionWithFieldId);
         }
       }
@@ -213,4 +213,6 @@ export const updateFullForm = async (form: FullFormPayload) => {
         await deleteFieldById(initialFieldsIds[i]);
       }
   }
+
+  return true; // pour eviter l'erreur 404
 };
