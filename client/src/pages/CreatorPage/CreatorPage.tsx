@@ -80,9 +80,8 @@ function CreatorPage() {
                     </Button>
                 </div>
             </section>
-            <section className="form_list_section">
-                
-				{/* {forms.map((form) => (
+            <section className={styles.formListSection}>               
+				{forms.map((form) => (
 					<Item 
 						key={form.form_id}
                         form={form}
@@ -90,7 +89,7 @@ function CreatorPage() {
 					onClose={() => console.log(`Close form with id: ${form.form_id}`)}
 					onDelete={() => console.log(`Delete form with id: ${form.form_id}`)}
 					/>
-			))} */}
+			))}
 			</section>
         </>
     );
