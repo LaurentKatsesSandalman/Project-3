@@ -17,16 +17,16 @@ export type FormItem = {
 
 type ItemProps = {
     form: FormItem;
+    setForms: React.Dispatch<React.SetStateAction<any>>;
     onPublish: (id: number) => void;
     onClose: (id: boolean) => void;
     onDelete: (id: number) => void;
 };
 
-function Item({ form, onPublish, onClose, onDelete }: ItemProps) {
+function Item({ form, onPublish, onClose, onDelete, setForms }: ItemProps) {
     const navigate = useNavigate();
     const [openMenu, SetOpenMenu] = useState(false);
     const handleCloseDetails = () => {SetOpenMenu(false);};
-    console.log(form);
     return (
         <>
             <section className={styles.headerSection}>
@@ -34,7 +34,7 @@ function Item({ form, onPublish, onClose, onDelete }: ItemProps) {
                             {/*section pour les détails de l'item */}
                                     {openMenu && (
                                         <div className={styles.detailsContainer}>
-                                            <DetailsItem form={form} onPublish={onPublish} onClose={onClose} onDelete={onDelete} onCloseDetails={handleCloseDetails}/>
+                                            <DetailsItem form={form} onPublish={onPublish} onClose={onClose} onDelete={onDelete} onCloseDetails={handleCloseDetails} setForms={setForms} />
                                         </div>
                                     )}
                 <div className={styles.h2Container}>

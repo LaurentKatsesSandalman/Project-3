@@ -1,9 +1,9 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Button from "../../components/Button/Button";
 import axios from "axios";
 import { useAppContext } from "../../context/AppContext";
-import type { Form, FormItem } from "../../types/form";
+import type { Form } from "../../types/form";
 import styles from "../CreatorPage/CreatorPage.module.css";
 import Item from "../../components/Item/item"
 
@@ -62,9 +62,6 @@ function CreatorPage() {
 
         fetchForms();
     }, []);
-    useEffect(() => {
-        console.log(forms);
-    }, [forms]);
     return (
         <>
             <section className={styles.headerSection}>
@@ -87,6 +84,7 @@ function CreatorPage() {
 						onPublish={() => console.log(`Publish form with id: ${form.form_id}`)}
 					onClose={() => console.log(`Close form with id: ${form.form_id}`)}
 					onDelete={() => console.log(`Delete form with id: ${form.form_id}`)}
+                    setForms= {setForms}
 					/>
 			))}
 			</section>

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import {Form, useNavigate} from 'react-router-dom';
 import settingIcon from './../../assets/icons/cross.png';
 import styles from './../DetailsItem/detailsItem.module.css';
 import axios from 'axios';
@@ -17,18 +17,18 @@ export type FormItem = {
 
 type ItemProps = {
     form: FormItem;
+    setForms: React.Dispatch<React.SetStateAction<any>>;
     onPublish: (id: number) => void;
     onClose: (id: boolean) => void;
     onDelete: (id: number) => void;
     onCloseDetails?: () => void;
 };
 
-function DetailsItem({ form, onPublish, onClose, onCloseDetails}: ItemProps) {
+function DetailsItem({ form, onPublish, onClose, onCloseDetails, setForms}: ItemProps) {
     const navigate = useNavigate();
     const [openMenu] = useState(true);
     const { authToken, setAuthToken} = useAppContext();
     const onDelete = async (id: number) => {
-        console.log("Delete form with id",id)
         try {
             const response = await axios.delete(
                  `${import.meta.env.VITE_QUICKY_API_URL}/api/forms/${id}`,
@@ -39,7 +39,7 @@ function DetailsItem({ form, onPublish, onClose, onCloseDetails}: ItemProps) {
                 }
 
             );
-            navigate(`/forms`)
+            setForms((prev:FormItem[])=> prev.filter((item)=> item.form_id !== id))
         } catch (err: any){
             console.error(
                 "Une erreur s'est produite lors de la suppression du formulaire",err
