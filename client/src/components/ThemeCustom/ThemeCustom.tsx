@@ -2,23 +2,18 @@ import { useState, useRef, useEffect } from "react";
 import styles from "./ThemeCustom.module.css";
 
 const themeColors = [
-	{ name: "Rouge", base: "#FF0000", text: "#CC0000", background: "#FFCCCC" },
-	{ name: "Bleu", base: "#0000FF", text: "#0000CC", background: "#CCCCFF" },
-	{ name: "Vert", base: "#00FF00", text: "#00CC00", background: "#CCFFCC" },
-	{ name: "Jaune", base: "#FFFF00", text: "#CCCC00", background: "#FFFFCC" },
-	{ name: "Violet", base: "#800080", text: "#660066", background: "#D9B3D9" },
-	{ name: "Orange", base: "#FFA500", text: "#CC8400", background: "#FFDAB9" },
-	{
-		name: "Turquoise",
-		base: "#40E0D0",
-		text: "#33CCB8",
-		background: "#AFEEEE",
-	},
-	{ name: "Rose", base: "#FFC0CB", text: "#CC99A3", background: "#FFE4E1" },
-	{ name: "Marron", base: "#A52A2A", text: "#8B2323", background: "#BC8F8F" },
-	{ name: "Gris", base: "#808080", text: "#666666", background: "#D3D3D3" },
-	{ name: "Noir", base: "#000000", text: "#333333", background: "#CCCCCC" },
-	{ name: "Blanc", base: "#FFFFFF", text: "#CCCCCC", background: "#F5F5F5" },
+	{ base: "#FF0000", text: "#CC0000", background: "#FFCCCC" },
+	{ base: "#0000FF", text: "#0000CC", background: "#CCCCFF" },
+	{ base: "#00FF00", text: "#00CC00", background: "#CCFFCC" },
+	{ base: "#FFFF00", text: "#CCCC00", background: "#FFFFCC" },
+	{ base: "#800080", text: "#660066", background: "#D9B3D9" },
+	{ base: "#FFA500", text: "#CC8400", background: "#FFDAB9" },
+	{ base: "#40E0D0", text: "#33CCB8", background: "#AFEEEE" },
+	{ base: "#FFC0CB", text: "#CC99A3", background: "#FFE4E1" },
+	{ base: "#A52A2A", text: "#8B2323", background: "#BC8F8F" },
+	{ base: "#808080", text: "#666666", background: "#D3D3D3" },
+	{ base: "#000000", text: "#333333", background: "#CCCCCC" },
+	{ base: "#FFFFFF", text: "#CCCCCC", background: "#F5F5F5" },
 ];
 
 const fonts = [
