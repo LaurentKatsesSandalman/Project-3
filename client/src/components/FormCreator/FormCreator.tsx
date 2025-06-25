@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import FormField from '../FormField/FormField';
-import ThemeCustom from '../ThemeCustom/ThemeCustom'; // Assurez-vous que le chemin est correct
+import ThemeCustom from '../ThemeCustom/ThemeCustom';
 import styles from './FormCreator.module.css';
 import type { FormPayload } from '../../types/form';
 import { useAppContext } from '../../context/AppContext';
 import type { FieldPayload } from '../../types/fields';
+import { useParams } from 'react-router-dom';
 
 type TypeOfField =
   | "text"
@@ -97,7 +97,7 @@ const FormCreator = () => {
     try {
       await axios.put(
         `${import.meta.env.VITE_QUICKY_API_URL}/api/forms/${form_id}`,
-        { form },
+        { form: form, },
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
