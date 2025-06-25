@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import {Form, useNavigate} from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate} from 'react-router-dom';
 import settingIcon from './../../assets/icons/cross.png';
 import styles from './../DetailsItem/detailsItem.module.css';
 import axios from 'axios';
@@ -69,13 +69,13 @@ function DetailsItem({ form, onPublish, onClose, onCloseDetails, setForms}: Item
                         <div className={styles.bulletPoint}>
                             <ul>
                                 {/* <li>
-                                    <button onClick={() => onPublish(form.form_id)}>Publier</button>
+                                    <button className={styles.deleteButton} onClick={() => onPublish(form.form_id)}>Publier</button>
                                 </li> partie non géré pour l'instant
                                 <li>
-                                    <button onClick={() => onClose(form.is_closed)}>Clôturer</button>
+                                    <button className={styles.deleteButton} onClick={() => onClose(form.is_closed)}>Clôturer</button>
                                 </li> partie non géré pour l'instant */}
                                 <li>
-                                    <button onClick={() => onDelete(form.form_id)}>Supprimer définitivement</button> {/* fetch avec axio pour delete à l'adresse correct API vers l'id (à voir avec L)*/}
+                                    <button className={styles.deleteButton} onClick={() => onDelete(form.form_id)}>Supprimer définitivement</button> {/* fetch avec axio pour delete à l'adresse correct API vers l'id (à voir avec L)*/}
                                 </li>
                             </ul>
                         </div>
