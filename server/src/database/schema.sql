@@ -76,7 +76,7 @@ CREATE TABLE form_answer (
 
 CREATE TABLE field_answer (
     field_answer_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    value VARCHAR(2000) NOT NULL,
+    field_answer_value VARCHAR(2000) NOT NULL,
     form_answer_id INT UNSIGNED NOT NULL,
     FOREIGN KEY (form_answer_id) REFERENCES form_answer (form_answer_id) ON DELETE CASCADE,
     field_id INT UNSIGNED NOT NULL,
