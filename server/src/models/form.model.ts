@@ -69,7 +69,6 @@ export async function insertForm(form: FormPayload): Promise<Form | undefined> {
 }
 
 export async function updateForm(form: Partial<Form>): Promise<Form> {
-    console.log("model form", form);
     const fields = [];
     const values = [];
 
@@ -116,8 +115,6 @@ export async function updateForm(form: Partial<Form>): Promise<Form> {
         SET ${contentSet}
        WHERE form_id=?
     `;
-
-    console.log(sqlQuery);
 
     // Replace the form values
     await database.query<ResultSetHeader>(sqlQuery, values);

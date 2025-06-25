@@ -66,12 +66,8 @@ export const updateFullForm = async (form: FullFormPayload) => {
     const updatedForm: Partial<Form> = {};
     let iDontKnowHowToCheckIfObjectIsEmpty = true;
     if (initialForm) {
-        console.log("initial theme id", initialForm.theme_id);
-        console.log("form theme id", form.theme.theme_id);
         updatedForm.form_id = form.form_id;
         if (Number(initialForm.is_deployed) !== Number(form.is_deployed)) {
-            console.log("initialForm.is_deployed", initialForm.is_deployed);
-            console.log("form.is_deployed", form.is_deployed);
             updatedForm.is_deployed = form.is_deployed;
             iDontKnowHowToCheckIfObjectIsEmpty = false;
         }
@@ -89,7 +85,6 @@ export const updateFullForm = async (form: FullFormPayload) => {
         }
         if (initialForm.theme_id !== form.theme.theme_id) {
             updatedForm.theme_id = form.theme.theme_id;
-            console.log("theme_id", updatedForm.theme_id);
             iDontKnowHowToCheckIfObjectIsEmpty = false;
         }
         if (initialForm.form_name !== form.form_name) {
@@ -107,9 +102,8 @@ export const updateFullForm = async (form: FullFormPayload) => {
             updatedForm.date_to_close = form.date_to_close;
             iDontKnowHowToCheckIfObjectIsEmpty = false;
         }
-        console.log("updated form", updatedForm);
+
         if (!iDontKnowHowToCheckIfObjectIsEmpty) {
-            console.log("go to model");
             const updatedFormOnly = await updateForm(updatedForm);
         }
     }

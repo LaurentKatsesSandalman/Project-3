@@ -130,7 +130,6 @@ export const updateFullFormById: RequestHandler<
     { id: string },
     string | { error: string }
 > = async (req: any, res, next) => {
-    console.log("update reached");
     try {
         const { form } = req.body;
 
