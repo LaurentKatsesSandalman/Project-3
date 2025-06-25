@@ -37,7 +37,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/answers/:form_id",
-                element: <AnswerForm />,
+                element: <AnswerForm isPreview={false} />,
             },
         ],
     },

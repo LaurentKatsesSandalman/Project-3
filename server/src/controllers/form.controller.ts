@@ -89,8 +89,11 @@ export const getSecuredFullFormById: RequestHandler<
             return;
         }
         const currentDate = new Date();
-        const closeDate = new Date(fullForm.creation_date);
-        if (currentDate > closeDate) {
+        let closeDate: Date | null = null;
+        if (fullForm.date_to_close) {
+            closeDate = new Date(fullForm.date_to_close);
+        }
+        if (closeDate && currentDate > closeDate) {
             res.status(403).json({
                 error: `403 - Le formulaire est clos depuis le ${formatDate(
                     closeDate

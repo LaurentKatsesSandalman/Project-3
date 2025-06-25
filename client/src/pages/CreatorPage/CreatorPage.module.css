@@ -1,4 +1,5 @@
-section {
+.headerSection,
+.buttonSection {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -7,8 +8,7 @@ section {
     width: 100%;
 }
 
-.contener_button {
-    display: flex;
-    justify-content: center;
-    margin: 20px;
+.headerSection {
+    padding-top: 50px;
+    font-size: 1.4rem;
 }
