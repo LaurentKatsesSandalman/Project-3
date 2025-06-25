@@ -165,13 +165,6 @@ const FormCreator = () => {
     const toggleFieldsPanelVisibility = () => {
         setIsFieldsPanelVisible(!isFieldsPanelVisible);
     };
-      const handleThemeChange = (newTheme: any) => {
-    setForm(prevForm => ({
-      ...prevForm,
-      theme: newTheme
-    }));
-  };
-
 
     return (
         <div className={styles["form-container"]}>
@@ -182,7 +175,7 @@ const FormCreator = () => {
                 <h1 className={styles["form-title"]}>{form.form_name}</h1>
             </div>
             <form onSubmit={handleSubmit}>
-              <ThemeCustom onThemeChange={handleThemeChange} />
+              <ThemeCustom />
                 <div className={styles["form-header"]}>
                     <input
                         type="text"
