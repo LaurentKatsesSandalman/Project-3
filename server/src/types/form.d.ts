@@ -2,46 +2,46 @@ import { RowDataPacket } from "mysql2";
 import { FullField } from "./field";
 
 export interface Form extends RowDataPacket {
-  form_id: number;
-  is_deployed: boolean;
-  is_closed: boolean;
-  date_to_close?: string;
-  creation_date: string;
-  is_public: boolean;
-  multi_answer: boolean;
-  original_version_id?: number;
-  theme_id: number;
-  form_name: string;
-  form_description: string;
-  user_id: number;
+    form_id: number;
+    is_deployed: boolean;
+    is_closed: boolean;
+    date_to_close?: string;
+    creation_date: string;
+    is_public: boolean;
+    multi_answer: boolean;
+    original_version_id?: number;
+    theme_id: number;
+    form_name: string;
+    form_description: string;
+    user_id: number;
 }
 
 export interface FormPayload {
-  is_deployed: boolean;
-  is_closed: boolean;
-  date_to_close?: string;
-  is_public: boolean;
-  multi_answer: boolean;
-  theme_id: number;
-  form_name: string;
-  form_description: string;
-  user_id: number;
+    is_deployed: boolean;
+    is_closed: boolean;
+    date_to_close?: string;
+    is_public: boolean;
+    multi_answer: boolean;
+    theme_id: number;
+    form_name: string;
+    form_description: string;
+    user_id: number;
 }
 
 export interface FullForm extends Form {
-  fields: FullField[];
+    fields: FullField[];
 }
 
 // Front => Back
 export interface FullFormPayload {
-  form_id: number;
-  is_deployed: boolean;
-  is_closed: boolean;
-  date_to_close: string | null;
-  is_public: boolean;
-  multi_answer: boolean;
-  form_name: string;
-  form_description: string;
-  theme: Theme;
-  fields: FieldPayload[] | [];
+    form_id: number;
+    is_deployed: boolean;
+    is_closed: boolean;
+    date_to_close: string | null;
+    is_public: boolean;
+    multi_answer: boolean;
+    form_name: string;
+    form_description: string;
+    theme: Theme;
+    fields: FieldPayload[] | [];
 }

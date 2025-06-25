@@ -1,112 +1,112 @@
 import type { RequestHandler } from "express";
 import {
-  findAllFields,
-  findFieldById,
-  insertField,
-  updateField,
-  deleteFieldById,
+    findAllFields,
+    findFieldById,
+    insertField,
+    updateField,
+    deleteFieldById,
 } from "../models/field.model";
 import { Field, FieldPayload } from "../types/field";
 
 // The B of BREAD - Browse (Read All) operation
 
 export const getAllFields: RequestHandler = async (req, res, next) => {
-  try {
-    //Find form ID
-    const formId = Number.parseInt(req.params.form_id);
-    if (isNaN(formId)) {
-      res.status(400).json({
-        error: "L'id du formulaire est censée être numérique",
-      });
-      return;
+    try {
+        //Find form ID
+        const formId = Number.parseInt(req.params.form_id);
+        if (isNaN(formId)) {
+            res.status(400).json({
+                error: "L'id du formulaire est censée être numérique",
+            });
+            return;
+        }
+        // Fetch all items
+        const fields = await findAllFields(formId);
+        // Respond with the items in JSON format
+        res.json(fields);
+    } catch (err) {
+        // Pass any errors to the error-handling middleware
+        next(err);
     }
-    // Fetch all items
-    const fields = await findAllFields(formId);
-    // Respond with the items in JSON format
-    res.json(fields);
-  } catch (err) {
-    // Pass any errors to the error-handling middleware
-    next(err);
-  }
 };
 
 // The R of BREAD - Read operation
 export const getThisField: RequestHandler = async (req, res, next) => {
-  try {
-    const fieldId = Number.parseInt(req.params.id);
-    if (isNaN(fieldId)) {
-      res.status(400).json({
-        error: "L'id du champ est censée être numérique",
-      });
-      return;
+    try {
+        const fieldId = Number.parseInt(req.params.id);
+        if (isNaN(fieldId)) {
+            res.status(400).json({
+                error: "L'id du champ est censée être numérique",
+            });
+            return;
+        }
+        // Fetch a specific field based on the provided ID: field
+        const field = await findFieldById(fieldId);
+        //respond with the field in JSON format
+        res.json(field);
+    } catch (err) {
+        // Pass any errors to the error-handling middleware
+        next(err);
     }
-    // Fetch a specific field based on the provided ID: field
-    const field = await findFieldById(fieldId);
-    //respond with the field in JSON format
-    res.json(field);
-  } catch (err) {
-    // Pass any errors to the error-handling middleware
-    next(err);
-  }
 };
 
 // The A of BREAD - Add (Create) operation
 export const createField: RequestHandler = async (req, res, next) => {
-  try {
-    const {
-      field_ordering,
-      field_name,
-      field_description,
-      default_value,
-      is_required,
-      is_unique,
-      form_id,
-      field_type_id,
-    } = req.body;
+    try {
+        const {
+            field_ordering,
+            field_name,
+            field_description,
+            default_value,
+            is_required,
+            is_unique,
+            form_id,
+            field_type_id,
+        } = req.body;
 
-    // Create the field
-    const newField = await insertField({
-      field_ordering,
-      field_name,
-      field_description,
-      default_value,
-      is_required,
-      is_unique,
-      form_id,
-      field_type_id,
-    } as FieldPayload);
-    res.status(201).json(newField);
-  } catch (err) {
-    // Pass any errors to the error-handling middleware
-    next(err);
-  }
+        // Create the field
+        const newField = await insertField({
+            field_ordering,
+            field_name,
+            field_description,
+            default_value,
+            is_required,
+            is_unique,
+            form_id,
+            field_type_id,
+        } as FieldPayload);
+        res.status(201).json(newField);
+    } catch (err) {
+        // Pass any errors to the error-handling middleware
+        next(err);
+    }
 };
 
 //The U of BREAUD (lol) - Update operation
 export const updateThisField: RequestHandler = async (req, res, next) => {
-  try {
-    const field = req.body;
-    const updatedField = await updateField(field as FieldPayload);
-    res.status(200).json(updatedField);
-  } catch (err) {
-    next(err);
-  }
+    try {
+        const field = req.body;
+        const updatedField = await updateField(field as FieldPayload);
+        res.status(200).json(updatedField);
+    } catch (err) {
+        next(err);
+    }
 };
 
 // The D of BREAD - Delete operation
 export const deleteField: RequestHandler = async (req, res, next) => {
-  try {
-    const fieldId = Number.parseInt(req.params.id);
-    if (isNaN(fieldId)) {
-      res.status(400).json({
-        error: "L'id du champ est censée être numérique",
-      });
-      return;
+    try {
+        const fieldId = Number.parseInt(req.params.id);
+        if (isNaN(fieldId)) {
+            res.status(400).json({
+                error: "L'id du champ est censée être numérique",
+            });
+            return;
+        }
+        const result = await deleteFieldById(fieldId);
+        res.status(200).json(result);
+    } catch (err) {
+        // Pass any errors to the error-handling middleware
+        next(err);
     }
-    const result = await deleteFieldById(fieldId);
-    res.status(200).json(result);
-  } catch (err) {
-    // Pass any errors to the error-handling middleware
-    next(err);
-  }
 };
