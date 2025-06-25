@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import styles from "./ThemeCustom.module.css";
 
-const themeHues = [0, 240, 120, 60, 300, 39, 180, 350];
+const themeHues = [0, 240, 120, 60, 300, 39, 180,];
 
 const fonts = [
 	"Arial",
