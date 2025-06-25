@@ -1,5 +1,5 @@
 import { Request } from "express";
 
 export interface RequestWithUser extends Request {
-  user: { user_id: number; iat: number; exp: number };
+    user: { user_id: number; iat: number; exp: number };
 }
