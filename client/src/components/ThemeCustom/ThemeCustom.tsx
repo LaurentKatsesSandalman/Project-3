@@ -1,20 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import styles from "./ThemeCustom.module.css";
 
-const themeColors = [
-	{ base: "#FF0000", text: "#CC0000", background: "#FFCCCC" },
-	{ base: "#0000FF", text: "#0000CC", background: "#CCCCFF" },
-	{ base: "#00FF00", text: "#00CC00", background: "#CCFFCC" },
-	{ base: "#FFFF00", text: "#CCCC00", background: "#FFFFCC" },
-	{ base: "#800080", text: "#660066", background: "#D9B3D9" },
-	{ base: "#FFA500", text: "#CC8400", background: "#FFDAB9" },
-	{ base: "#40E0D0", text: "#33CCB8", background: "#AFEEEE" },
-	{ base: "#FFC0CB", text: "#CC99A3", background: "#FFE4E1" },
-	{ base: "#A52A2A", text: "#8B2323", background: "#BC8F8F" },
-	{ base: "#808080", text: "#666666", background: "#D3D3D3" },
-	{ base: "#000000", text: "#333333", background: "#CCCCCC" },
-	{ base: "#FFFFFF", text: "#CCCCCC", background: "#F5F5F5" },
-];
+const themeHues = [0, 240, 120, 60, 300, 39, 180, 350];
 
 const fonts = [
 	"Arial",
@@ -37,7 +24,7 @@ const fonts = [
 const fontSizes = [12, 14, 16, 18, 20, 24, 32, 36];
 const titleFontSizes = [16, 18, 20, 24, 28, 32, 36, 40];
 
-const ColorDropdown = ({ selectedColor, onColorSelect, colors }) => {
+const HueDropdown = ({ selectedHue, onHueSelect, hues }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const dropdownRef = useRef(null);
 
@@ -64,22 +51,22 @@ const ColorDropdown = ({ selectedColor, onColorSelect, colors }) => {
 			<button
 				onClick={toggleDropdown}
 				className={styles.dropdownButton}
-				style={{ backgroundColor: selectedColor.base }}
+				style={{ backgroundColor: `hsl(${selectedHue}, 100%, 50%)` }}
 			></button>
 			{isOpen && (
 				<div className={styles.dropdownContent}>
-					{colors.map((color, index) => (
+					{hues.map((hue, index) => (
 						<div
 							key={index}
 							onClick={() => {
-								onColorSelect(color);
+								onHueSelect(hue);
 								setIsOpen(false);
 							}}
 							className={styles.colorOption}
 							style={{
-								backgroundColor: color.base,
+								backgroundColor: `hsl(${hue}, 100%, 50%)`,
 								border:
-									selectedColor.name === color.name
+									selectedHue === hue
 										? "2px solid #333"
 										: "none",
 							}}
@@ -96,41 +83,40 @@ const ThemeCustom = ({ onThemeChange }) => {
 	const [questionFontFamily, setQuestionFontFamily] = useState("Arial");
 	const [fontSize, setFontSize] = useState(16);
 	const [titleFontSize, setTitleFontSize] = useState(24);
-	const [selectedTheme, setSelectedTheme] = useState(themeColors[0]);
+	const [selectedHue, setSelectedHue] = useState(themeHues[0]);
 
-	const handleThemeChange = (theme) => {
-		setSelectedTheme(theme);
-		updateTheme(theme);
+	const handleHueChange = (hue) => {
+		setSelectedHue(hue);
+		updateTheme(hue);
 	};
 
 	const handleTitleFontFamilyChange = (e) => {
 		setTitleFontFamily(e.target.value);
-		updateTheme(selectedTheme);
+		updateTheme(selectedHue);
 	};
 
 	const handleQuestionFontFamilyChange = (e) => {
 		setQuestionFontFamily(e.target.value);
-		updateTheme(selectedTheme);
+		updateTheme(selectedHue);
 	};
 
 	const handleFontSizeChange = (e) => {
 		setFontSize(parseInt(e.target.value, 10));
-		updateTheme(selectedTheme);
+		updateTheme(selectedHue);
 	};
 
 	const handleTitleFontSizeChange = (e) => {
 		setTitleFontSize(parseInt(e.target.value, 10));
-		updateTheme(selectedTheme);
+		updateTheme(selectedHue);
 	};
 
-	const updateTheme = (theme) => {
+	const updateTheme = (hue) => {
 		onThemeChange({
 			titleFontFamily,
 			questionFontFamily,
 			fontSize: `${fontSize}px`,
 			titleFontSize: `${titleFontSize}px`,
-			textColor: theme.text,
-			backgroundColor: theme.background,
+			color: `hsl(${hue}, 100%, 50%)`,
 		});
 	};
 
@@ -202,11 +188,11 @@ const ThemeCustom = ({ onThemeChange }) => {
 			</div>
 			<div>
 				<label className={styles.label}>
-					Couleur du thème:
-					<ColorDropdown
-						selectedColor={selectedTheme}
-						onColorSelect={handleThemeChange}
-						colors={themeColors}
+					Teinte du thème:
+					<HueDropdown
+						selectedHue={selectedHue}
+						onHueSelect={handleHueChange}
+						hues={themeHues}
 					/>
 				</label>
 			</div>
