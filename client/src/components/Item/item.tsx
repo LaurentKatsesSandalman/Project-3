@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
 import settingIcon from "./../../assets/icons/wheel.png";
 import styles from "./../Item/Item.module.css";
@@ -12,8 +12,6 @@ export type FormItem = {
     creation_date: string;
     is_closed: boolean;
 };
-// commentaire de Jordan : Il est mieux de sortir les typages ( sauf props ) pour plutot les ajouters dans un dossier type, au cas ou on aurait besoin de l'utiliser dans plusieurs fichiers.
-// Perso j'ai utilisé les noms donnés dans le schema.sql pour le nom de mes clés pour s'y retrouver plus facilement par exemple : form_id, form_name, creation_date, etc.
 
 type ItemProps = {
     form: FormItem;
@@ -88,7 +86,7 @@ function Item({ form, onPublish, onClose, onDelete, setForms }: ItemProps) {
                                 Statut : {form.is_closed ? "Fermé" : "Ouvert"}{" "}
                             </p>
                         </li>
-                        {/* <li><p>Nombre de réponses : </p></li> Laurent doit valider ce statut */}
+                        {/* <li><p>Nombre de réponses : {formResult.total_answers}</p></li> */}
                     </ul>
                 </div>
                 <div className={styles.buttonContainer}>
