@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import settingIcon from './../../assets/icons/cross.png';
 import styles from './../DetailsItem/detailsItem.module.css';
 import axios from 'axios';
+import { useAppContext } from '../../context/AppContext';
 
 export type FormItem = {
     form_id: number;
@@ -22,15 +23,33 @@ type ItemProps = {
     onCloseDetails?: () => void;
 };
 
-function DetailsItem({ form, onPublish, onClose, onCloseDetails }: ItemProps) {
+function DetailsItem({ form, onPublish, onClose, onCloseDetails}: ItemProps) {
     const navigate = useNavigate();
     const [openMenu] = useState(true);
+    const { authToken, setAuthToken} = useAppContext();
     const onDelete = async (id: number) => {
-        try{await axios.delete(`/api/forms/${id}`);
-            console.log(`formulaire ${id} supprimé avec succès`);
-         }catch (error) {console.error(`Erreur lors de la suppression du formulaire ${id}`, error)}
+        console.log("Delete form with id",id)
+        try {
+            const response = await axios.delete(
+                 `${import.meta.env.VITE_QUICKY_API_URL}/api/forms/${id}`,
+                {
+                    headers: {
+                        Authorization : `Bearer ${authToken}`
+                    },
+                }
+
+            );
+            navigate(`/forms`)
+        } catch (err: any){
+            console.error(
+                "Une erreur s'est produite lors de la suppression du formulaire",err
+            );
+            if (err.reponse?.status === 401 || err.response?.status === 403) {
+                setAuthToken(null);
+            }
+            alert ("Impossible de supprimer le formulaire pour le moment, veuillez réessayer plus tard");
+        }
     };
-    console.log(form);
     return (
         <>
             <section className={styles.bodySection}>
@@ -49,12 +68,12 @@ function DetailsItem({ form, onPublish, onClose, onCloseDetails }: ItemProps) {
                     {openMenu && (
                         <div className={styles.bulletPoint}>
                             <ul>
-                                <li>
+                                {/* <li>
                                     <button onClick={() => onPublish(form.form_id)}>Publier</button>
-                                </li> {/* partie non géré pour l'instant*/}
+                                </li> partie non géré pour l'instant
                                 <li>
                                     <button onClick={() => onClose(form.is_closed)}>Clôturer</button>
-                                </li> {/* partie non géré pour l'instant*/}
+                                </li> partie non géré pour l'instant */}
                                 <li>
                                     <button onClick={() => onDelete(form.form_id)}>Supprimer définitivement</button> {/* fetch avec axio pour delete à l'adresse correct API vers l'id (à voir avec L)*/}
                                 </li>

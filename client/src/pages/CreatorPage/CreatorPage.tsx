@@ -62,7 +62,6 @@ function CreatorPage() {
 
         fetchForms();
     }, []);
-
     useEffect(() => {
         console.log(forms);
     }, [forms]);

@@ -1,8 +1,9 @@
-import type { RequestHandler } from "express";
-import { findAllForms, insertForm } from "../models/form.model";
+import type { NextFunction, RequestHandler } from "express";
+import { deleteFormById, findAllForms, insertForm } from "../models/form.model";
 import { getFullForm, updateFullForm } from "../services/FullForm";
 import { FormPayload, FullForm } from "../types/form";
 import { formatDate } from "../utils/formatDate";
+import { error } from "console";
 
 // The B of BREAD - Browse (Read All) operation
 
@@ -200,15 +201,21 @@ export const createForm: RequestHandler = async (req: any, res, next) => {
 
 // The D of BREAD - Delete operation
 
-export const deleteForm: RequestHandler = async (req, res, next) => {
-    try {
-        //(écrit par Laurent) Trouve l'id à supprimer dans la requete
-        // supprime le form concerné
-        // répond avec un code 204 ("no content") ou 200 ("ok") ou 202 ("accepted" <= not done yet)
-    } catch (err) {
-        // Pass any errors to the error-handling middleware
-        next(err);
+export const deleteForm: RequestHandler = async (req, res, next): Promise<void> => {
+  try {
+    const formId = parseInt(req.params.id);
+    if (isNaN(formId)) {
+      res.status(400).json({ error: "Invalid form ID" });
+      return;
     }
-};
+    const result = await deleteFormById(formId);
 
-// CES FONCTIONS NE SONT QUE DES EXEMPLES ET D'AUTRES MANQUENT
+    if (result) {
+      res.sendStatus(204);
+    } else {
+      res.status(404).json({ error: "Form not found" });
+    }
+  } catch (err) {
+    next(err);
+  }
+};

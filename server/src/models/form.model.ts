@@ -4,6 +4,7 @@ import { Form, FormPayload } from "../types/form";
 import { Field, FieldOption } from "../types/field";
 import { FormResult, MainResult } from "../types/result";
 
+
 export async function findAllForms(user_id: number): Promise<Form[]> {
     const [rows] = await database.query<Form[]>(
         `SELECT * FROM form WHERE user_id=?`,
@@ -143,4 +144,12 @@ export async function findMainResultData(id: number): Promise<MainResult> {
     );
 
     return rows[0];
+}
+
+export async function deleteFormById(id: number): Promise<boolean> {
+    const [result] = await database.query<ResultSetHeader>(
+        "DELETE FROM form WHERE form_id = ?",
+        [id]
+    );
+    return result.affectedRows > 0;
 }
