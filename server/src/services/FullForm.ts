@@ -62,48 +62,38 @@ export const getFullForm = async (form_id: number) => {
 export const updateFullForm = async (form: FullFormPayload) => {
     //HEAD: update form only
     const initialForm: Form | undefined = await findFormById(form.form_id);
-
     const updatedForm: Partial<Form> = {};
-    let iDontKnowHowToCheckIfObjectIsEmpty = true;
-    if (initialForm) {
+       if (initialForm) {
         updatedForm.form_id = form.form_id;
         if (Number(initialForm.is_deployed) !== Number(form.is_deployed)) {
-            updatedForm.is_deployed = form.is_deployed;
-            iDontKnowHowToCheckIfObjectIsEmpty = false;
+            updatedForm.is_deployed = form.is_deployed;       
         }
         if (Number(initialForm.is_closed) !== Number(form.is_closed)) {
-            updatedForm.is_closed = form.is_closed;
-            iDontKnowHowToCheckIfObjectIsEmpty = false;
+            updatedForm.is_closed = form.is_closed;          
         }
         if (Number(initialForm.is_public) !== Number(form.is_public)) {
-            updatedForm.is_public = form.is_public;
-            iDontKnowHowToCheckIfObjectIsEmpty = false;
+            updatedForm.is_public = form.is_public;          
         }
         if (Number(initialForm.multi_answer) !== Number(form.multi_answer)) {
-            updatedForm.multi_answer = form.multi_answer;
-            iDontKnowHowToCheckIfObjectIsEmpty = false;
+            updatedForm.multi_answer = form.multi_answer;           
         }
         if (initialForm.theme_id !== form.theme.theme_id) {
-            updatedForm.theme_id = form.theme.theme_id;
-            iDontKnowHowToCheckIfObjectIsEmpty = false;
+            updatedForm.theme_id = form.theme.theme_id;           
         }
         if (initialForm.form_name !== form.form_name) {
-            updatedForm.form_name = form.form_name;
-            iDontKnowHowToCheckIfObjectIsEmpty = false;
+            updatedForm.form_name = form.form_name;            
         }
         if (initialForm.form_description !== form.form_description) {
-            updatedForm.form_description = form.form_description;
-            iDontKnowHowToCheckIfObjectIsEmpty = false;
+            updatedForm.form_description = form.form_description;          
         }
         if (
             form.date_to_close &&
             initialForm.date_to_close !== form.date_to_close
         ) {
-            updatedForm.date_to_close = form.date_to_close;
-            iDontKnowHowToCheckIfObjectIsEmpty = false;
+            updatedForm.date_to_close = form.date_to_close;           
         }
 
-        if (!iDontKnowHowToCheckIfObjectIsEmpty) {
+        if (Object.keys(updatedForm).length>0) {
             const updatedFormOnly = await updateForm(updatedForm);
         }
     }
