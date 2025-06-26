@@ -102,6 +102,10 @@
 	font-weight: 500;
 }
 
+.formTitlePreview {
+	font-size: 2rem;
+}
+
 .form {
 	width: 100%;
 	display: flex;

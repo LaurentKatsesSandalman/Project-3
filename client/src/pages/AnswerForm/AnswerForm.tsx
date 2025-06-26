@@ -133,19 +133,19 @@ function AnswerForm({ isPreview }: AnswerFormProps) {
 			style={
 				{
 					"--font-base": `"${
-						securedForm?.theme.font1_value ?? "Chivo"
+						securedForm?.theme.font2_value ?? "Chivo"
 					}", sans-serif`,
 					"--font-alt": `"${
-						securedForm?.theme.font2_value ?? "Spectral"
+						securedForm?.theme.font1_value ?? "Spectral"
 					}", serif`,
 					"--font-text-size": `${
-						securedForm?.theme.font1_size ?? 16
+						securedForm?.theme.font2_size ?? 16
 					}px`,
 					"--font-title-size": `${
-						securedForm?.theme.font2_size ?? 24
+						securedForm?.theme.font1_size ?? 24
 					}px`,
 					"--font-big-title-size": `${
-						(securedForm?.theme.font2_size ?? 24) * 1.33
+						(securedForm?.theme.font1_size ?? 24) * 1.33
 					}px`,
 					"--color-primary": `hsl(${
 						securedForm?.theme.color_value ?? 169
