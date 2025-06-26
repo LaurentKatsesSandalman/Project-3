@@ -1,9 +1,9 @@
-import type { NextFunction, RequestHandler } from "express";
+import type { RequestHandler } from "express";
 import { deleteFormById, findAllForms, insertForm } from "../models/form.model";
 import { getFullForm, updateFullForm } from "../services/FullForm";
 import { FormPayload, FullForm } from "../types/form";
 import { formatDate } from "../utils/formatDate";
-import { error } from "console";
+
 
 // The B of BREAD - Browse (Read All) operation
 
@@ -90,8 +90,11 @@ export const getSecuredFullFormById: RequestHandler<
             return;
         }
         const currentDate = new Date();
-        const closeDate = new Date(fullForm.creation_date);
-        if (currentDate > closeDate) {
+        let closeDate: Date | null = null;
+        if (fullForm.date_to_close) {
+            closeDate = new Date(fullForm.date_to_close);
+        }
+        if (closeDate && currentDate > closeDate) {
             res.status(403).json({
                 error: `403 - Le formulaire est clos depuis le ${formatDate(
                     closeDate
@@ -126,13 +129,19 @@ export const getSecuredFullFormById: RequestHandler<
 // The E of BREAD - Edit operation
 export const updateFullFormById: RequestHandler<
     { id: string },
-    FullForm | { error: string }
+    string | { error: string }
 > = async (req: any, res, next) => {
-    console.log("update reached");
     try {
         const { form } = req.body;
 
         const { user_id } = req.user;
+
+        if (form.user_id !== user_id) {
+            res.status(403).json({
+                error: "Le formulaire ayant cet id n'est pas le votre",
+            });
+            return;
+        }
 
         // We use a service to format the data we want
         const fullForm = await updateFullForm(form);
@@ -144,14 +153,7 @@ export const updateFullFormById: RequestHandler<
             return;
         }
 
-        if (fullForm.user_id !== req.user.user_id) {
-            res.status(403).json({
-                error: "Le formulaire ayant cet id n'est pas le votre",
-            });
-            return;
-        }
-
-        res.status(200).json(fullForm);
+        res.status(200).json("update success");
     } catch (err) {
         next(err);
     }

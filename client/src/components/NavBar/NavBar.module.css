@@ -1,0 +1,45 @@
+.mode-bar {
+    position: fixed;
+    top: 48px;
+    z-index: 1;
+    width: 100%;
+}
+
+.mode-toggle-buttons {
+    font-family: var(--font-alt);
+    font-weight: 500;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+}
+
+.mode-toggle-buttons > :first-child {
+    border-bottom-left-radius: var(--radius);
+}
+
+.mode-toggle-buttons > :last-child {
+    border-bottom-right-radius: var(--radius);
+}
+
+.mode-toggle-button {
+    padding: 8px 20px;
+    background-color: var(--color-text-light);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 6px 6px -4px hsla(0, 0%, 0%, 0.2);
+}
+
+.mode-toggle-button:hover {
+    box-shadow: var(--shadow-inner), 0 6px 6px -4px hsla(0, 0%, 0%, 0.2);
+}
+
+.mode-toggle-button.active {
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+}
+
+.mode-toggle-button.active:hover {
+    box-shadow: var(--shadow-outer);
+}

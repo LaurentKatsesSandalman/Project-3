@@ -78,20 +78,7 @@ function CreatorPage() {
             </section>
             <section className={styles.formListSection}>
                 {forms.map((form) => (
-                    <Item
-                        key={form.form_id}
-                        form={form}
-                        onPublish={() =>
-                            console.log(`Publish form with id: ${form.form_id}`)
-                        }
-                        onClose={() =>
-                            console.log(`Close form with id: ${form.form_id}`)
-                        }
-                        onDelete={() =>
-                            console.log(`Delete form with id: ${form.form_id}`)
-                        }
-                        setForms={setForms}
-                    />
+                    <Item key={form.form_id} form={form} setForms={setForms} />
                 ))}
             </section>
         </>

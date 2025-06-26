@@ -1,7 +1,7 @@
 import { RowDataPacket } from "mysql2";
 
 export interface OptionResult {
-    value: string;
+    field_answer_value: string;
     count: number;
 }
 
@@ -12,7 +12,7 @@ export interface OptionResultWithFieldId extends OptionResult {
 export interface Result {
     field_answer_id: number;
     form_answer_id: number;
-    value: string;
+    field_answer_value: string;
 }
 
 export interface FieldResult {

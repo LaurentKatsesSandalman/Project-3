@@ -31,3 +31,17 @@ export interface FormPayload {
 export interface FullForm extends Form {
     fields: FullField[];
 }
+
+// Front => Back
+export interface FullFormPayload {
+    form_id: number;
+    is_deployed: boolean;
+    is_closed: boolean;
+    date_to_close: string | null;
+    is_public: boolean;
+    multi_answer: boolean;
+    form_name: string;
+    form_description: string;
+    theme: Theme;
+    fields: FieldPayload[] | [];
+}

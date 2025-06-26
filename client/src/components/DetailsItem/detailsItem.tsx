@@ -1,30 +1,19 @@
-import { useEffect, useState } from 'react';
-import {Form, useNavigate} from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate} from 'react-router-dom';
 import settingIcon from './../../assets/icons/cross.png';
 import styles from './../DetailsItem/detailsItem.module.css';
 import axios from 'axios';
 import { useAppContext } from '../../context/AppContext';
+import type { FormItem } from '../../types/form';
 
-export type FormItem = {
-    form_id: number;
-    form_name: string;
-    link: string; // URL publique du formulaire
-    creation_date: string;
-    is_closed: boolean;
-};
-// commentaire de Jordan : Il est mieux de sortir les typages ( sauf props ) pour plutot les ajouters dans un dossier type, au cas ou on aurait besoin de l'utiliser dans plusieurs fichiers. 
-// Perso j'ai utilisé les noms donnés dans le schema.sql pour le nom de mes clés pour s'y retrouver plus facilement par exemple : form_id, form_name, creation_date, etc.
 
 type ItemProps = {
     form: FormItem;
     setForms: React.Dispatch<React.SetStateAction<any>>;
-    onPublish: (id: number) => void;
-    onClose: (id: boolean) => void;
-    onDelete: (id: number) => void;
     onCloseDetails?: () => void;
 };
 
-function DetailsItem({ form, onPublish, onClose, onCloseDetails, setForms}: ItemProps) {
+function DetailsItem({ form, onCloseDetails, setForms}: ItemProps) {
     const navigate = useNavigate();
     const [openMenu] = useState(true);
     const { authToken, setAuthToken} = useAppContext();
@@ -68,14 +57,8 @@ function DetailsItem({ form, onPublish, onClose, onCloseDetails, setForms}: Item
                     {openMenu && (
                         <div className={styles.bulletPoint}>
                             <ul>
-                                {/* <li>
-                                    <button onClick={() => onPublish(form.form_id)}>Publier</button>
-                                </li> partie non géré pour l'instant
                                 <li>
-                                    <button onClick={() => onClose(form.is_closed)}>Clôturer</button>
-                                </li> partie non géré pour l'instant */}
-                                <li>
-                                    <button onClick={() => onDelete(form.form_id)}>Supprimer définitivement</button> {/* fetch avec axio pour delete à l'adresse correct API vers l'id (à voir avec L)*/}
+                                    <button className={styles.deleteButton} onClick={() => onDelete(form.form_id)}>Supprimer définitivement</button> 
                                 </li>
                             </ul>
                         </div>

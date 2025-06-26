@@ -4,24 +4,14 @@ import Button from "../Button/Button";
 import settingIcon from "./../../assets/icons/wheel.png";
 import styles from "./../Item/Item.module.css";
 import DetailsItem from "../DetailsItem/detailsItem";
-
-export type FormItem = {
-    form_id: number;
-    form_name: string;
-    link: string; // URL publique du formulaire
-    creation_date: string;
-    is_closed: boolean;
-};
+import type { FormItem } from "../../types/form";
 
 type ItemProps = {
     form: FormItem;
     setForms: React.Dispatch<React.SetStateAction<any>>;
-    onPublish: (id: number) => void;
-    onClose: (id: boolean) => void;
-    onDelete: (id: number) => void;
 };
 
-function Item({ form, onPublish, onClose, onDelete, setForms }: ItemProps) {
+function Item({ form, setForms }: ItemProps) {
     const navigate = useNavigate();
     const [openMenu, SetOpenMenu] = useState(false);
     const handleCloseDetails = () => {
@@ -35,9 +25,6 @@ function Item({ form, onPublish, onClose, onDelete, setForms }: ItemProps) {
                     <div className={styles.detailsContainer}>
                         <DetailsItem
                             form={form}
-                            onPublish={onPublish}
-                            onClose={onClose}
-                            onDelete={onDelete}
                             onCloseDetails={handleCloseDetails}
                             setForms={setForms}
                         />
@@ -62,7 +49,7 @@ function Item({ form, onPublish, onClose, onDelete, setForms }: ItemProps) {
                     <p
                         onClick={() => {
                             navigator.clipboard.writeText(
-                                `https://quicky.com/form/${form.form_id}`
+                                `http://localhost:5173/answers/${form.form_id}`
                             );
                             alert("Lien copié !");
                         }}
@@ -86,7 +73,6 @@ function Item({ form, onPublish, onClose, onDelete, setForms }: ItemProps) {
                                 Statut : {form.is_closed ? "Fermé" : "Ouvert"}{" "}
                             </p>
                         </li>
-                        {/* <li><p>Nombre de réponses : {formResult.total_answers}</p></li> */}
                     </ul>
                 </div>
                 <div className={styles.buttonContainer}>
