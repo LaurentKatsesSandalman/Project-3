@@ -32,7 +32,6 @@ export async function insertTheme(
     const sqlQuery = `
         INSERT INTO theme (${fields.join(",")})
         VALUES (${connectingElement})`;
-    console.log(sqlQuery);
     // Insert a new theme into form table
     const [result] = await database.query<ResultSetHeader>(sqlQuery, values);
     const [rows] = await database.query<Theme[] & RowDataPacket[]>(

@@ -8,7 +8,6 @@ interface ThemeCustomProps {
 }
 
 function ThemeCustom({ form, setForm }: ThemeCustomProps) {
-    console.log(form.theme.color_value);
     const [isColorModalOpen, setIsColorModalOpen] = useState(false);
     const fonts = [
         "Arial",

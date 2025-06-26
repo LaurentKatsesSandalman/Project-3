@@ -105,7 +105,6 @@ export const updateFullForm = async (form: FullFormPayload) => {
         }
 
         if (Object.keys(updatedForm).length > 1) {
-            console.log("reached", Object.keys(updatedForm));
             const updatedFormOnly = await updateForm(updatedForm);
         }
     }
