@@ -19,6 +19,8 @@ function ThemeCustom({ form, setForm }: ThemeCustomProps) {
         "Palatino",
         "Comic Sans MS",
         "Trebuchet MS",
+        "Chivo",
+        "Spectral"
     ];
     const fontSizes = [12, 14, 16, 18, 20, 24, 32];
     const titleFontSizes = [16, 18, 20, 24, 28, 32, 36];
