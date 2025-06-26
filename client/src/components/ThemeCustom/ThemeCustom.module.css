@@ -64,7 +64,6 @@
 	padding: 22px max(8px, min(2%, 22px));
 	box-shadow: var(--shadow-outer);
 	border-radius: var(--radius);
-	margin-bottom: 24px;
 }
 
 .optionContainer {
@@ -76,6 +75,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	gap: 4px;
 	width: 100%;
 	max-width: 340px;
 }
@@ -133,7 +133,7 @@
 	border: 2px solid black;
 }
 
-@media (max-width: 750px) {
+@media (max-width: 780px) {
 	.pickers {
 		grid-template-columns: 1fr;
 		gap: 8px;

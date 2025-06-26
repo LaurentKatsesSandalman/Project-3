@@ -13,6 +13,8 @@ export interface AppContextType {
 	setIsSignUpActive: React.Dispatch<React.SetStateAction<boolean>>;
 	isLoginActive: boolean;
 	setIsLoginActive: React.Dispatch<React.SetStateAction<boolean>>;
+	isFieldsPanelVisible: boolean;
+	setIsFieldsPanelVisible: React.Dispatch<React.SetStateAction<boolean>>;
 	navigate: NavigateFunction;
 }
 
@@ -29,6 +31,7 @@ export function AppProvider({ children }: AppProviderProps) {
 	);
 	const [isSignUpActive, setIsSignUpActive] = useState<boolean>(false);
 	const [isLoginActive, setIsLoginActive] = useState<boolean>(false);
+	const [isFieldsPanelVisible, setIsFieldsPanelVisible] = useState(true);
 	const navigate = useNavigate();
 
 	const location = useLocation();
@@ -91,6 +94,8 @@ export function AppProvider({ children }: AppProviderProps) {
 				setIsSignUpActive,
 				isLoginActive,
 				setIsLoginActive,
+				isFieldsPanelVisible,
+				setIsFieldsPanelVisible,
 				navigate,
 			}}
 		>

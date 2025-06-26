@@ -7,8 +7,9 @@ import { useAppContext } from "../../context/AppContext";
 import type { FieldPayload } from "../../types/fields";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { BackIcon } from "../Icons/Icons";
+import { AddIcon, BackIcon, CloseIcon } from "../Icons/Icons";
 import ThemeCustom from "../ThemeCustom/ThemeCustom";
+import Button from "../Button/Button";
 
 type TypeOfField =
 	| "text"
@@ -66,9 +67,13 @@ const emptyForm = {
 };
 
 const FormCreator = () => {
-	const { authToken, setAuthToken } = useAppContext();
+	const {
+		authToken,
+		setAuthToken,
+		isFieldsPanelVisible,
+		setIsFieldsPanelVisible,
+	} = useAppContext();
 	const [form, setForm] = useState<FormPayload>(emptyForm);
-	const [isFieldsPanelVisible, setIsFieldsPanelVisible] = useState(true);
 
 	const { form_id } = useParams<{ form_id: string }>();
 
@@ -162,10 +167,6 @@ const FormCreator = () => {
 		return fieldTypes[index].name;
 	};
 
-	const toggleFieldsPanelVisibility = () => {
-		setIsFieldsPanelVisible(!isFieldsPanelVisible);
-	};
-
 	return (
 		<div className={styles["form-container"]}>
 			<div className={styles["title-container"]}>
@@ -175,61 +176,86 @@ const FormCreator = () => {
 				<h1 className={styles["form-title"]}>{form.form_name}</h1>
 			</div>
 			<form onSubmit={handleSubmit} className={styles["form"]}>
-				<ThemeCustom form={form} setForm={setForm} />
-				<div className={styles["form-header"]}>
-					<input
-						type="text"
-						placeholder="Titre du formulaire"
-						value={form.form_name}
-						onChange={(event) => {
-							event.preventDefault();
-							handleChange("title", event.target.value);
-						}}
-						className={styles["form-title-input"]}
-					/>
-					<input
-						type="text"
-						placeholder="Description du formulaire"
-						value={form.form_description}
-						onChange={(event) => {
-							event.preventDefault();
-							handleChange("description", event.target.value);
-						}}
-						className={styles["form-description"]}
-					/>
-				</div>
-
-				<div className={styles["form-layout"]}>
+				<div className={styles["form-content"]}>
 					<div className={styles["form-editor"]}>
-						{form.fields.map((field) => (
-							<FormField
-								key={field.field_ordering}
-								field={field}
-								fieldTypeName={findTypeName(field)}
-								setForm={setForm}
+						<ThemeCustom form={form} setForm={setForm} />
+						<div className={styles["form-header"]}>
+							<input
+								type="text"
+								placeholder="Titre du formulaire"
+								value={form.form_name}
+								onChange={(event) => {
+									event.preventDefault();
+									handleChange("title", event.target.value);
+								}}
+								className={styles["form-title-input"]}
 							/>
-						))}
+							<input
+								type="text"
+								placeholder="Description du formulaire"
+								value={form.form_description}
+								onChange={(event) => {
+									event.preventDefault();
+									handleChange(
+										"description",
+										event.target.value
+									);
+								}}
+								className={styles["form-description"]}
+							/>
+						</div>
 					</div>
-					<div className={styles["form-right-panel"]}>
-						<button
-							type="submit"
-							className={styles["form-save-button"]}
-						>
-							Sauvegarder formulaire
-						</button>
-						<div style={{ position: "relative" }}>
-							<button
-								type="button"
-								onClick={toggleFieldsPanelVisibility}
-								className={styles["toggle-panel-button"]}
-							>
-								{isFieldsPanelVisible ? "➖" : "➕"}
-							</button>
-							{isFieldsPanelVisible && (
+					<div className={styles["form-layout"]}>
+						<div className={styles["form-editor"]}>
+							{form.fields.map((field) => (
+								<FormField
+									key={field.field_ordering}
+									field={field}
+									fieldTypeName={findTypeName(field)}
+									setForm={setForm}
+								/>
+							))}
+						</div>
+					</div>
+				</div>
+				<div className={styles["form-right-panel"]}>
+					<Button
+						variant="primary"
+						type="submit"
+						className={styles.submitBtn}
+					>
+						Sauvegarder formulaire
+					</Button>
+					<div>
+						{isFieldsPanelVisible && (
+							<div className={styles["form-fields-container"]}>
 								<div
-									className={styles["form-fields-container"]}
+									className={styles["fields-picking-header"]}
 								>
-									<h3>Choisir un champ</h3>
+									<h3
+										className={
+											styles["fields-picking-title"]
+										}
+									>
+										Choisir un champ
+									</h3>
+									<button
+										type="button"
+										onClick={() =>
+											setIsFieldsPanelVisible(false)
+										}
+										className={
+											styles["toggle-panel-button"]
+										}
+									>
+										{isFieldsPanelVisible && (
+											<CloseIcon
+												className={styles["close-icon"]}
+											/>
+										)}
+									</button>
+								</div>
+								<div className={styles["fields-picking-list"]}>
 									{fieldTypes.map((fieldType) => (
 										<button
 											key={fieldType.field_type_id}
@@ -237,16 +263,26 @@ const FormCreator = () => {
 											onClick={() =>
 												addField(fieldType.type)
 											}
+											className={styles["field-type-btn"]}
 										>
 											{fieldType.name}
 										</button>
 									))}
 								</div>
-							)}
-						</div>
+							</div>
+						)}
 					</div>
 				</div>
 			</form>
+			{!isFieldsPanelVisible && (
+				<button
+					type="button"
+					onClick={() => setIsFieldsPanelVisible(true)}
+					className={styles["add-btn"]}
+				>
+					<AddIcon className={styles["add-icon"]} />
+				</button>
+			)}
 		</div>
 	);
 };
