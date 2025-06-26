@@ -9,7 +9,7 @@
 //     createdAt: string; // ISO date string
 //     publishedAt?: string; // ISO date string, optional
 //     link: string; //URL publique du formulaire
-//     isClosed: boolean; 
+//     isClosed: boolean;
 // };
 // commentaire de Jordan : Il est mieux de sortir les typages ( sauf props ) pour plutot les ajouters dans un dossier type, au cas ou on aurait besoin de l'utiliser dans plusieurs fichiers. Perso j'ai utilisé les noms donnés dans le schema.sql pour le nom de mes clés pour s'y retrouver plus facilement par exemple : form_id, form_name, creation_date, etc.
 
@@ -68,4 +68,3 @@
 // };
 
 // export default Item;
-

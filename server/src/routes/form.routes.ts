@@ -1,12 +1,12 @@
 import express from "express";
 
 import {
-  getAllForms,
-  getFullFormById,
-  createForm,
-  deleteForm,
-  getSecuredFullFormById,
-  updateFullFormById,
+    getAllForms,
+    getFullFormById,
+    createForm,
+    deleteForm,
+    getSecuredFullFormById,
+    updateFullFormById,
 } from "./../controllers/form.controller";
 import { authenticateToken } from "../middlewares/authenticateToken";
 

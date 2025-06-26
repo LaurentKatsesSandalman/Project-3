@@ -52,13 +52,13 @@ export const getThisOption: RequestHandler = async (req, res, next) => {
 // The A of BREAD - Add (Create) operation
 export const createOption: RequestHandler = async (req, res, next) => {
     try {
-        const { ordering, name, value, field_id } = req.body;
+        const { option_ordering, option_name, option_value, field_id } = req.body;
 
         // Create the field
         const newOption = await insertOption({
-            ordering,
-            name,
-            value,
+            option_ordering,
+            option_name,
+            option_value,
             field_id,
         } as FieldOption);
         res.status(201).json(newOption);
