@@ -12,7 +12,7 @@ import {
 	insertOption,
 } from "../models/fieldoption.model";
 import { findFormById, updateForm } from "../models/form.model";
-import { themeById } from "../models/theme.model";
+import { insertTheme, themeById } from "../models/theme.model";
 import { Field, FieldOption, FieldPayload } from "../types/field";
 import { Form, FullFormPayload } from "../types/form";
 import { Theme } from "../types/theme";
@@ -61,44 +61,55 @@ export const getFullForm = async (form_id: number) => {
 };
 
 export const updateFullForm = async (form: FullFormPayload) => {
-	//HEAD: update form only
-	const initialForm: Form | undefined = await findFormById(form.form_id);
-	const updatedForm: Partial<Form> = {};
-	if (initialForm) {
-		updatedForm.form_id = form.form_id;
-		if (Number(initialForm.is_deployed) !== Number(form.is_deployed)) {
-			updatedForm.is_deployed = form.is_deployed;
-		}
-		if (Number(initialForm.is_closed) !== Number(form.is_closed)) {
-			updatedForm.is_closed = form.is_closed;
-		}
-		if (Number(initialForm.is_public) !== Number(form.is_public)) {
-			updatedForm.is_public = form.is_public;
-		}
-		if (Number(initialForm.multi_answer) !== Number(form.multi_answer)) {
-			updatedForm.multi_answer = form.multi_answer;
-		}
-		if (initialForm.theme_id !== form.theme.theme_id) {
-			updatedForm.theme_id = form.theme.theme_id;
-		}
-		if (initialForm.form_name !== form.form_name) {
-			updatedForm.form_name = form.form_name;
-		}
-		if (initialForm.form_description !== form.form_description) {
-			updatedForm.form_description = form.form_description;
-		}
-		if (
-			form.date_to_close &&
-			initialForm.date_to_close !== form.date_to_close
-		) {
-			updatedForm.date_to_close = form.date_to_close;
-		}
+        //BEFORE HEAD: update theme
+    const initialTheme: Theme | undefined = await themeById(
+        form.theme.theme_id
+    );
+    if (form.theme !== initialTheme) {
+        const newTheme: Theme | undefined = await insertTheme(form.theme);
+        if (newTheme) {
+            form.theme.theme_id = newTheme.theme_id;
+        }
+    }
 
-		if (Object.keys(updatedForm).length > 1) {
-			const updatedFormOnly = await updateForm(updatedForm);
-		}
-	}
-	// HEAD: fin
+    //HEAD: update form only
+    const initialForm: Form | undefined = await findFormById(form.form_id);
+    const updatedForm: Partial<Form> = {};
+       if (initialForm) {
+        updatedForm.form_id = form.form_id;
+        if (Number(initialForm.is_deployed) !== Number(form.is_deployed)) {
+            updatedForm.is_deployed = form.is_deployed;       
+        }
+        if (Number(initialForm.is_closed) !== Number(form.is_closed)) {
+            updatedForm.is_closed = form.is_closed;          
+        }
+        if (Number(initialForm.is_public) !== Number(form.is_public)) {
+            updatedForm.is_public = form.is_public;          
+        }
+        if (Number(initialForm.multi_answer) !== Number(form.multi_answer)) {
+            updatedForm.multi_answer = form.multi_answer;           
+        }
+        if (initialForm.theme_id !== form.theme.theme_id) {
+            updatedForm.theme_id = form.theme.theme_id;           
+        }
+        if (initialForm.form_name !== form.form_name) {
+            updatedForm.form_name = form.form_name;            
+        }
+        if (initialForm.form_description !== form.form_description) {
+            updatedForm.form_description = form.form_description;          
+        }
+        if (
+            form.date_to_close &&
+            initialForm.date_to_close !== form.date_to_close
+        ) {
+            updatedForm.date_to_close = form.date_to_close;           
+        }
+
+        if (Object.keys(updatedForm).length > 1) {
+            const updatedFormOnly = await updateForm(updatedForm);
+        }
+    }
+    // HEAD: fin
 
 	//update fields & options
 
