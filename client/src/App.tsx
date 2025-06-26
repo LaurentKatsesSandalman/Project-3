@@ -4,14 +4,14 @@ import TopBar from "./components/TopBar/TopBar";
 import "./App.css";
 
 function App() {
-    return (
-        <AppProvider>
-            <TopBar />
-            <main>
-                <Outlet />
-            </main>
-        </AppProvider>
-    );
+	return (
+		<AppProvider>
+			<TopBar />
+			<main>
+				<Outlet />
+			</main>
+		</AppProvider>
+	);
 }
 
 export default App;

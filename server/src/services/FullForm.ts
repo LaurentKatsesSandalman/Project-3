@@ -39,8 +39,9 @@ export const getFullForm = async (form_id: number) => {
 
 	const fieldsWithOptions = await Promise.all(
 		fields.map(async (field) => {
-			const fieldOptions: FieldOption[] | undefined =
-				await findAllOptions(field.field_id);
+			const fieldOptions: FieldOption[] | undefined = await findAllOptions(
+				field.field_id
+			);
 
 			return {
 				...field,
@@ -172,8 +173,9 @@ export const updateFullForm = async (form: FullFormPayload) => {
 						await insertOption(optionWithFieldId);
 						//F2-b-O2-b : existing option
 					} else {
-						const initialOption: FieldOption | undefined =
-							await findOptionById(option.field_option_id);
+						const initialOption: FieldOption | undefined = await findOptionById(
+							option.field_option_id
+						);
 						//F2-b-O2-b1: existing option has been updated => create a new one and prepare to delete (not added to remainingOptionsIds)
 						if (initialOption && initialOption !== option) {
 							const optionWithFieldId = {

@@ -10,11 +10,7 @@ function Page404() {
 		<div className={styles.page}>
 			<div className={styles.container}>
 				<div className={styles.logoContainer}>
-					<img
-						className={styles.logo}
-						src={logoUrl}
-						alt="Quicky logo"
-					/>
+					<img className={styles.logo} src={logoUrl} alt="Quicky logo" />
 					<p className={styles.brand}>Quicky</p>
 				</div>
 				<div className={styles.content}>

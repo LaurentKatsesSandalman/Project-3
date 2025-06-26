@@ -11,45 +11,45 @@ import PublicLayout from "./PublicLayout.tsx";
 import Page404 from "./pages/Page404/Page404.tsx";
 
 const router = createBrowserRouter([
-    {
-        element: <App />,
-        children: [
-            {
-                path: "/",
-                element: <Home />,
-            },
-            {
-                path: "/forms",
-                element: <CreatorPage />,
-            },
-            {
-                path: "/settings",
-                element: <CreatorSettings />,
-            },
-            {
-                path: "/forms/:form_id",
-                element: <DetailedForm />,
-            },
-        ],
-    },
-    // Separate this path from the others to not display the topbar
-    {
-        element: <PublicLayout />,
-        children: [
-            {
-                path: "/answers/:form_id",
-                element: <AnswerForm isPreview={false} />,
-            },
-        ],
-    },
-    {
-        path: "*",
-        element: <Page404 />,
-    },
+	{
+		element: <App />,
+		children: [
+			{
+				path: "/",
+				element: <Home />,
+			},
+			{
+				path: "/forms",
+				element: <CreatorPage />,
+			},
+			{
+				path: "/settings",
+				element: <CreatorSettings />,
+			},
+			{
+				path: "/forms/:form_id",
+				element: <DetailedForm />,
+			},
+		],
+	},
+	// Separate this path from the others to not display the topbar
+	{
+		element: <PublicLayout />,
+		children: [
+			{
+				path: "/answers/:form_id",
+				element: <AnswerForm isPreview={false} />,
+			},
+		],
+	},
+	{
+		path: "*",
+		element: <Page404 />,
+	},
 ]);
 
 const rootElement = document.getElementById("root");
 
 if (rootElement != null) {
-    ReactDOM.createRoot(rootElement).render(<RouterProvider router={router} />);
+	ReactDOM.createRoot(rootElement).render(<RouterProvider router={router} />);
 }

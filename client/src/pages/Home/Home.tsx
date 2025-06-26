@@ -43,27 +43,14 @@ function Home() {
 						<h1 className={styles.title}>Quicky</h1>
 						<div className={styles.texts}>
 							<p className={styles.text}>
-								Avec{" "}
-								<span className={styles.accentuate}>
-									Quicky
-								</span>
-								, concevez vos formulaires en quelques clics,
-								choisissez un thème, partagez-les par lien ou
-								intégrez-les sur votre site.
+								Avec <span className={styles.accentuate}>Quicky</span>, concevez
+								vos formulaires en quelques clics, choisissez un thème,
+								partagez-les par lien ou intégrez-les sur votre site.
 							</p>
 							<p className={styles.text}>
-								<span className={styles.accentuate}>
-									Rapide
-								</span>
-								,{" "}
-								<span className={styles.accentuate}>
-									élégant
-								</span>
-								,{" "}
-								<span className={styles.accentuate}>
-									sans prise de tête
-								</span>
-								.
+								<span className={styles.accentuate}>Rapide</span>,{" "}
+								<span className={styles.accentuate}>élégant</span>,{" "}
+								<span className={styles.accentuate}>sans prise de tête</span>.
 							</p>
 						</div>
 						<Button
@@ -74,11 +61,7 @@ function Home() {
 							Créer un formulaire
 						</Button>
 					</div>
-					<img
-						className={styles.logo}
-						src={logoUrl}
-						alt="Quicky logo"
-					/>
+					<img className={styles.logo} src={logoUrl} alt="Quicky logo" />
 				</div>
 				<div className={styles.examplesContainer}>
 					<div className={styles.example}>
