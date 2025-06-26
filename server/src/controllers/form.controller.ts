@@ -1,9 +1,9 @@
-import type { NextFunction, RequestHandler } from "express";
+import type { RequestHandler } from "express";
 import { deleteFormById, findAllForms, insertForm } from "../models/form.model";
 import { getFullForm, updateFullForm } from "../services/FullForm";
 import { FormPayload, FullForm } from "../types/form";
 import { formatDate } from "../utils/formatDate";
-import { error } from "console";
+
 
 // The B of BREAD - Browse (Read All) operation
 

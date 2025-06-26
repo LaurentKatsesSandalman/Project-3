@@ -18,7 +18,6 @@ export interface Form {
 export interface FormItem{
     form_id: number;
     form_name: string;
-    link: string; // URL publique du formulaire
     creation_date: string;
     is_closed: boolean;
 }

@@ -75,7 +75,7 @@ function DetailsItem({ form, onPublish, onClose, onCloseDetails, setForms}: Item
                                     <button className={styles.deleteButton} onClick={() => onClose(form.is_closed)}>Clôturer</button>
                                 </li> partie non géré pour l'instant */}
                                 <li>
-                                    <button className={styles.deleteButton} onClick={() => onDelete(form.form_id)}>Supprimer définitivement</button> {/* fetch avec axio pour delete à l'adresse correct API vers l'id (à voir avec L)*/}
+                                    <button className={styles.deleteButton} onClick={() => onDelete(form.form_id)}>Supprimer définitivement</button> 
                                 </li>
                             </ul>
                         </div>
