@@ -52,7 +52,7 @@ export const findFormResultById = async (form_id: number) => {
                                 return {
                                     field_answer_id: result.field_answer_id,
                                     form_answer_id: result.form_answer_id,
-                                    value: result.value,
+                                    value: result.field_answer_value,
                                 };
                             }) || [],
                     options_results:
@@ -62,7 +62,7 @@ export const findFormResultById = async (form_id: number) => {
                             )
                             .map((result) => {
                                 return {
-                                    value: result.value,
+                                    value: result.field_answer_value,
                                     count: result.count,
                                 };
                             }) || [],

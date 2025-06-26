@@ -4,25 +4,16 @@ import settingIcon from './../../assets/icons/cross.png';
 import styles from './../DetailsItem/detailsItem.module.css';
 import axios from 'axios';
 import { useAppContext } from '../../context/AppContext';
+import type { FormItem } from '../../types/form';
 
-export type FormItem = {
-    form_id: number;
-    form_name: string;
-    link: string; // URL publique du formulaire
-    creation_date: string;
-    is_closed: boolean;
-};
 
 type ItemProps = {
     form: FormItem;
     setForms: React.Dispatch<React.SetStateAction<any>>;
-    onPublish: (id: number) => void;
-    onClose: (id: boolean) => void;
-    onDelete: (id: number) => void;
     onCloseDetails?: () => void;
 };
 
-function DetailsItem({ form, onPublish, onClose, onCloseDetails, setForms}: ItemProps) {
+function DetailsItem({ form, onCloseDetails, setForms}: ItemProps) {
     const navigate = useNavigate();
     const [openMenu] = useState(true);
     const { authToken, setAuthToken} = useAppContext();

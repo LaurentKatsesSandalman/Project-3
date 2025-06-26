@@ -7,9 +7,12 @@
     background-color: var(--color-body-background);
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     gap: 24px;
+}
+
+.previewSpacing {
+    padding-top: 60px;
 }
 
 .container {
@@ -72,11 +75,26 @@
     gap: 12px;
 }
 
+.previewContainer {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+}
+
+.backIcon {
+    color: var(--color-primary);
+    width: 42px;
+    height: 42px;
+}
+
+.backIcon:hover {
+    color: var(--color-primary-darker);
+}
+
 .formTitle {
-    font-family: var(--font-alt);
     font-size: var(--font-big-title-size);
-    font-weight: 600;
-    text-decoration: underline;
+    font-weight: 500;
 }
 
 .form {

@@ -28,7 +28,7 @@ export async function countNbrSameValue(
     const [rows] = await database.query<FormAnswer[] & RowDataPacket[]>(
         `SELECT COUNT(*) AS count 
         FROM field_answer 
-        WHERE field_id=? AND value=?`,
+        WHERE field_id=? AND field_answer_value=?`,
         [field_id, value]
     );
     return rows[0].count;
@@ -62,7 +62,7 @@ export async function insertFieldAnswers(
 ): Promise<void> {
     if (fieldAnswers.length === 0) return;
 
-    const fields = ["form_answer_id", "value", "field_id"];
+    const fields = ["form_answer_id", "field_answer_value", "field_id"];
     const values: (string | number)[] = [];
     for (const answer of fieldAnswers) {
         values.push(answer.form_answer_id);

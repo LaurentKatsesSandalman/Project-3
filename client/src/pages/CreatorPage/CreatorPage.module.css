@@ -16,6 +16,11 @@
     font-size: 1.4rem;
 }
 
+.headerSection {
+    padding-top: 50px;
+    font-size: 1.4rem;
+}
+
 .formListSection{
     display: flex;
     justify-content: center;;

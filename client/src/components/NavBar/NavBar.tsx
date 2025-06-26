@@ -1,4 +1,4 @@
-import styles from "../FormCreator/FormCreator.module.css";
+import styles from "./NavBar.module.css";
 
 interface NavBarProps {
     viewMode: "preview" | "edit" | "result";
@@ -9,34 +9,36 @@ interface NavBarProps {
 
 function NavBar({ viewMode, setViewMode }: NavBarProps) {
     return (
-        <div className={styles["mode-toggle-buttons"]}>
-            <button
-                type="button"
-                onClick={() => setViewMode("edit")}
-                className={`${styles["mode-toggle-button"]} ${
-                    viewMode === "edit" ? styles["active"] : ""
-                }`}
-            >
-                Éditer
-            </button>
-            <button
-                type="button"
-                onClick={() => setViewMode("preview")}
-                className={`${styles["mode-toggle-button"]} ${
-                    viewMode === "preview" ? styles["active"] : ""
-                }`}
-            >
-                Aperçu
-            </button>
-            <button
-                type="button"
-                onClick={() => setViewMode("result")}
-                className={`${styles["mode-toggle-button"]} ${
-                    viewMode === "result" ? styles["active"] : ""
-                }`}
-            >
-                Résultat
-            </button>
+        <div className={styles["mode-bar"]}>
+            <div className={styles["mode-toggle-buttons"]}>
+                <button
+                    type="button"
+                    onClick={() => setViewMode("edit")}
+                    className={`${styles["mode-toggle-button"]} ${
+                        viewMode === "edit" ? styles["active"] : ""
+                    }`}
+                >
+                    Éditer
+                </button>
+                <button
+                    type="button"
+                    onClick={() => setViewMode("preview")}
+                    className={`${styles["mode-toggle-button"]} ${
+                        viewMode === "preview" ? styles["active"] : ""
+                    }`}
+                >
+                    Aperçu
+                </button>
+                <button
+                    type="button"
+                    onClick={() => setViewMode("result")}
+                    className={`${styles["mode-toggle-button"]} ${
+                        viewMode === "result" ? styles["active"] : ""
+                    }`}
+                >
+                    Résultat
+                </button>
+            </div>
         </div>
     );
 }

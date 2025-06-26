@@ -1,27 +1,19 @@
 import { useState } from 'react';
-import {useNavigate, Link} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import Button from '../Button/Button';
 import settingIcon from './../../assets/icons/wheel.png';
 import styles from './../Item/Item.module.css';
 import DetailsItem from '../DetailsItem/detailsItem';
+import type { FormItem } from '../../types/form';
 
-export type FormItem = {
-    form_id: number;
-    form_name: string;
-    link: string; // URL publique du formulaire
-    creation_date: string;
-    is_closed: boolean;
-};
+
 
 type ItemProps = {
     form: FormItem;
     setForms: React.Dispatch<React.SetStateAction<any>>;
-    onPublish: (id: number) => void;
-    onClose: (id: boolean) => void;
-    onDelete: (id: number) => void;
 };
 
-function Item({ form, onPublish, onClose, onDelete, setForms }: ItemProps) {
+function Item({ form, setForms }: ItemProps) {
     const navigate = useNavigate();
     const [openMenu, SetOpenMenu] = useState(false);
     const handleCloseDetails = () => {SetOpenMenu(false);};
@@ -32,7 +24,7 @@ function Item({ form, onPublish, onClose, onDelete, setForms }: ItemProps) {
                             {/*section pour les détails de l'item */}
                                     {openMenu && (
                                         <div className={styles.detailsContainer}>
-                                            <DetailsItem form={form} onPublish={onPublish} onClose={onClose} onDelete={onDelete} onCloseDetails={handleCloseDetails} setForms={setForms} />
+                                            <DetailsItem form={form} onCloseDetails={handleCloseDetails} setForms={setForms} />
                                         </div>
                                     )}
                 <div className={styles.h2Container}>
@@ -64,6 +56,5 @@ function Item({ form, onPublish, onClose, onDelete, setForms }: ItemProps) {
 };
 
 export default Item;
-
 
 
