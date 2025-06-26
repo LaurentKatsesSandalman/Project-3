@@ -12,8 +12,6 @@ export type FormItem = {
     creation_date: string;
     is_closed: boolean;
 };
-// commentaire de Jordan : Il est mieux de sortir les typages ( sauf props ) pour plutot les ajouters dans un dossier type, au cas ou on aurait besoin de l'utiliser dans plusieurs fichiers. 
-// Perso j'ai utilisé les noms donnés dans le schema.sql pour le nom de mes clés pour s'y retrouver plus facilement par exemple : form_id, form_name, creation_date, etc.
 
 type ItemProps = {
     form: FormItem;
@@ -68,12 +66,6 @@ function DetailsItem({ form, onPublish, onClose, onCloseDetails, setForms}: Item
                     {openMenu && (
                         <div className={styles.bulletPoint}>
                             <ul>
-                                {/* <li>
-                                    <button className={styles.deleteButton} onClick={() => onPublish(form.form_id)}>Publier</button>
-                                </li> partie non géré pour l'instant
-                                <li>
-                                    <button className={styles.deleteButton} onClick={() => onClose(form.is_closed)}>Clôturer</button>
-                                </li> partie non géré pour l'instant */}
                                 <li>
                                     <button className={styles.deleteButton} onClick={() => onDelete(form.form_id)}>Supprimer définitivement</button> 
                                 </li>
