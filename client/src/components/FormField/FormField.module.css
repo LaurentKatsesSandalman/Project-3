@@ -37,6 +37,11 @@
 	font-size: var(--font-text-size);
 }
 
+.fieldName::placeholder,
+.fieldDescription::placeholder {
+	color: var(--color-text-placeholder);
+}
+
 .optionsTitle {
 	margin-bottom: 10px;
 }
@@ -55,6 +60,8 @@
 .input {
 	width: 100%;
 	max-width: 480px;
+	/* Remove if we don't want to apply the user style in editor */
+	font-size: var(--font-text-size);
 }
 
 .closeIcon,
@@ -69,16 +76,24 @@
 }
 
 .addBtn {
+	width: 32px;
+	height: 32px;
 	font-size: 1.6rem;
 	align-self: flex-start;
+	text-align: center;
 	border: 1px solid var(--color-text-dark);
-	padding: 0 10px 4px 10px;
 	border-radius: var(--radius);
 	margin-bottom: 16px;
 }
 
+.addBtn span {
+	display: block;
+	transform: translateY(-4px);
+}
+
 .addBtn:hover {
 	color: var(--color-primary);
+	box-shadow: var(--shadow-inner);
 }
 
 .fieldOptions {

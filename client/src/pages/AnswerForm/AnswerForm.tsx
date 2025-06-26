@@ -159,9 +159,9 @@ function AnswerForm({ isPreview }: AnswerFormProps) {
 					"--color-text-dark": `hsl(${
 						securedForm?.theme.color_value ?? 169
 					}, 75%, 4%)`,
-					"--color-text-placeholder": `hsl(${
+					"--color-text-placeholder": `hsla(${
 						securedForm?.theme.color_value ?? 169
-					}, 75%, 60%)`,
+					}, 75%, 60%, 0.5)`,
 				} as React.CSSProperties
 			}
 			className={clsx(

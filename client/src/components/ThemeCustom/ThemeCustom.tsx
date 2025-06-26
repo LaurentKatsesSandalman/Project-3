@@ -23,7 +23,7 @@ function ThemeCustom({ form, setForm }: ThemeCustomProps) {
 	];
 	const fontSizes = [12, 14, 16, 18, 20, 24, 32];
 	const titleFontSizes = [16, 18, 20, 24, 28, 32, 36];
-	const colors = [0, 30, 60, 120, 220, 270, 300];
+	const colors = [0, 30, 60, 169, 220, 270, 300];
 
 	const handleColorChange = (color: number) => {
 		setForm((prev) => ({

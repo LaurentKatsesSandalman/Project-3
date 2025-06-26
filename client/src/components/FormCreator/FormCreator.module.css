@@ -5,6 +5,7 @@
 	padding: 0 2%;
 	padding-top: 108px;
 	position: relative;
+	background-color: var(--color-body-background);
 }
 
 .title-container {
@@ -26,6 +27,7 @@
 }
 
 .form-title {
+	font-family: var(--font-alt);
 	font-size: 1.8rem;
 	font-weight: 500;
 }
@@ -69,9 +71,21 @@
 	margin-bottom: 10px;
 }
 
+.form-title-input::placeholder,
+.form-description::placeholder {
+	color: var(--color-text-placeholder);
+}
+
 .form-title-input {
 	font-size: 24px;
 	font-weight: bold;
+	/* Remove if we don't want to apply the user style in editor */
+	font-family: var(--font-alt);
+}
+
+.form-description {
+	/* Remove if we don't want to apply the user style in editor */
+	font-family: var(--font-base);
 }
 
 .form-layout {
@@ -205,7 +219,8 @@
 	.form-fields-container {
 		width: 96%;
 		position: fixed;
-		bottom: 10px;
+		bottom: 50%;
+		transform: translateY(calc(50% + 20px));
 		z-index: 100000;
 	}
 

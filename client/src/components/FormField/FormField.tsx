@@ -209,7 +209,7 @@ const FormField = ({ field, setForm, fieldTypeName }: FieldProps) => {
 							onClick={addOption}
 							className={styles.addBtn}
 						>
-							+
+							<span>+</span>
 						</button>
 					</div>
 				</>

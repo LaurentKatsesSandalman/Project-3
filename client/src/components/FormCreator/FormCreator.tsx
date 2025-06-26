@@ -168,7 +168,39 @@ const FormCreator = () => {
 	};
 
 	return (
-		<div className={styles["form-container"]}>
+		<div
+			className={styles["form-container"]}
+			style={
+				{
+					"--font-base": `"${
+						form?.theme.font2_value ?? "Chivo"
+					}", sans-serif`,
+					"--font-alt": `"${
+						form?.theme.font1_value ?? "Spectral"
+					}", serif`,
+					"--font-text-size": `${form?.theme.font2_size ?? 16}px`,
+					"--font-title-size": `${form?.theme.font1_size ?? 24}px`,
+					"--font-big-title-size": `${
+						(form?.theme.font1_size ?? 24) * 1.33
+					}px`,
+					"--color-primary": `hsl(${
+						form?.theme.color_value ?? 169
+					}, 75%, 28%)`,
+					"--color-primary-darker": `hsl(${
+						form?.theme.color_value ?? 169
+					}, 75%, 24%)`,
+					"--color-body-background": `hsl(${
+						form?.theme.color_value ?? 169
+					}, 15%, 87%)`,
+					"--color-text-dark": `hsl(${
+						form?.theme.color_value ?? 169
+					}, 75%, 4%)`,
+					"--color-text-placeholder": `hsla(${
+						form?.theme.color_value ?? 169
+					}, 75%, 60%, 0.5)`,
+				} as React.CSSProperties
+			}
+		>
 			<div className={styles["title-container"]}>
 				<Link to="/forms">
 					<BackIcon className={styles["back-icon"]} />
