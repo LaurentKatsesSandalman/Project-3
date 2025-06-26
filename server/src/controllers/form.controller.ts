@@ -128,13 +128,19 @@ export const getSecuredFullFormById: RequestHandler<
 // The E of BREAD - Edit operation
 export const updateFullFormById: RequestHandler<
     { id: string },
-    FullForm | { error: string }
+    string | { error: string }
 > = async (req: any, res, next) => {
-    console.log("update reached");
     try {
         const { form } = req.body;
 
         const { user_id } = req.user;
+
+        if (form.user_id !== user_id) {
+            res.status(403).json({
+                error: "Le formulaire ayant cet id n'est pas le votre",
+            });
+            return;
+        }
 
         // We use a service to format the data we want
         const fullForm = await updateFullForm(form);
@@ -146,14 +152,7 @@ export const updateFullFormById: RequestHandler<
             return;
         }
 
-        if (fullForm.user_id !== req.user.user_id) {
-            res.status(403).json({
-                error: "Le formulaire ayant cet id n'est pas le votre",
-            });
-            return;
-        }
-
-        res.status(200).json(fullForm);
+        res.status(200).json("update success");
     } catch (err) {
         next(err);
     }

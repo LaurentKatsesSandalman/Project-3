@@ -99,9 +99,9 @@ const FormCreator = () => {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log(form);
+
         try {
-            await axios.put(
+            await axios.patch(
                 `${import.meta.env.VITE_QUICKY_API_URL}/api/forms/${form_id}`,
                 {
                     form: form,
