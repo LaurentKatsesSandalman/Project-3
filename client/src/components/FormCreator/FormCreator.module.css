@@ -130,3 +130,12 @@
     cursor: pointer;
     z-index: 1000;
 }
+
+.lalignedubas{
+    display: flex;
+    justify-content: space-between;
+}
+
+.uniqueetobligatoire{
+    display: flex
+}
