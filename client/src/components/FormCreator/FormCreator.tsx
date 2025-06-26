@@ -41,7 +41,7 @@ const fieldTypes: FieldType[] = [
     { type: "date", name: "Date", field_type_id: 3 },
     { type: "time", name: "Heure", field_type_id: 10 },
     { type: "url", name: "URL", field_type_id: 9 },
-    { type: "month", name: "Liste des mois", field_type_id: 5 },
+    // { type: "month", name: "Liste des mois", field_type_id: 5 },
     { type: "number", name: "Nombre", field_type_id: 6 },
     { type: "droplist", name: "Liste déroulante", field_type_id: 12 },
 ];
