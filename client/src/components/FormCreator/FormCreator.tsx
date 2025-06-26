@@ -8,6 +8,7 @@ import type { FieldPayload } from "../../types/fields";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { BackIcon } from "../Icons/Icons";
+import ThemeCustom from "../ThemeCustom/ThemeCustom";
 
 type TypeOfField =
     | "text"
@@ -174,6 +175,7 @@ const FormCreator = () => {
                 <h1 className={styles["form-title"]}>{form.form_name}</h1>
             </div>
             <form onSubmit={handleSubmit}>
+            <ThemeCustom form={form} setForm={setForm}/>
                 <div className={styles["form-header"]}>
                     <input
                         type="text"
