@@ -80,6 +80,28 @@ function Home() {
 						alt="Quicky logo"
 					/>
 				</div>
+				<div className={styles.examplesContainer}>
+					<div className={styles.example}>
+						<Button
+							className={styles.exampleBtn}
+							variant="secondary"
+							onClick={() => navigate("/answers/LEBONID")}
+						>
+							Exemple
+						</Button>
+						<div>{/* ADD IMG */}</div>
+					</div>
+					<div className={styles.example}>
+						<Button
+							className={styles.exampleBtn}
+							variant="secondary"
+							onClick={() => navigate("/answers/LEBONID")}
+						>
+							Exemple
+						</Button>
+						<div>{/* ADD IMG */}</div>
+					</div>
+				</div>
 			</div>
 		</>
 	);
