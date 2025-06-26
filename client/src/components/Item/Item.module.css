@@ -1,0 +1,74 @@
+/* body de l'item */
+.headerSection{
+    position: relative;
+    padding: 14px 14px 50px 14px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    width: 360px;
+}
+/* head item */
+.h2Container{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;   
+}
+.h2{
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* parameter section */
+.styleWheel{
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    padding: 2px;
+    cursor: pointer;
+}
+.imgWheel{
+    width: 20px;
+    height: 20px;
+}
+
+/* link section */
+.linkContainer{
+    margin-bottom: 5px;
+}
+
+/* body item */
+.itemBody{
+    display: flex;
+    flex-direction : row;
+    margin-bottom: 10px;
+}
+
+/* list section */
+.itemList{
+    display: flex;
+    flex-direction: row;
+    /* margin: 10px; */
+    gap: 25px;
+    width: 100%;
+    font-size: 0.8rem;
+    
+}
+
+.buttonContainer{
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 0px;
+    gap: 2px;
+    left: 0px;
+    right: 0px;
+}
+
+.detailsContainer{
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
