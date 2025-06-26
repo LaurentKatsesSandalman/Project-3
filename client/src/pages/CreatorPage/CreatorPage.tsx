@@ -5,7 +5,7 @@ import axios from "axios";
 import { useAppContext } from "../../context/AppContext";
 import type { Form } from "../../types/form";
 import styles from "../CreatorPage/CreatorPage.module.css";
-// import Item from "../../components/Item/item";
+import Item from "../../components/Item/item";
 
 function CreatorPage() {
     const [forms, setForms] = useState<Form[] | []>([]);
@@ -62,11 +62,6 @@ function CreatorPage() {
 
         fetchForms();
     }, []);
-
-    useEffect(() => {
-        console.log(forms);
-    }, [forms]);
-
     return (
         <>
             <section className={styles.headerSection}>
@@ -81,17 +76,11 @@ function CreatorPage() {
                     </Button>
                 </div>
             </section>
-            {/* <section className="form_list_section">
-				{forms.map((form) => (
-					<Item 
-						key={form.form_id}
-						form={form}
-						onPublish={() => console.log(`Publish form with id: ${form.form_id}`)}
-					onClose={() => console.log(`Close form with id: ${form.form_id}`)}
-					onDelete={() => console.log(`Delete form with id: ${form.form_id}`)}
-					/>
-			))}
-			</section> */}
+            <section className={styles.formListSection}>
+                {forms.map((form) => (
+                    <Item key={form.form_id} form={form} setForms={setForms} />
+                ))}
+            </section>
         </>
     );
 }

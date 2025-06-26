@@ -1,70 +1,60 @@
-// import { useState } from 'react';
-// import {useNavigate, Link} from 'react-router-dom';
-// import Button from '../Button/Button';
-// import settingIcon from '../assets/icons/wheel.png';
+import { useState } from 'react';
+import {useNavigate} from 'react-router-dom';
+import Button from '../Button/Button';
+import settingIcon from './../../assets/icons/wheel.png';
+import styles from './../Item/Item.module.css';
+import DetailsItem from '../DetailsItem/detailsItem';
+import type { FormItem } from '../../types/form';
 
-// export type FormItem = {
-//     id: string;
-//     name: string;
-//     createdAt: string; // ISO date string
-//     publishedAt?: string; // ISO date string, optional
-//     link: string; //URL publique du formulaire
-//     isClosed: boolean;
-// };
-// commentaire de Jordan : Il est mieux de sortir les typages ( sauf props ) pour plutot les ajouters dans un dossier type, au cas ou on aurait besoin de l'utiliser dans plusieurs fichiers. Perso j'ai utilisé les noms donnés dans le schema.sql pour le nom de mes clés pour s'y retrouver plus facilement par exemple : form_id, form_name, creation_date, etc.
 
-// type ItemProps = {
-//     form: FormItem;
-//     onPublish: (id: string) => void;
-//     onClose: (id: string) => void;
-//     onDelete: (id: string) => void;
-// };
 
-// function Item({ form, onPublish, onClose, onDelete }: ItemProps) {
-//     const navigate = useNavigate();
-//     const [openMenu, SetOpenMenu] = useState(false);
+type ItemProps = {
+    form: FormItem;
+    setForms: React.Dispatch<React.SetStateAction<any>>;
+};
 
-//     return (
-//         <>
-//             <section className="Item_contenainer">
-//                 <div className="Item_header">
-//                     <h2 className="Item_title">{form.name}</h2>
-//                     <button className="absolute top-3 right-3 p-2" onClick={() => SetOpenMenu((o) => !o)}>
-// 				        <img src={settingIcon} alt="Paramètres"/>
-//                     </button>
-//                     {openMenu && (
-//                         <div className="parameters-menu">
-//                             <ul>
-//                                 <li>
-//                                     <button onClick={() => onPublish(form.id)}>Publier</button>
-//                                 </li>
-//                                 <li>
-//                                     <button onClick={() => onClose(form.id)}>Clôturer</button>
-//                                 </li>
-//                                 <li>
-//                                     <button onClick={() => onDelete(form.id)}>Supprimer définitivement</button>
-//                                 </li>
-//                             </ul>
-//                         </div>
-//                     )}
-//                     <Link to={form.link} ><p>Lien vers du formulaire</p></Link>
-//                 </div>
-//                 <div className="Item_body">
-//                     <ul>
-//                         <li><p>Crée le : {new Date(form.createdAt).toLocaleDateString()} </p></li>
-//                         <li><p>Statut : {form.isClosed ? 'Fermé' : 'Ouvert'}</p></li>
-//                         {/* <li><p>Nombre de réponses : </p></li> Laurent doit valider ce statut*/}
-//                     </ul>
-//                 </div>
-//                 faire un bouton pour l'aperçu du formulaire
-//                 <div className="Item_footer">
-//                     <Button  variant= "primary"onClick={()=> navigate(`/edit-form/${form.id}`)}>Editer</Button>
-//                     <Button variant ="primary" onClick={() => navigate(`/form/${form.id}`)}>Apperçu</Button>
-//                     <Button variant="primary" onClick={()=> navigate(`/form/${form.id}`)}>Résultat</Button>
-//                 </div>
-//             </section>
-//         </>
-//     )
-// };
+function Item({ form, setForms }: ItemProps) {
+    const navigate = useNavigate();
+    const [openMenu, SetOpenMenu] = useState(false);
+    const handleCloseDetails = () => {SetOpenMenu(false);};
+    return (
+        <>
+            <section className={styles.headerSection}>
+                
+                            {/*section pour les détails de l'item */}
+                                    {openMenu && (
+                                        <div className={styles.detailsContainer}>
+                                            <DetailsItem form={form} onCloseDetails={handleCloseDetails} setForms={setForms} />
+                                        </div>
+                                    )}
+                <div className={styles.h2Container}>
+                    <h2 className={styles.h2}>{form.form_name}</h2>
+                    <div className={styles.wheelButton}>
+                    <button className={styles.wheelContainer} onClick={() => SetOpenMenu((prev) => !prev)}>
+				        <img className={styles.imgWheel} src={settingIcon} alt="Paramètres"/>
+                    </button> 
+                    </div>
+                </div>
+                {/* <div className={styles.linkContainer}>
+                    <Link to={form.link} ><p>Lien vers du formulaire</p></Link> voir aussi pour le copier coller dans le presse papier
+                    </div> 
+                    Element pour une autre PR */}
+                <div className={styles.itemBody}>
+                    <ul className={styles.itemList}>
+                        <li className={styles.bulletPoint}><p>Crée le : {new Date(form.creation_date).toLocaleDateString()}</p></li>
+                        <li><p>Statut : {form.is_closed ? 'Fermé' : 'Ouvert'} </p></li>
+                    </ul>
+                </div>
+                <div className={styles.buttonContainer}>
+                    <Button style={{borderRadius:"0 0 4px 4px", maxWidth:"100%"}}  variant= "primary"onClick={()=> navigate(`/forms/${form.form_id}`)}>Editer</Button> {/*detail form pour switch vers la page d'édition du formulaire*/}
+                    {/* <Button style={{borderRadius:"0"}} variant ="primary" onClick={() => navigate(`/form/${form.form_id}`)}>Apperçu</Button>
+                    <Button style={{borderRadius:"0 0 4px 0"}} variant="primary" onClick={()=> navigate(`/form/${form.form_id}`)}>Résultat</Button> */}
+                </div>
+            </section>
+        </>
+    )
+};
 
-// export default Item;
+export default Item;
+
+
