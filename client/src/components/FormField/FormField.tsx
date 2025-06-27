@@ -1,6 +1,6 @@
 import type { FieldPayload } from "../../types/fields";
 import type { FormPayload } from "../../types/form";
-import { AddIcon, BinIcon, CloseIcon } from "../Icons/Icons";
+import { BinIcon, CloseIcon } from "../Icons/Icons";
 import styles from "./FormField.module.css";
 
 interface FieldProps {

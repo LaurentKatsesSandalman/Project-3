@@ -9,7 +9,6 @@ import type { Field } from "../../types/fields";
 import Button from "../../components/Button/Button";
 import InputField from "../../components/InputField/InputField";
 import type { FieldAnswer } from "../../types/answers";
-import { useAppContext } from "../../context/AppContext";
 import clsx from "clsx";
 import { BackIcon } from "../../components/Icons/Icons";
 
