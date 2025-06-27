@@ -53,6 +53,20 @@ const FormField = ({ field, setForm, fieldTypeName }: FieldProps) => {
         }));
     };
 
+    const handleChangeFieldOption = (option: "is_required" | "is_unique") => {
+        setForm((prev) => ({
+            ...prev,
+            fields: prev.fields.map((fieldlambda, index) =>
+                index === field.field_ordering - 1
+                    ? {
+                          ...fieldlambda,
+                          [`${option}`]: !fieldlambda[`${option}`],
+                      }
+                    : fieldlambda
+            ),
+        }));
+    };
+
     const updateOption = (option_ordering: number, newValue: string) => {
         setForm((prev) => ({
             ...prev,
@@ -197,6 +211,7 @@ const FormField = ({ field, setForm, fieldTypeName }: FieldProps) => {
                                     borderRadius: "4px",
                                 }}
                             />
+
                             <button
                                 type="button"
                                 onClick={() =>
@@ -213,9 +228,37 @@ const FormField = ({ field, setForm, fieldTypeName }: FieldProps) => {
                     </button>
                 </div>
             )}
-            <button type="button" onClick={removeField}>
-                Supprimer cette question
-            </button>
+            <div className={styles.lalignedubas}>
+                <div className={styles.uniqueetobligatoire}>
+                    <div>
+                        <label htmlFor="is_required">Obligatoire</label>
+                        <input
+                            type="checkbox"
+                            id="is_required"
+                            name="is_required"
+                            checked={field.is_required}
+                            onChange={() =>
+                                handleChangeFieldOption("is_required")
+                            }
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="is_unique">Unique</label>
+                        <input
+                            type="checkbox"
+                            id="is_unique"
+                            name="is_unique"
+                            checked={field.is_unique}
+                            onChange={() =>
+                                handleChangeFieldOption("is_unique")
+                            }
+                        />
+                    </div>
+                </div>
+                <button type="button" onClick={removeField}>
+                    Supprimer cette question
+                </button>
+            </div>
         </div>
     );
 };
