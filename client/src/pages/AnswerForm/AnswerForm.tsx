@@ -52,7 +52,7 @@ function AnswerForm({ isPreview }: AnswerFormProps) {
 
 	const handleSubmit = async () => {
 		if (!securedForm) return;
-
+console.log("answers", answers)
 		if (
 			// If a user can answer only once
 			!securedForm.multi_answer &&
@@ -231,13 +231,13 @@ function AnswerForm({ isPreview }: AnswerFormProps) {
 									<InputField
 										key={field.field_id}
 										field={field}
-										answer={answers.find((answer) => {
+										answersOfField={answers.filter((answer) => {
 											return (
 												answer.field_id ===
 												field.field_id
 											);
 										})}
-										setAnswers={setAnswers}
+										setAnswers={setAnswers}										
 										// When form answers are sent and a field is not unique this becomes true
 										isNotUnique={
 											field.field_id ===
