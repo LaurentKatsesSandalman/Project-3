@@ -21,34 +21,32 @@ function InputField({
     isNotUnique,
     setNotUniqueFieldAnswerId,
 }: InputFieldProps) {
-    if (!answersOfField||answersOfField.length===0) return null;
+    if (!answersOfField || answersOfField.length === 0) return null;
     let inputElement: React.ReactNode;
 
+    //     // Ne sera pas gardé
+    //     //------
+    //     const answersOfFieldstemp = [
+    //         {field_id: field.field_id,
+    //     value: "chat",
+    //     is_unique: false
+    // },
+    //         {field_id: field.field_id,
+    //     value: "chien",
+    //     is_unique: false},
+    //         {field_id: field.field_id,
+    //     value: "rat",
+    //     is_unique: false}
+    //     ]
+    //     const [answersOfField, setAnswersOfField]= useState<FieldAnswer[]>(answersOfFieldstemp)
+    //     //------
 
-//     // Ne sera pas gardé
-//     //------
-//     const answersOfFieldstemp = [
-//         {field_id: field.field_id,
-//     value: "chat",
-//     is_unique: false
-// },
-//         {field_id: field.field_id,
-//     value: "chien",
-//     is_unique: false},
-//         {field_id: field.field_id,
-//     value: "rat",
-//     is_unique: false}
-//     ]
-//     const [answersOfField, setAnswersOfField]= useState<FieldAnswer[]>(answersOfFieldstemp)
-//     //------
+    const [existingValues, setExistingValues] = useState<string[]>([]);
 
-    const [existingValues, setExistingValues] = useState <string[]>([])
-
-    useEffect (()=>{
-
-    setExistingValues((answersOfField.map((answer)=>(answer.value))))       
-console.log(existingValues)
-    },[answersOfField])
+    useEffect(() => {
+        setExistingValues(answersOfField.map((answer) => answer.value));
+        console.log(existingValues);
+    }, [answersOfField]);
 
     // Change the value of the field is the ids match
     const handleChange = (
@@ -73,17 +71,27 @@ console.log(existingValues)
             HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
         >
     ) => {
-        if(existingValues.includes(e.target.value))
-        {setAnswers((prev) =>
-            prev.filter((ans) =>
-                !(ans.field_id === field.field_id && ans.value === e.target.value)))
+        if (existingValues.includes(e.target.value)) {
+            setAnswers((prev) =>
+                prev.filter(
+                    (ans) =>
+                        !(
+                            ans.field_id === field.field_id &&
+                            ans.value === e.target.value
+                        )
+                )
+            );
+        } else {
+            setAnswers((prev) => [
+                ...prev,
+                {
+                    field_id: field.field_id,
+                    value: e.target.value,
+                    is_unique: field.is_unique,
+                },
+            ]);
         }
-        else
-        {setAnswers((prev) => ([...prev, {field_id: field.field_id,
-    value: e.target.value,
-    is_unique: field.is_unique
-}]))}  
-       
+
         if (isNotUnique) {
             setNotUniqueFieldAnswerId(undefined);
         }
@@ -111,7 +119,7 @@ console.log(existingValues)
                     key={option.option_value}
                 >
                     <input
-                        className={styles.radio}
+                        className={styles.checkbox}
                         type="checkbox"
                         required={field.is_required ? true : false}
                         name={option.field_id.toString()}
@@ -121,7 +129,7 @@ console.log(existingValues)
                     />
                     <label className={styles.label}>{option.option_name}</label>
                 </div>
-                ));
+            ));
             break;
         case 3: // Date
             inputElement = (
@@ -174,7 +182,9 @@ console.log(existingValues)
                         required={field.is_required ? true : false}
                         name={option.field_id.toString()}
                         value={option.option_value}
-                        checked={option.option_value === answersOfField[0].value}
+                        checked={
+                            option.option_value === answersOfField[0].value
+                        }
                         onChange={handleChange}
                     />
                     <label className={styles.label}>{option.option_name}</label>

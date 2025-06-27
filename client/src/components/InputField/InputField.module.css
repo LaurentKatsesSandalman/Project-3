@@ -1,5 +1,6 @@
 .fieldContainer {
     width: 100%;
+    font-family: var(--font-base);
     max-width: var(--card-max-width);
     background-color: var(--color-card-background);
     padding: 22px max(8px, min(2%, 22px));
@@ -10,6 +11,7 @@
 
 .name {
     font-size: var(--font-title-size);
+    font-family: var(--font-alt);
     color: var(--color-primary);
     margin-bottom: 12px;
 }
@@ -61,28 +63,38 @@
     margin-bottom: 0;
 }
 
-.radio {
+.radio,
+.checkbox {
     appearance: none;
     border: solid 1px var(--color-text-dark);
     width: var(--font-text-size);
     height: var(--font-text-size);
-    border-radius: 100%;
+    border-radius: var(--radius);
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
 }
 
-.radio::before {
+.radio {
+    border-radius: 100%;
+}
+
+.radio::before,
+.checkbox::before {
     content: "";
     width: 100%;
     height: 100%;
     background-color: var(--color-primary);
-    border-radius: 100%;
     visibility: hidden;
 }
 
-.radio:checked::before {
+.radio::before {
+    border-radius: 100%;
+}
+
+.radio:checked::before,
+.checkbox:checked::before {
     visibility: visible;
 }
 

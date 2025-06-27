@@ -9,7 +9,7 @@ import Item from "../../components/Item/item";
 
 function CreatorPage() {
     const [forms, setForms] = useState<Form[] | []>([]);
-    const { authToken, setAuthToken } = useAppContext();
+    const { authToken, setAuthToken, setViewMode } = useAppContext();
     const navigate = useNavigate();
     const handleClick = async () => {
         const emptyForm = {
@@ -31,6 +31,7 @@ function CreatorPage() {
                     },
                 }
             );
+            setViewMode("edit");
             navigate(`/forms/${response.data.form_id}`); //redirection vers la page du formulaire crée
         } catch (err: any) {
             console.error(

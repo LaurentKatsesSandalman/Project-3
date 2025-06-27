@@ -9,7 +9,6 @@ import type { Field } from "../../types/fields";
 import Button from "../../components/Button/Button";
 import InputField from "../../components/InputField/InputField";
 import type { FieldAnswer } from "../../types/answers";
-import { useAppContext } from "../../context/AppContext";
 import clsx from "clsx";
 import { BackIcon } from "../../components/Icons/Icons";
 
@@ -133,19 +132,19 @@ console.log("answers", answers)
 			style={
 				{
 					"--font-base": `"${
-						securedForm?.theme.font1_value ?? "Chivo"
+						securedForm?.theme.font2_value ?? "Chivo"
 					}", sans-serif`,
 					"--font-alt": `"${
-						securedForm?.theme.font2_value ?? "Spectral"
+						securedForm?.theme.font1_value ?? "Spectral"
 					}", serif`,
 					"--font-text-size": `${
-						securedForm?.theme.font1_size ?? 16
+						securedForm?.theme.font2_size ?? 16
 					}px`,
 					"--font-title-size": `${
-						securedForm?.theme.font2_size ?? 24
+						securedForm?.theme.font1_size ?? 24
 					}px`,
 					"--font-big-title-size": `${
-						(securedForm?.theme.font2_size ?? 24) * 1.33
+						(securedForm?.theme.font1_size ?? 24) * 1.33
 					}px`,
 					"--color-primary": `hsl(${
 						securedForm?.theme.color_value ?? 169
@@ -159,9 +158,9 @@ console.log("answers", answers)
 					"--color-text-dark": `hsl(${
 						securedForm?.theme.color_value ?? 169
 					}, 75%, 4%)`,
-					"--color-text-placeholder": `hsl(${
+					"--color-text-placeholder": `hsla(${
 						securedForm?.theme.color_value ?? 169
-					}, 75%, 60%)`,
+					}, 75%, 60%, 0.5)`,
 				} as React.CSSProperties
 			}
 			className={clsx(

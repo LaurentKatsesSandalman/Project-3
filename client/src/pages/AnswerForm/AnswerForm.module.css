@@ -99,7 +99,12 @@
 
 .formTitle {
 	font-size: var(--font-big-title-size);
+	font-family: var(--font-alt);
 	font-weight: 500;
+}
+
+.formTitlePreview {
+	font-size: 2rem;
 }
 
 .form {

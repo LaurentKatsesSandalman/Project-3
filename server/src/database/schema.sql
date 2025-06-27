@@ -2,7 +2,9 @@
 -- Don't forget the spreadsheet that simplifies creating tables
 DROP DATABASE IF EXISTS quicky;
 
-CREATE DATABASE quicky;
+CREATE DATABASE quicky
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
 
 USE quicky;
 
