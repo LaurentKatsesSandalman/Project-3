@@ -1,1 +1,2 @@
-SELECT GROUP_CONCAT(field_id SEPARATOR ',') as fields_id FROM field WHERE form_id=1 GROUP BY form_id;
+drop table field
+;

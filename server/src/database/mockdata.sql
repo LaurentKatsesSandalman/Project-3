@@ -22,7 +22,6 @@ INSERT INTO field (field_id,field_ordering,field_name,field_description,is_requi
 (2,2,"quel animal aimes-tu ?","",0,0,1,2),
 (3,3,"quel est ton anniversaire?","",0,0,1,3),
 (4,4,"quel est ton email ?","",1,1,1,4),
-(5,5,"quand sont tes vacances ?","",0,0,1,5),
 (6,6,"combien d'amis as-tu ?","",0,0,1,6),
 (7,7,"bleu, blanc ou rouge ?","Choisis une couleur",1,0,1,7),
 (8,8,"quel numéro de téléphone ?","",0,0,1,8),

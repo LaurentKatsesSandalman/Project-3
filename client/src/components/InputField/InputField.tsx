@@ -2,10 +2,11 @@ import clsx from "clsx";
 import styles from "./InputField.module.css";
 import type { Field } from "../../types/fields";
 import type { FieldAnswer } from "../../types/answers";
+import { useEffect, useState } from "react";
 
 interface InputFieldProps {
     field: Field;
-    answer?: FieldAnswer;
+    answersOfField?: FieldAnswer[];
     setAnswers: React.Dispatch<React.SetStateAction<FieldAnswer[]>>;
     isNotUnique: boolean;
     setNotUniqueFieldAnswerId: React.Dispatch<
@@ -15,13 +16,39 @@ interface InputFieldProps {
 
 function InputField({
     field,
-    answer,
+    answersOfField, //remplacé par answersOfField
     setAnswers,
     isNotUnique,
     setNotUniqueFieldAnswerId,
 }: InputFieldProps) {
-    if (!answer) return null;
+    if (!answersOfField||answersOfField.length===0) return null;
     let inputElement: React.ReactNode;
+
+
+//     // Ne sera pas gardé
+//     //------
+//     const answersOfFieldstemp = [
+//         {field_id: field.field_id,
+//     value: "chat",
+//     is_unique: false
+// },
+//         {field_id: field.field_id,
+//     value: "chien",
+//     is_unique: false},
+//         {field_id: field.field_id,
+//     value: "rat",
+//     is_unique: false}
+//     ]
+//     const [answersOfField, setAnswersOfField]= useState<FieldAnswer[]>(answersOfFieldstemp)
+//     //------
+
+    const [existingValues, setExistingValues] = useState <string[]>([])
+
+    useEffect (()=>{
+
+    setExistingValues((answersOfField.map((answer)=>(answer.value))))       
+console.log(existingValues)
+    },[answersOfField])
 
     // Change the value of the field is the ids match
     const handleChange = (
@@ -41,6 +68,27 @@ function InputField({
         }
     };
 
+    const handleChangeCheck = (
+        e: React.ChangeEvent<
+            HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+        >
+    ) => {
+        if(existingValues.includes(e.target.value))
+        {setAnswers((prev) =>
+            prev.filter((ans) =>
+                !(ans.field_id === field.field_id && ans.value === e.target.value)))
+        }
+        else
+        {setAnswers((prev) => ([...prev, {field_id: field.field_id,
+    value: e.target.value,
+    is_unique: field.is_unique
+}]))}  
+       
+        if (isNotUnique) {
+            setNotUniqueFieldAnswerId(undefined);
+        }
+    };
+
     // Look for the field_type to display the correct input
     switch (field.field_type_id) {
         case 1: // Text
@@ -52,12 +100,28 @@ function InputField({
                     required={field.is_required ? true : false}
                     placeholder="Texte..."
                     onChange={handleChange}
-                    value={answer.value}
+                    value={answersOfField[0].value}
                 />
             );
             break;
         case 2: // Checkbox
-            inputElement = <div>Checkbox</div>;
+            inputElement = field.field_options.map((option) => (
+                <div
+                    className={styles.optionContainer}
+                    key={option.option_value}
+                >
+                    <input
+                        className={styles.radio}
+                        type="checkbox"
+                        required={field.is_required ? true : false}
+                        name={option.field_id.toString()}
+                        value={option.option_value}
+                        checked={existingValues.includes(option.option_value)}
+                        onChange={handleChangeCheck}
+                    />
+                    <label className={styles.label}>{option.option_name}</label>
+                </div>
+                ));
             break;
         case 3: // Date
             inputElement = (
@@ -66,7 +130,7 @@ function InputField({
                     type="date"
                     required={field.is_required ? true : false}
                     onChange={handleChange}
-                    value={answer.value}
+                    value={answersOfField[0].value}
                 />
             );
             break;
@@ -79,13 +143,13 @@ function InputField({
                     required={field.is_required ? true : false}
                     placeholder="johndoe@gmail.com..."
                     onChange={handleChange}
-                    value={answer.value}
+                    value={answersOfField[0].value}
                 />
             );
             break;
-        case 5: // Month
-            inputElement = <div>month</div>;
-            break;
+        // case 5: // Month
+        //     inputElement = <div>month</div>;
+        //     break;
         case 6: // Number
             inputElement = (
                 <input
@@ -94,7 +158,7 @@ function InputField({
                     required={field.is_required ? true : false}
                     placeholder="42"
                     onChange={handleChange}
-                    value={answer.value}
+                    value={answersOfField[0].value}
                 />
             );
             break;
@@ -110,7 +174,7 @@ function InputField({
                         required={field.is_required ? true : false}
                         name={option.field_id.toString()}
                         value={option.option_value}
-                        checked={option.option_value === answer.value}
+                        checked={option.option_value === answersOfField[0].value}
                         onChange={handleChange}
                     />
                     <label className={styles.label}>{option.option_name}</label>
@@ -125,7 +189,7 @@ function InputField({
                     required={field.is_required ? true : false}
                     placeholder="0612345678..."
                     onChange={handleChange}
-                    value={answer.value}
+                    value={answersOfField[0].value}
                     pattern="0[1-9][0-9]{8}"
                 />
             );
@@ -139,7 +203,7 @@ function InputField({
                     required={field.is_required ? true : false}
                     placeholder="https://exemple.com..."
                     onChange={handleChange}
-                    value={answer.value}
+                    value={answersOfField[0].value}
                 />
             );
             break;
@@ -150,7 +214,7 @@ function InputField({
                     type="time"
                     required={field.is_required ? true : false}
                     onChange={handleChange}
-                    value={answer.value}
+                    value={answersOfField[0].value}
                 />
             );
             break;
@@ -162,7 +226,7 @@ function InputField({
                     required={field.is_required ? true : false}
                     placeholder="Texte..."
                     onChange={handleChange}
-                    value={answer.value}
+                    value={answersOfField[0].value}
                 />
             );
             break;
@@ -171,7 +235,7 @@ function InputField({
                 <select
                     className={styles.input}
                     required={field.is_required ? true : false}
-                    value={answer.value}
+                    value={answersOfField[0].value}
                     onChange={handleChange}
                 >
                     <option value="" disabled>
@@ -189,9 +253,9 @@ function InputField({
                 </select>
             );
             break;
-        case 13: // Grade
-            inputElement = <div>notes</div>;
-            break;
+        // case 13: // Grade
+        //     inputElement = <div>notes</div>;
+        //     break;
         default:
             inputElement = <div>Type de champ non existant</div>;
     }
