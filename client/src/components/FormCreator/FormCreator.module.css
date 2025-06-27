@@ -1,241 +1,242 @@
 .form-container {
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	padding: 0 2%;
-	padding-top: 108px;
-	position: relative;
-	background-color: var(--color-body-background);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 0 2%;
+    padding-top: 108px;
+    position: relative;
+    background-color: var(--color-body-background);
 }
 
 .title-container {
-	display: flex;
-	gap: 16px;
-	align-items: center;
-	justify-content: center;
-	margin-bottom: 24px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
 }
 
 .back-icon {
-	color: var(--color-primary);
-	width: 42px;
-	height: 42px;
+    color: var(--color-primary);
+    width: 42px;
+    height: 42px;
 }
 
 .back-icon:hover {
-	color: var(--color-primary-darker);
+    color: var(--color-primary-darker);
 }
 
 .form-title {
-	font-family: var(--font-alt);
-	font-size: 1.8rem;
-	font-weight: 500;
+    font-family: var(--font-alt);
+    font-size: 1.8rem;
+    font-weight: 500;
 }
 
 .display {
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	gap: 2%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 2%;
 }
 
 .form {
-	width: 100%;
-	max-width: var(--card-max-width);
-	display: flex;
-	gap: min(2%, 20px);
-	align-items: flex-start;
+    width: 100%;
+    max-width: var(--card-max-width);
+    display: flex;
+    gap: min(2%, 20px);
+    align-items: flex-start;
 }
 
 .form-content {
-	width: 100%;
+    width: 100%;
 }
 
 .form-header {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	max-width: var(--card-max-width);
-	background-color: var(--color-card-background);
-	padding: 22px 2%;
-	box-shadow: var(--shadow-outer);
-	border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: var(--card-max-width);
+    background-color: var(--color-card-background);
+    padding: 22px 2%;
+    box-shadow: var(--shadow-outer);
+    border-radius: var(--radius);
 }
 
 .form-title-input,
 .form-description {
-	width: 100%;
-	padding: 10px;
-	border: 1px solid var(--color-text-dark);
-	border-radius: 4px;
-	margin-bottom: 10px;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-text-dark);
+    border-radius: 4px;
+    margin-bottom: 10px;
 }
 
 .form-title-input::placeholder,
 .form-description::placeholder {
-	color: var(--color-text-placeholder);
+    color: var(--color-text-placeholder);
 }
 
 .form-title-input {
-	font-size: 24px;
-	font-weight: bold;
-	/* Remove if we don't want to apply the user style in editor */
-	font-family: var(--font-alt);
+    font-size: 24px;
+    font-weight: bold;
+    /* Remove if we don't want to apply the user style in editor */
+    font-family: var(--font-alt);
 }
 
 .form-description {
-	/* Remove if we don't want to apply the user style in editor */
-	font-family: var(--font-base);
+    /* Remove if we don't want to apply the user style in editor */
+    font-family: var(--font-base);
 }
 
 .form-layout {
-	position: relative;
-	width: 100%;
-	display: flex;
-	gap: 20px;
+    position: relative;
+    width: 100%;
+    display: flex;
+    gap: 20px;
 }
 
 .form-editor {
-	flex: 1;
-	border-radius: 8px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 24px;
-	margin-bottom: 24px;
+    flex: 1;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
 }
 
 .form-field {
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .form-field input[type="text"] {
-	width: 100%;
-	padding: 10px;
-	margin-bottom: 10px;
-	border: 1px solid var(--color-text-dark);
-	border-radius: 4px;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid var(--color-text-dark);
+    border-radius: 4px;
 }
 
 .form-right-panel {
-	display: flex;
-	flex-direction: column;
-	position: sticky;
-	top: 68px;
-	min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 68px;
+    min-width: 200px;
 }
 
 .form-fields-container {
-	background-color: var(--color-card-background);
-	padding: 15px;
-	border-radius: 8px;
-	box-shadow: var(--shadow-outer);
+    background-color: var(--color-card-background);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-outer);
 }
 
 .form-fields-container h3 {
-	margin-top: 0;
+    margin-top: 0;
 }
 
 .form-fields-container .fields-picking-list button,
 .form-save-button {
-	width: 100%;
-	padding: 8px 10px;
-	background-color: var(--color-body-background);
-	border: 1px solid var(--color-text-dark);
-	border-radius: 4px;
-	cursor: pointer;
-	text-align: left;
+    width: 100%;
+    padding: 8px 10px;
+    background-color: var(--color-body-background);
+    border: 1px solid var(--color-text-dark);
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
 }
 
 .form-fields-container .fields-picking-list button:hover,
 .form-save-button:hover {
-	box-shadow: var(--shadow-inner);
+    box-shadow: var(--shadow-inner);
 }
 
 .submitBtn {
-	max-width: 100%;
-	height: 48px;
-	margin-bottom: 20px;
+    font-family: "Spectral", serif;
+    max-width: 100%;
+    height: 48px;
+    margin-bottom: 20px;
 }
 
 .form-save-button {
-	background-color: var(--color-primary);
-	color: var(--color-text-light);
-	margin: 0;
+    background-color: var(--color-primary);
+    color: var(--color-text-light);
+    margin: 0;
 }
 
 .form-field {
-	margin-bottom: 20px;
-	background-color: var(--color-text-light);
-	padding: 16px;
-	border-radius: 8px;
-	box-shadow: var(--shadow-outer);
+    margin-bottom: 20px;
+    background-color: var(--color-text-light);
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-outer);
 }
 
 .fields-picking-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .fields-picking-title {
-	margin-bottom: 12px;
+    margin-bottom: 12px;
 }
 
 .fields-picking-list {
-	display: flex;
-	flex-direction: column;
-	gap: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .field-type-btn {
-	margin: 0;
+    margin: 0;
 }
 
 .toggle-panel-button {
-	display: none;
+    display: none;
 }
 
 .add-icon,
 .close-icon {
-	height: 42px;
-	width: 42px;
+    height: 42px;
+    width: 42px;
 }
 
 .add-icon {
-	display: none;
+    display: none;
 }
 
 @media (max-width: 600px) or (max-height: 720px) {
-	.form {
-		flex-direction: column;
-	}
+    .form {
+        flex-direction: column;
+    }
 
-	.form-right-panel {
-		width: 100%;
-		margin-top: 40px;
-	}
+    .form-right-panel {
+        width: 100%;
+        margin-top: 40px;
+    }
 
-	.form-fields-container {
-		width: 96%;
-		position: fixed;
-		bottom: 50%;
-		transform: translateY(calc(50% + 20px));
-		z-index: 100000;
-	}
+    .form-fields-container {
+        width: 96%;
+        position: fixed;
+        bottom: 50%;
+        transform: translateY(calc(50% + 20px));
+        z-index: 100000;
+    }
 
-	.toggle-panel-button {
-		display: block;
-		transform: translateY(-5px);
-	}
+    .toggle-panel-button {
+        display: block;
+        transform: translateY(-5px);
+    }
 
-	.add-icon {
-		position: absolute;
-		display: block;
-		color: var(--color-primary);
-		bottom: 78px;
-		left: 50%;
-		transform: translateX(-50%);
-		z-index: 0;
-	}
+    .add-icon {
+        position: absolute;
+        display: block;
+        color: var(--color-primary);
+        bottom: 78px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 0;
+    }
 }
