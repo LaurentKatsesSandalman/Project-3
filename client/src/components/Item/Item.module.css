@@ -20,6 +20,14 @@
     font-weight: bold;
 }
 
+.linkContainer p {
+    width: fit-content;
+}
+
+.linkContainer p:hover {
+    color: var(--color-primary);
+}
+
 /* parameter section */
 .wheelContainer {
     width: 20px;
