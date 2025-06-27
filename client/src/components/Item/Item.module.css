@@ -1,5 +1,5 @@
 /* body de l'item */
-.headerSection{
+.headerSection {
     position: relative;
     padding: 14px 14px 50px 14px;
     border-radius: 5px;
@@ -7,54 +7,56 @@
     width: 360px;
 }
 /* head item */
-.h2Container{
+.h2Container {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;   
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
 }
-.h2{
+.h2 {
+    overflow: hidden;
     font-size: 1.5rem;
     font-weight: bold;
-    margin-right: 10px;
 }
 
 /* parameter section */
-.styleWheel{
-    position: absolute;
-    top: 3px;
-    right: 3px;
-    padding: 2px;
+.wheelContainer {
+    width: 20px;
+}
+
+.styleWheel {
     cursor: pointer;
 }
-.imgWheel{
+
+.imgWheel {
     width: 20px;
     height: 20px;
 }
 
 /* link section */
-.linkContainer{
+.linkContainer {
     margin-bottom: 10px;
 }
 
 /* body item */
-.itemBody{
+.itemBody {
     display: flex;
-    flex-direction : row;
+    flex-direction: row;
     margin-bottom: 10px;
 }
 
 /* list section */
-.itemList{
+.itemList {
     display: flex;
     flex-direction: row;
     /* margin: 10px; */
     gap: 25px;
     width: 100%;
     font-size: 0.8rem;
-    
 }
 
-.buttonContainer{
+.buttonContainer {
     display: flex;
     justify-content: space-between;
     position: absolute;
@@ -64,9 +66,9 @@
     right: 0px;
 }
 
-.detailsContainer{
+.detailsContainer {
     position: absolute;
-    top:0;
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;

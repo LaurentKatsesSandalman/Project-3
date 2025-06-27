@@ -11,7 +11,7 @@ INSERT INTO user (email, password) VALUES
 ('exemple8@exemple.com', '$2b$10$1FpgyyDt8HSDCH7oQrXtyO4i7r.mbfqzljjvEgTu5rah8NujPI39K');
 
 INSERT INTO theme (color_value, font1_size, font2_size, font1_value, font2_value) VALUES
-(169,16,20,"Chivo","Spectral");
+(169,20,16,"Spectral","Chivo");
 
 INSERT INTO form (is_deployed, is_closed, creation_date, is_public, multi_answer, theme_id, user_id, form_name, form_description) VALUES
 (1,0,"2024-06-01 00:00:01",1,1,1,1,"Titre du formulaire","Description de mon formulaire, je suis sur qu'il est bien et qu'il faut y repondre"),
