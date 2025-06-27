@@ -13,266 +13,273 @@ import clsx from "clsx";
 import { BackIcon } from "../../components/Icons/Icons";
 
 interface AnswerFormProps {
-	isPreview: boolean;
+    isPreview: boolean;
 }
 
 function AnswerForm({ isPreview }: AnswerFormProps) {
-	const { form_id } = useParams();
-	const [securedForm, setSecuredForm] = useState<SecuredForm | null>(null);
-	const [errorMessage, setErrorMessage] = useState<string | null>(null);
-	const [loading, setLoading] = useState<boolean>(true);
-	const [answers, setAnswers] = useState<FieldAnswer[]>([]);
-	const [notUniqueFieldAnswerId, setNotUniqueFieldAnswerId] =
-		useState<number>();
-	const [success, setSuccess] = useState<boolean>(false);
+    const { form_id } = useParams();
+    const [securedForm, setSecuredForm] = useState<SecuredForm | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [answers, setAnswers] = useState<FieldAnswer[]>([]);
+    const [notUniqueFieldAnswerId, setNotUniqueFieldAnswerId] =
+        useState<number>();
+    const [success, setSuccess] = useState<boolean>(false);
 
-	const getSecuredForm = async (form_id: string) => {
-		try {
-			setLoading(true);
-			const response = await axios.get(
-				`${
-					import.meta.env.VITE_QUICKY_API_URL
-				}/api/forms/answerable/${form_id}`
-			);
+    const getSecuredForm = async (form_id: string) => {
+        try {
+            setLoading(true);
+            const response = await axios.get(
+                `${
+                    import.meta.env.VITE_QUICKY_API_URL
+                }/api/forms/answerable/${form_id}`
+            );
 
-			setSecuredForm(response.data);
-		} catch (err: any) {
-			if (err.status === 403 || err.status === 404) {
-				setErrorMessage(err.response.data.error);
-				return;
-			}
-			console.log(err.status);
-			setErrorMessage(
-				"Oups ! Nous n'avons pas pu trouver le formulaire."
-			);
-		} finally {
-			setLoading(false);
-		}
-	};
+            setSecuredForm(response.data);
+        } catch (err: any) {
+            if (err.status === 403 || err.status === 404) {
+                setErrorMessage(err.response.data.error);
+                return;
+            }
+            console.log(err.status);
+            setErrorMessage(
+                "Oups ! Nous n'avons pas pu trouver le formulaire."
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
 
-	const handleSubmit = async () => {
-		if (!securedForm) return;
-console.log("answers", answers)
-		if (
-			// If a user can answer only once
-			!securedForm.multi_answer &&
-			// Check if form_id already exist in localStorage
-			isAlreadyAnswered(securedForm.form_id)
-		) {
-			alert("Vous avez déjà répondu à ce formulaire.");
-			return;
-		}
-		try {
-			// Post the answers to the backend
-			await axios.post(
-				`${import.meta.env.VITE_QUICKY_API_URL}/api/answers/${
-					securedForm.form_id
-				}`,
-				{
-					form_id: securedForm.form_id,
-					form_answers: answers,
-				}
-			);
-			// Add the form_id to the localStorage if everything went fine
-			addAnsweredForm(securedForm.form_id);
-			setSuccess(true);
-		} catch (err: any) {
-			if (err.response?.status === 409) {
-				setNotUniqueFieldAnswerId(err.response.data.notUniqueFieldId);
-				window.scrollTo({ top: 0, behavior: "smooth" });
-				return;
-			}
-			console.error("Erreur lors du fetch:", err);
-		}
-	};
+    const handleSubmit = async () => {
+        if (!securedForm) return;
+        console.log("answers", answers);
+        if (
+            // If a user can answer only once
+            !securedForm.multi_answer &&
+            // Check if form_id already exist in localStorage
+            isAlreadyAnswered(securedForm.form_id)
+        ) {
+            alert("Vous avez déjà répondu à ce formulaire.");
+            return;
+        }
+        try {
+            // Post the answers to the backend
+            await axios.post(
+                `${import.meta.env.VITE_QUICKY_API_URL}/api/answers/${
+                    securedForm.form_id
+                }`,
+                {
+                    form_id: securedForm.form_id,
+                    form_answers: answers,
+                }
+            );
+            // Add the form_id to the localStorage if everything went fine
+            addAnsweredForm(securedForm.form_id);
+            setSuccess(true);
+        } catch (err: any) {
+            if (err.response?.status === 409) {
+                setNotUniqueFieldAnswerId(err.response.data.notUniqueFieldId);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+                return;
+            }
+            console.error("Erreur lors du fetch:", err);
+        }
+    };
 
-	const isAlreadyAnswered = (id: number) => {
-		// Get the existing forms already answered
-		const answeredForms = JSON.parse(
-			localStorage.getItem("answeredForms") ?? "[]"
-		);
+    const isAlreadyAnswered = (id: number) => {
+        // Get the existing forms already answered
+        const answeredForms = JSON.parse(
+            localStorage.getItem("answeredForms") ?? "[]"
+        );
 
-		// Return true if the form_id is in the localStorage
-		return answeredForms.includes(id);
-	};
+        // Return true if the form_id is in the localStorage
+        return answeredForms.includes(id);
+    };
 
-	const addAnsweredForm = (id: number) => {
-		const answeredForms = JSON.parse(
-			localStorage.getItem("answeredForms") ?? "[]"
-		);
+    const addAnsweredForm = (id: number) => {
+        const answeredForms = JSON.parse(
+            localStorage.getItem("answeredForms") ?? "[]"
+        );
 
-		// Add this new answered form Id if it doesnt already exist
-		if (!answeredForms.includes(id)) {
-			answeredForms.push(id);
-		}
+        // Add this new answered form Id if it doesnt already exist
+        if (!answeredForms.includes(id)) {
+            answeredForms.push(id);
+        }
 
-		localStorage.setItem("answeredForms", JSON.stringify(answeredForms));
-	};
+        localStorage.setItem("answeredForms", JSON.stringify(answeredForms));
+    };
 
-	useEffect(() => {
-		if (!form_id) return;
-		getSecuredForm(form_id);
-	}, []);
+    useEffect(() => {
+        if (!form_id) return;
+        getSecuredForm(form_id);
+    }, []);
 
-	useEffect(() => {
-		if (!securedForm) return;
-		const baseAnswers = securedForm.fields.map((field) => {
-			return {
-				field_id: field.field_id,
-				is_unique: field.is_unique,
-				value: "",
-			};
-		});
-		setAnswers(baseAnswers);
-	}, [securedForm]);
+    useEffect(() => {
+        if (!securedForm) return;
+        const baseAnswers = securedForm.fields.map((field) => {
+            return {
+                field_id: field.field_id,
+                is_unique: field.is_unique,
+                value: "",
+            };
+        });
+        setAnswers(baseAnswers);
+    }, [securedForm]);
 
-	return (
-		<div
-			// Change the CSS variables to the selected theme
-			style={
-				{
-					"--font-base": `"${
-						securedForm?.theme.font2_value ?? "Chivo"
-					}", sans-serif`,
-					"--font-alt": `"${
-						securedForm?.theme.font1_value ?? "Spectral"
-					}", serif`,
-					"--font-text-size": `${
-						securedForm?.theme.font2_size ?? 16
-					}px`,
-					"--font-title-size": `${
-						securedForm?.theme.font1_size ?? 24
-					}px`,
-					"--font-big-title-size": `${
-						(securedForm?.theme.font1_size ?? 24) * 1.33
-					}px`,
-					"--color-primary": `hsl(${
-						securedForm?.theme.color_value ?? 169
-					}, 75%, 28%)`,
-					"--color-primary-darker": `hsl(${
-						securedForm?.theme.color_value ?? 169
-					}, 75%, 24%)`,
-					"--color-body-background": `hsl(${
-						securedForm?.theme.color_value ?? 169
-					}, 15%, 87%)`,
-					"--color-text-dark": `hsl(${
-						securedForm?.theme.color_value ?? 169
-					}, 75%, 4%)`,
-					"--color-text-placeholder": `hsla(${
-						securedForm?.theme.color_value ?? 169
-					}, 75%, 60%, 0.5)`,
-				} as React.CSSProperties
-			}
-			className={clsx(
-				styles.pageContainer,
-				isPreview && styles.previewSpacing
-			)}
-		>
-			{
-				// While the form is being requested
-				loading ? (
-					<Loading />
-				) : // If there is an error
-				errorMessage || !securedForm ? (
-					<>
-						<div
-							className={clsx(
-								styles.container,
-								styles.errorContainer
-							)}
-						>
-							<h1 className={styles.errorMessage}>
-								{errorMessage}
-							</h1>
-						</div>
-					</>
-				) : // If the form answers were added successfully
-				success ? (
-					<div
-						className={clsx(
-							styles.container,
-							styles.successContainer
-						)}
-					>
-						<h1 className={styles.successMessage}>
-							Votre formulaire à bien été envoyé
-						</h1>
-					</div>
-				) : (
-					<div className={styles.formContainer}>
-						<div className={styles.formInfos}>
-							<div className={styles.previewContainer}>
-								{isPreview && (
-									<Link to="/forms">
-										<BackIcon className={styles.backIcon} />
-									</Link>
-								)}
-								<h1 className={styles.formTitle}>
-									{securedForm.form_name}
-								</h1>
-							</div>
-							<p className={styles.formDescription}>
-								{securedForm.form_description}
-							</p>
-						</div>
-						<form
-							className={styles.form}
-							onSubmit={(e) => {
-								e.preventDefault();
-								isPreview
-									? alert(
-											"Vous ne pouvez pas répondre à votre formulaire en mode Aperçu"
-									  )
-									: handleSubmit();
-							}}
-						>
-							{securedForm.fields.map((field: Field) => {
-								return (
-									<InputField
-										key={field.field_id}
-										field={field}
-										answersOfField={answers.filter((answer) => {
-											return (
-												answer.field_id ===
-												field.field_id
-											);
-										})}
-										setAnswers={setAnswers}										
-										// When form answers are sent and a field is not unique this becomes true
-										isNotUnique={
-											field.field_id ===
-											notUniqueFieldAnswerId
-										}
-										setNotUniqueFieldAnswerId={
-											setNotUniqueFieldAnswerId
-										}
-									/>
-								);
-							})}
-							<Button
-								variant="primary"
-								type="submit"
-								className={styles.submitBtn}
-							>
-								Envoyer
-							</Button>
-						</form>
-					</div>
-				)
-			}
-			{!isPreview && (
-				<Link to="/" className={styles.link}>
-					Réalisez vos formulaires facilement grâce à
-					<img
-						className={styles.logo}
-						src={logoUrl}
-						alt="Quicky logo"
-					/>
-					<span className={styles.logoName}>Quicky</span>
-				</Link>
-			)}
-		</div>
-	);
+    return (
+        <div
+            // Change the CSS variables to the selected theme
+            style={
+                {
+                    "--font-base": `"${
+                        securedForm?.theme.font2_value ?? "Chivo"
+                    }", sans-serif`,
+                    "--font-alt": `"${
+                        securedForm?.theme.font1_value ?? "Spectral"
+                    }", serif`,
+                    "--font-text-size": `${
+                        securedForm?.theme.font2_size ?? 16
+                    }px`,
+                    "--font-title-size": `${
+                        securedForm?.theme.font1_size ?? 24
+                    }px`,
+                    "--font-big-title-size": `${
+                        (securedForm?.theme.font1_size ?? 24) * 1.33
+                    }px`,
+                    "--color-primary": `hsl(${
+                        securedForm?.theme.color_value ?? 169
+                    }, 75%, 28%)`,
+                    "--color-primary-darker": `hsl(${
+                        securedForm?.theme.color_value ?? 169
+                    }, 75%, 24%)`,
+                    "--color-body-background": `hsl(${
+                        securedForm?.theme.color_value ?? 169
+                    }, 15%, 87%)`,
+                    "--color-text-dark": `hsl(${
+                        securedForm?.theme.color_value ?? 169
+                    }, 75%, 4%)`,
+                    "--color-text-placeholder": `hsla(${
+                        securedForm?.theme.color_value ?? 169
+                    }, 75%, 60%, 0.5)`,
+                } as React.CSSProperties
+            }
+            className={clsx(
+                styles.pageContainer,
+                isPreview && styles.previewSpacing
+            )}
+        >
+            {
+                // While the form is being requested
+                loading ? (
+                    <Loading />
+                ) : // If there is an error
+                errorMessage || !securedForm ? (
+                    <>
+                        <div
+                            className={clsx(
+                                styles.container,
+                                styles.errorContainer
+                            )}
+                        >
+                            <h1 className={styles.errorMessage}>
+                                {errorMessage}
+                            </h1>
+                        </div>
+                    </>
+                ) : // If the form answers were added successfully
+                success ? (
+                    <div
+                        className={clsx(
+                            styles.container,
+                            styles.successContainer
+                        )}
+                    >
+                        <h1 className={styles.successMessage}>
+                            Votre formulaire à bien été envoyé
+                        </h1>
+                    </div>
+                ) : (
+                    <div
+                        className={clsx(
+                            styles.formContainer,
+                            isPreview && styles.marginBottom
+                        )}
+                    >
+                        <div className={styles.formInfos}>
+                            <div className={styles.previewContainer}>
+                                {isPreview && (
+                                    <Link to="/forms">
+                                        <BackIcon className={styles.backIcon} />
+                                    </Link>
+                                )}
+                                <h1 className={styles.formTitle}>
+                                    {securedForm.form_name}
+                                </h1>
+                            </div>
+                            <p className={styles.formDescription}>
+                                {securedForm.form_description}
+                            </p>
+                        </div>
+                        <form
+                            className={styles.form}
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                isPreview
+                                    ? alert(
+                                          "Vous ne pouvez pas répondre à votre formulaire en mode Aperçu"
+                                      )
+                                    : handleSubmit();
+                            }}
+                        >
+                            {securedForm.fields.map((field: Field) => {
+                                return (
+                                    <InputField
+                                        key={field.field_id}
+                                        field={field}
+                                        answersOfField={answers.filter(
+                                            (answer) => {
+                                                return (
+                                                    answer.field_id ===
+                                                    field.field_id
+                                                );
+                                            }
+                                        )}
+                                        setAnswers={setAnswers}
+                                        // When form answers are sent and a field is not unique this becomes true
+                                        isNotUnique={
+                                            field.field_id ===
+                                            notUniqueFieldAnswerId
+                                        }
+                                        setNotUniqueFieldAnswerId={
+                                            setNotUniqueFieldAnswerId
+                                        }
+                                    />
+                                );
+                            })}
+                            <Button
+                                variant="primary"
+                                type="submit"
+                                className={styles.submitBtn}
+                            >
+                                Envoyer
+                            </Button>
+                        </form>
+                    </div>
+                )
+            }
+            {!isPreview && (
+                <Link to="/" className={styles.link}>
+                    Réalisez vos formulaires facilement grâce à
+                    <img
+                        className={styles.logo}
+                        src={logoUrl}
+                        alt="Quicky logo"
+                    />
+                    <span className={styles.logoName}>Quicky</span>
+                </Link>
+            )}
+        </div>
+    );
 }
 
 export default AnswerForm;
