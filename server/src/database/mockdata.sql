@@ -14,22 +14,22 @@ INSERT INTO theme (color_value, font1_size, font2_size, font1_value, font2_value
 (169,16,20,"Chivo","Spectral");
 
 INSERT INTO form (is_deployed, is_closed, creation_date, is_public, multi_answer, theme_id, user_id, form_name, form_description) VALUES
-(1,0,"2024-06-01 00:00:01",1,1,1,1,"Titre du formulaire","Description de mon formulaire, je suis sur qu'il est bien et qu'il faut y répondre"),
+(1,0,"2024-06-01 00:00:01",1,1,1,1,"Titre du formulaire","Description de mon formulaire, je suis sur qu'il est bien et qu'il faut y repondre"),
 (1,0,"2023-06-02 00:01:01",0,0,1,2, "form2 name", "form2 desc");
 
 INSERT INTO field (field_id,field_ordering,field_name,field_description,is_required,is_unique,form_id,field_type_id) VALUES
-(1,1,"quel est ton nom ?","Ton prénom et nom de famille",1,0,1,1),
+(1,1,"ééééééé ?","Ton prenom et nom de famille",1,0,1,1),
 (2,2,"quel animal aimes-tu ?","",0,0,1,2),
 (3,3,"quel est ton anniversaire?","",0,0,1,3),
 (4,4,"quel est ton email ?","",1,1,1,4),
 (5,5,"quand sont tes vacances ?","",0,0,1,5),
 (6,6,"combien d'amis as-tu ?","",0,0,1,6),
 (7,7,"bleu, blanc ou rouge ?","Choisis une couleur",1,0,1,7),
-(8,8,"quel numéro de téléphone ?","",0,0,1,8),
+(8,8,"quel numero de telephone ?","",0,0,1,8),
 (9,9,"adresse de ton linkedin ?","",0,0,1,9),
 (10,10,"à quelle heure vas-tu manger ?","",0,0,1,10),
-(11,11,"décris-nous ta maison","Dis-nous à quoi elle ressemble",0,0,1,11),
-(12,12,"sélectionne ton genre","",0,0,1,12);
+(11,11,"decris-nous ta maison","Dis-nous à quoi elle ressemble",0,0,1,11),
+(12,12,"selectionne ton genre","",0,0,1,12);
 
 INSERT INTO field_option (option_ordering,option_name,option_value,field_id) VALUES
 (1,"Chat","chat",2),
