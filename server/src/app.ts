@@ -18,6 +18,14 @@ if (process.env.CLIENT_URL != null) {
 // Request Parsing (explications dans mono repo)
 app.use(express.json());
 
+app.get("/", (req, res) => {
+    res.send("WELCOME dzqd QadazqzdqzddUICKY");
+});
+
+app.get("/test", (req, res) => {
+    res.send("AZDZADADZICKDY");
+});
+
 app.use("/api/users", userRouter);
 app.use("/api/forms", formRouter);
 app.use("/api/answers", answerRouter);

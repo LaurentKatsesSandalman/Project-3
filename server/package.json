@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "start:dev": "tsx --watch ./src/server.ts",
+        "start:dev": "nodemon",
         "create:db": "mysql -u root -p < src/database/schema.sql",
         "add:mockdata": "mysql -u root -p < src/database/mockdata.sql",
         "setup:all": "npm run create:db && npm run start:dev",
@@ -38,6 +38,7 @@
         "ts-jest": "^29.4.0",
         "ts-node": "^10.9.2",
         "tsx": "^4.19.4",
-        "typescript": "^5.8.3"
+        "typescript": "^5.8.3",
+        "nodemon": "^3.0.0"
     }
 }

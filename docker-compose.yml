@@ -4,10 +4,11 @@ services:
             - api
         build: ./client
         container_name: frontend
+        restart: unless-stopped
         ports:
             - 5173:5173
         env_file:
-            - ./client/.env
+            - client/.env
 
         volumes:
             - /app/node_modules
@@ -22,15 +23,22 @@ services:
                   target: /app
                   action: sync
 
+        networks:
+            - app-network
+
     api:
         depends_on:
             - db
         build: ./server
         container_name: backend
+        restart: unless-stopped
         ports:
             - 3000:3000
         env_file:
-            - ./server/.env
+            - server/.env
+
+        volumes:
+            - /app/node_modules
 
         develop:
             watch:
@@ -42,14 +50,25 @@ services:
                   target: /app
                   action: sync
 
+        networks:
+            - app-network
+
     db:
         image: mysql:8.0.42
         container_name: database
         restart: unless-stopped
-        ports: 3307:3306
+        ports:
+            - 3307:3306
+        env_file:
+            - server/.env
         volumes:
             - mysql_data:/var/lib/mysql
             - ./server/src/database/schema.sql:/docker-entrypoint-initdb.d/init.sql
 
+        networks:
+            - app-network
+
 volumes:
     mysql_data:
+networks:
+    app-network:
