@@ -1,0 +1,65 @@
+.pageContainer {
+    font-family: var(--font-base);
+    font-size: var(--font-text-size);
+    color: var(--color-text-dark);
+    width: 100%;
+    padding: 0 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 32px;
+    padding-top: 108px;
+}
+
+.formResult {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+}
+
+.container {
+    width: 100%;
+    max-width: var(--card-max-width);
+    background-color: var(--color-card-background);
+    padding: 22px 2%;
+    box-shadow: var(--shadow-outer);
+    border-radius: var(--radius);
+}
+
+.titleContainer {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.backIcon {
+    color: var(--color-primary);
+    width: 42px;
+    height: 42px;
+}
+
+.backIcon:hover {
+    color: var(--color-primary-darker);
+}
+
+.title {
+    font-size: 1.8rem;
+    font-weight: 500;
+}
+
+.generalInfos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.accentuate {
+    color: var(--color-primary);
+    margin-left: 8px;
+}

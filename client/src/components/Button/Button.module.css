@@ -1,0 +1,64 @@
+.base {
+    font-family: var(--font-alt);
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+    width: 100%;
+    border-radius: 4px;
+    border: none;
+    box-sizing: border-box;
+    transition: all 0.1s ease-in-out;
+}
+
+.base:hover,
+.base:focus-visible {
+    box-shadow: var(--shadow-inner);
+    cursor: pointer;
+}
+
+.primary,
+.secondary,
+.danger {
+    max-width: 132px;
+    color: var(--color-text-light);
+}
+
+.primary {
+    background-color: var(--color-primary);
+    padding: 8px 0;
+}
+
+.primary:hover,
+.base:focus-visible {
+    background-color: var(--color-primary-darker);
+}
+
+.secondary {
+    color: var(--color-text-accent);
+    background-color: var(--color-card-background);
+    padding: 7px 0;
+    border: 1px solid var(--color-primary);
+}
+
+.secondary:hover,
+.base:focus-visible {
+    background-color: var(--color-card-background-darker);
+}
+
+.danger {
+    background-color: var(--color-danger);
+    padding: 8px 0;
+}
+
+.danger:hover,
+.base:focus-visible {
+    background-color: var(--color-danger-darker);
+}
+
+.create_form {
+    background-color: var(--color-primary);
+    padding: 10px;
+    border-radius: 4px;
+    color: var(--color-text-light);
+    width: 260px;
+}

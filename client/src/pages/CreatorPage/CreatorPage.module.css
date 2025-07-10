@@ -1,0 +1,29 @@
+.headerSection,
+.buttonSection {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+}
+.buttonSection{
+    margin-bottom: 20px;
+}
+
+.headerSection {
+    padding-top: 50px;
+    font-size: 1.4rem;
+}
+
+.headerSection {
+    padding-top: 50px;
+    font-size: 1.4rem;
+}
+
+.formListSection{
+    display: flex;
+    justify-content: center;;
+    flex-wrap: wrap;
+    gap: 20px;
+}

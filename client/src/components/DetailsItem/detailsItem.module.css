@@ -1,0 +1,63 @@
+/* body detailsItem */
+.bodySection {
+    display: flex;
+    flex-direction: column;
+    padding: 16.9px;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    width: 360px;
+    height: 100%;
+}
+/* heard detailsItem */
+.headerSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+/* head item */
+.h2Container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* parameter section */
+.styleCross {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    padding: 2px;
+    cursor: pointer;
+}
+.imgCross {
+    width: 20px;
+    height: 20px;
+}
+
+/* link section */
+.linkContainer {
+    margin-bottom: 5px;
+}
+
+/* body item */
+.itemBody {
+    display: flex;
+    flex-direction: row;
+}
+
+/*section button */
+.bulletPoint {
+    display: flex;
+    justify-content: center;
+}
+
+/*buttton */
+.deleteButton {
+    color: var(--color-primary);
+    text-decoration: underline;
+}

@@ -1,0 +1,150 @@
+.colorPicker {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	position: relative;
+}
+
+.colorSquare.selectedColor {
+	border: 2px solid black;
+}
+
+.checkMark {
+	color: white;
+	font-size: 20px;
+	text-shadow: 0 0 3px black;
+}
+
+.pickers {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+}
+
+.fontColorPicker,
+.fontSizePicker {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.dropdownButton {
+	padding: 0.5rem;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	cursor: pointer;
+	width: 100%;
+	text-align: left;
+}
+
+.dropdownList {
+	list-style: none;
+	padding: 0;
+	margin: 0.5rem 0 0 0;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background-color: #fff;
+}
+
+.dropdownList li {
+	padding: 0.5rem;
+	cursor: pointer;
+}
+
+.dropdownList li:hover {
+	background-color: #eee;
+}
+
+.themeCustomContainer {
+	width: 100%;
+	/* font-family: var(--font-base); */
+	max-width: var(--card-max-width);
+	background-color: var(--color-card-background);
+	padding: 22px max(8px, min(2%, 22px));
+	box-shadow: var(--shadow-outer);
+	border-radius: var(--radius);
+}
+
+.optionContainer {
+	width: 100%;
+}
+
+.spacer,
+.spacer2 {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 4px;
+	width: 100%;
+	max-width: 340px;
+}
+
+.fontDropdown {
+	color: var(--color-text-dark);
+	/* font-size: var(--font-text-size);
+	font-family: var(--font-base); */
+	padding: 6px 12px;
+	width: 100%;
+	max-width: 190px;
+	border: 1px solid var(--color-text-dark);
+	border-radius: var(--radius);
+	background-color: white;
+}
+
+.colorPickerVisible {
+	display: flex;
+}
+
+.selectedColorSquare {
+	width: 25px;
+	height: 25px;
+	border-radius: 4px;
+	cursor: pointer;
+	border: 2px solid black;
+}
+
+.colorModal {
+	position: absolute;
+	right: 0;
+	transform: translateY(-27%);
+	background-color: white;
+	padding: 1rem;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	z-index: 1000;
+}
+
+.colorGrid {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 0.5rem;
+}
+
+.colorSquare {
+	width: 25px;
+	height: 25px;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.colorSquare:hover {
+	border: 2px solid black;
+}
+
+@media (max-width: 780px) {
+	.pickers {
+		grid-template-columns: 1fr;
+		gap: 8px;
+	}
+
+	.spacer,
+	.spacer2 {
+		max-width: 100%;
+	}
+
+	.fontDropdown {
+		max-width: 60%;
+	}
+}
