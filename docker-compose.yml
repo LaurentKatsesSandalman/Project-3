@@ -24,7 +24,7 @@ services:
                   action: sync
 
         networks:
-            - app-network
+            - frontend
 
     api:
         depends_on:
@@ -51,7 +51,8 @@ services:
                   action: sync
 
         networks:
-            - app-network
+            - frontend
+            - backend
 
     db:
         image: mysql:8.0.42
@@ -66,9 +67,10 @@ services:
             - ./server/src/database/schema.sql:/docker-entrypoint-initdb.d/init.sql
 
         networks:
-            - app-network
+            - backend
 
 volumes:
     mysql_data:
 networks:
-    app-network:
+    frontend:
+    backend:
