@@ -7,7 +7,12 @@
         "create:db": "mysql -u root -p < src/database/schema.sql",
         "add:mockdata": "mysql -u root -p < src/database/mockdata.sql",
         "setup:all": "npm run create:db && npm run add:mockdata && npm run start:dev",
-        "test": "echo \"Error: no test specified\" && exit 1",
+                 
+        "create:db:test": "mysql -u root -p quicky_test < src/database/schematest.sql",
+        "add:mockdata:test": "mysql -u root -p quicky_test < src/database/mockdatatest.sql",
+        "setup:all:test": "npm run create:db:test && npm run add:mockdata:test && npm run start:test",
+  
+        "start:test": "cross-env NODE_ENV=test tsx ./src/server.ts",
         "test:jest": "cross-env NODE_ENV=test jest --detectOpenHandles --forceExit"
     },
     "keywords": [],

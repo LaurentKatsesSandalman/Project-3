@@ -6,6 +6,7 @@ import formRouter from "./routes/form.routes";
 import answerRouter from "./routes/answer.routes";
 import fieldRoute from "./routes/field.routes";
 import optionRoute from "./routes/fieldoption.routes";
+import testRouter from "./routes/test.routes"
 import { logErrors } from "./middlewares/logErrors";
 
 export const app = express();
@@ -18,6 +19,7 @@ if (process.env.CLIENT_URL != null) {
 // Request Parsing (explications dans mono repo)
 app.use(express.json());
 
+app.use("/api/test",testRouter)
 app.use("/api/users", userRouter);
 app.use("/api/forms", formRouter);
 app.use("/api/answers", answerRouter);
