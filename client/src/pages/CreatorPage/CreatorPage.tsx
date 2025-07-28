@@ -67,7 +67,7 @@ function CreatorPage() {
         <>
             <section className={styles.headerSection}>
                 <div className={styles.h1Container}>
-                    <h1>Vos formulaires</h1>
+                    <h1 data-testid="h1-vos-formulaires">Vos formulaires</h1>
                 </div>
             </section>
             <section className={styles.buttonSection}>

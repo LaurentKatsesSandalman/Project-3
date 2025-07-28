@@ -27,10 +27,10 @@ function TopBar() {
 				</div>
 			) : (
 				<div className={styles.buttonsContainer}>
-					<Button variant="secondary" onClick={() => setIsSignUpActive(true)}>
+					<Button data-testid="register-openmodal-button" variant="secondary" onClick={() => setIsSignUpActive(true)}>
 						Inscription
 					</Button>
-					<Button variant="primary" onClick={() => setIsLoginActive(true)}>
+					<Button data-testid="login-openmodal-button" variant="primary" onClick={() => setIsLoginActive(true)}>
 						Connexion
 					</Button>
 				</div>

@@ -77,6 +77,7 @@ function SignUpForm({ setActiveModal }: SignUpFormProps) {
                 <input
                     type="email"
                     name="email"
+                    data-testid="email-input"
                     value={signUpData.email}
                     onChange={handleChange}
                     required
@@ -90,6 +91,7 @@ function SignUpForm({ setActiveModal }: SignUpFormProps) {
                 <input
                     type="password"
                     name="password"
+                    data-testid="password-input"
                     value={signUpData.password}
                     onChange={handleChange}
                     required
@@ -104,6 +106,7 @@ function SignUpForm({ setActiveModal }: SignUpFormProps) {
                 <input
                     type="password"
                     name="confirmPassword"
+                    data-testid="confirm-password-input"
                     value={signUpData.confirmPassword}
                     onChange={handleChange}
                     required
@@ -117,6 +120,7 @@ function SignUpForm({ setActiveModal }: SignUpFormProps) {
                 variant="primary"
                 className={styles.inscriptionBtn}
                 type="submit"
+                data-testid="register-submit-button"
             >
                 Inscription
             </Button>
