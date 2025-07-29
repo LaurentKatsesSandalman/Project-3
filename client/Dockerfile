@@ -1,14 +1,13 @@
-# Dockerfile
-FROM alpine:3.21
 
-ENV NODE_VERSION=24.3.0
+ # Image de base
+FROM node:22.14-alpine
 
+# Répertoire de travail
 WORKDIR /app
 
-# Copier les fichiers package.json
+# Copier package.json
 COPY package*.json ./
 
-RUN apk add --no-cache nodejs npm
 # Installer les dépendances
 RUN npm install
 
@@ -17,6 +16,7 @@ COPY . .
 
 # Exposer le port
 EXPOSE 3000
+
 
 # Commande de démarrage en mode développement
 CMD ["npm", "run", "dev"]
