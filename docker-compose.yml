@@ -1,0 +1,65 @@
+# docker-compose.yml (Dev)
+
+services:
+  # Base de données MySQL
+  database:
+    image: mysql:8.0
+    container_name: mysql_db_quicky
+    restart: unless-stopped
+    env_file:
+      - server/.env
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./server/src/database/docker.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+
+  # Backend Node.js
+  api:
+    build:
+      context: ./server/
+      dockerfile: Dockerfile
+    container_name: nodejs_backend_quicky
+    restart: unless-stopped
+    ports:
+      - "3310:3310"
+    env_file:
+      - server/.env
+
+    depends_on:
+      - database
+    volumes:
+      - ./server/:/app
+      - /app/node_modules
+    networks:
+      - app-network
+
+  # Frontend React (Dev Server)
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: react_frontend_quicky
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./client/.env
+
+    depends_on:
+      - api
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    networks:
+      - app-network
+
+volumes:
+  mysql_data:
+networks:
+  app-network:
