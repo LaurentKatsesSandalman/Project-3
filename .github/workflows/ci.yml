@@ -1,0 +1,35 @@
+name: CI workflow
+on:
+    push:
+        branches: [main, dev]
+
+jobs:
+    test:
+        name: Test server & client
+        runs-on: windows-latest
+        services:
+            mysql:
+                image: mysql:8.0
+                env:
+                    MYSQL_ROOT_PASSWORD: ${{secrets.MYSQL_ROOT_PASSWORD}}
+                    MYSQL_DATABASE: quicky_test
+                ports:
+                    - 3307:3306
+                options:
+                    --health-cmd="mysqladmin ping -h localhost"
+                    --health-interval=10s
+                    --health-timeout=5s
+                    --health-retries=3
+        steps:
+            - name: copie du code
+              uses: actions/checkout@v4
+            - name: setup node
+              uses: actions/setup-node@v4
+              with:
+                node-version: "node"
+            - name: dependances server
+              run: |
+                cd server
+                npm i
+
+                
