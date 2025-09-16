@@ -21,6 +21,8 @@ function SignUpForm({ setActiveModal }: SignUpFormProps) {
 
     const [newUser, setnewUser] = useState<UserSignedUp | null>(null);
 
+    console.log(newUser);
+
     // Update the value of signUpData when the user modifies one field input
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;

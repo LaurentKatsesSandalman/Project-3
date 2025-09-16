@@ -15,7 +15,7 @@ export interface Form {
     form_name: string;
     form_description: string;
 }
-export interface FormItem{
+export interface FormItem {
     form_id: number;
     form_name: string;
     creation_date: string;

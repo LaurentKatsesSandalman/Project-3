@@ -79,7 +79,14 @@ function CreatorPage() {
             </section>
             <section className={styles.formListSection}>
                 {forms.map((form) => (
-                    <Item key={form.form_id} form={form} setForms={setForms} />
+                    <Item
+                        key={form.form_id}
+                        form={{
+                            ...form,
+                            creation_date: form.creation_date ?? "",
+                        }}
+                        setForms={setForms}
+                    />
                 ))}
             </section>
         </>
