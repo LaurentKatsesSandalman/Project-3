@@ -1,5 +1,6 @@
 # Project details
 Currently not deployed
+
 Fully functional when launched locally
 
 ## We used
